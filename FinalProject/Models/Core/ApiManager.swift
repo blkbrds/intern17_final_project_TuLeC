@@ -66,7 +66,11 @@ final class ApiManager {
 
         // Config
         let config = URLSessionConfiguration.ephemeral
-        config.waitsForConnectivity = true
+        if #available(iOS 11.0, *) {
+            config.waitsForConnectivity = true
+        } else {
+            // Fallback on earlier versions
+        }
 
         // Session
         let session = URLSession(configuration: config)
