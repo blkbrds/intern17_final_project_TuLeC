@@ -80,15 +80,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		106DC6F5288A96510013C2D3 /*  Explore */ = {
+		106DC6F5288A96510013C2D3 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
 				106DC6F9288A96990013C2D3 /* ExploreViewController.swift */,
 				106DC6FA288A96990013C2D3 /* ExploreViewController.xib */,
 				106DC707288A99B60013C2D3 /* ExploreViewModel.swift */,
 			);
-			name = " Explore";
-			path = " Explore";
+			path = Explore;
 			sourceTree = "<group>";
 		};
 		106DC6F6288A96650013C2D3 /* Story */ = {
