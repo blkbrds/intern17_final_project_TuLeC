@@ -8,77 +8,60 @@
 import Foundation
 
 extension ApiManager.Video {
+    static let moviePath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.moviePath)"
+    static let searchPath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.searchPath)\(ApiManager.Path.moviePath)\(ApiManager.Path.apiKey)"
+
     struct QueryString {
         func getUpComing() -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             ApiManager.Path.upComing +
             ApiManager.Path.apiKey
         }
 
         func getTopRated() -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             ApiManager.Path.topRated +
             ApiManager.Path.apiKey
         }
 
         func getPopular() -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             ApiManager.Path.popular +
             ApiManager.Path.apiKey
         }
 
         func getNowPlaying() -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             ApiManager.Path.nowPlaying +
             ApiManager.Path.apiKey
         }
 
         func getLatest() -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             ApiManager.Path.latest +
             ApiManager.Path.apiKey
         }
 
         func getVideos(movieID: String) -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             "/\(movieID)/videos" +
             ApiManager.Path.apiKey
         }
 
         func getDetails(movieID: String) -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             "/\(movieID)" +
             ApiManager.Path.apiKey
         }
 
         func getRecommendations(movieID: String) -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.moviePath +
+            return moviePath +
             "/\(movieID)/recommendations" +
             ApiManager.Path.apiKey
         }
 
         func searchMovies(query: String) -> String {
-            return ApiManager.Path.baseURL +
-            ApiManager.Path.version +
-            ApiManager.Path.searchPath +
-            ApiManager.Path.moviePath +
-            ApiManager.Path.apiKey +
+            return searchPath +
             "&query=\(query)"
         }
 
