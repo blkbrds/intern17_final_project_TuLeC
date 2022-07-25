@@ -44,9 +44,7 @@ extension ApiManager.Video {
         }
 
         func getLatest() -> String {
-            return moviePath +
-            ApiManager.Path.latest +
-            ApiManager.Path.apiKey
+            return defineAPI(type: .movie, path: ApiManager.Path.latest)
         }
 
         func getVideos(movieID: String) -> String {
@@ -62,7 +60,7 @@ extension ApiManager.Video {
         }
 
         func searchMovies(query: String) -> String {
-            return defineAPI(type: .movie, path: "&query=\(query)")
+            return defineAPI(type: .search, path: "&query=\(query)")
         }
 
         func getImage(imagePath: String) -> String {
