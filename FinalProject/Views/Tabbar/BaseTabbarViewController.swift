@@ -25,6 +25,8 @@ final class BaseTabbarViewController: UITabBarController {
         } else {
             // Fallback on earlier versions
         }
+        let homeViewModel = HomeViewModel()
+        homeVC.viewModel = homeViewModel
         let homeNavi = UINavigationController(rootViewController: homeVC)
 
         let exploreVC = ExploreViewController()
@@ -33,6 +35,8 @@ final class BaseTabbarViewController: UITabBarController {
         } else {
             // Fallback on earlier versions
         }
+        let exploreViewModel = ExploreViewModel()
+        exploreVC.viewModel = exploreViewModel
         let exploreNavi = UINavigationController(rootViewController: exploreVC)
 
         let storyVC = StoryViewController()
@@ -41,6 +45,8 @@ final class BaseTabbarViewController: UITabBarController {
         } else {
             // Fallback on earlier versions
         }
+        let storyViewModel = StoryViewModel()
+        storyVC.viewModel = storyViewModel
         let storyNavi = UINavigationController(rootViewController: storyVC)
 
         let profileVC = ProfileViewController()
@@ -49,6 +55,8 @@ final class BaseTabbarViewController: UITabBarController {
         } else {
             // Fallback on earlier versions
         }
+        let profileViewModel = ProfileViewModel()
+        profileVC.viewModel = profileViewModel
         let profileNavi = UINavigationController(rootViewController: profileVC)
 
         self.viewControllers = [homeNavi, exploreNavi, storyNavi, profileNavi]

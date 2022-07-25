@@ -9,6 +9,8 @@ import UIKit
 
 final class ExploreViewController: UIViewController {
 
+    var viewModel: ExploreViewModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
