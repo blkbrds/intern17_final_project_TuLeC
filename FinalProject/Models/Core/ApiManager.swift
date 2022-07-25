@@ -87,4 +87,6 @@ final class ApiManager {
 
         task.resume()
     }
+
+    struct Video {}
 }

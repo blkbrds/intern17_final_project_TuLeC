@@ -9,6 +9,8 @@ import UIKit
 
 final class StoryViewController: UIViewController {
 
+    var viewModel: StoryViewModel?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
