@@ -12,6 +12,7 @@ final class UpComingTableViewCell: UITableViewCell {
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    private let upComingTableCell = UpComingTableCell()
     var viewModel: UpComingTableCellViewModel? {
         didSet {
             updateCell()
@@ -21,19 +22,16 @@ final class UpComingTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = "Sắp chiếu"
-        let screenSize = UIScreen.main.bounds.size
-        let cellWidth = floor(screenSize.width * 0.01)
-        let cellHeight = floor(screenSize.height * 0.01)
-        let insetY = (self.bounds.height - cellHeight) / 2.0
+        let insetY = (self.bounds.height - upComingTableCell.cellHeight) / 2.0
 
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        layout?.itemSize = CGSize(width: upComingTableCell.cellWidth, height: upComingTableCell.cellHeight)
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: 10, bottom: insetY, right: 10)
     }
 
     private func updateCell() {
-        let nib = UINib(nibName: "NowPlayingCollectionViewCell", bundle: .main)
-        collectionView.register(nib, forCellWithReuseIdentifier: "NowPlayingCollectionViewCell")
+        let nib = UINib(nibName: Strings().nowPlayingCollectionCell, bundle: .main)
+        collectionView.register(nib, forCellWithReuseIdentifier: Strings().nowPlayingCollectionCell)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -46,8 +44,8 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCollectionViewCell", for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewForItemAt(at: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Strings().nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
+        cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
         return cell
     }
 
@@ -56,7 +54,17 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 25) / 2
-        return CGSize(width: width, height: width * 0.65)
+        return upComingTableCell.sizeForItemAt
+    }
+}
+
+struct UpComingTableCell {
+    var cellWidth: CGFloat
+    var cellHeight: CGFloat
+    var sizeForItemAt: CGSize
+    init() {
+        cellWidth = floor(SizeWithScreen().width * 0.01)
+        cellHeight = floor(SizeWithScreen().height * 0.01)
+        sizeForItemAt = CGSize(width: (SizeWithScreen().width - 30) / 2, height: ((SizeWithScreen().width - 30) / 2) * 0.65)
     }
 }

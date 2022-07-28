@@ -9,11 +9,15 @@ import Foundation
 
 final class LatestTableCellViewModel {
     func numberOfItemsInSection(in section: Int) -> Int {
-        return 10
+        return Latest().numberOfItemsInSection
     }
 
-    func viewForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        let cell = NowPlayingCollectionCellViewModel()
-        return cell
+    func cellForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+        let viewModel = NowPlayingCollectionCellViewModel()
+        return viewModel
     }
+}
+
+struct Latest {
+    let numberOfItemsInSection: Int = 10
 }

@@ -10,11 +10,15 @@ import Foundation
 final class NowPlayingTableCellViewModel {
 
     func numberOfItemsInSection(in section: Int) -> Int {
-        return 10
+        return NowPlaying().numberOfItemsInSection
     }
 
-    func viewForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        let cell = NowPlayingCollectionCellViewModel()
-        return cell
+    func cellForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+        let viewModel = NowPlayingCollectionCellViewModel()
+        return viewModel
     }
+}
+
+struct NowPlaying {
+    let numberOfItemsInSection: Int = 10
 }

@@ -18,12 +18,8 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        configUI()
-    }
-
-    private func configUI() {
+    override func layoutSubviews() {
+        super.layoutSubviews()
         titleLabel.text = "Phim khủng long"
         image.layer.cornerRadius = 10
     }

@@ -10,11 +10,10 @@ import UIKit
 final class SliderTableViewCell: UITableViewCell {
 
     @IBOutlet private var collectionView: UICollectionView!
-    @IBOutlet var pageControl: UIPageControl!
+    @IBOutlet private var pageControl: UIPageControl!
 
-
-    var timer: Timer?
-    var currentCellIndex = 0
+    private var timer: Timer?
+    private var currentCellIndex = 0
     var viewModel: SliderTableCellViewModel? {
         didSet {
             updateCell()
@@ -28,8 +27,8 @@ final class SliderTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        let nib = UINib(nibName: "SliderCollectionViewCell", bundle: .main)
-        collectionView.register(nib, forCellWithReuseIdentifier: "SliderCollectionViewCell")
+        let nib = UINib(nibName: Strings().sliderCollectionCell, bundle: .main)
+        collectionView.register(nib, forCellWithReuseIdentifier: Strings().sliderCollectionCell)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -57,8 +56,9 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCollectionViewCell", for: indexPath) as? SliderCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewForItemAt(at: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Strings().sliderCollectionCell, for: indexPath) as? SliderCollectionViewCell,
+              let viewModel = viewModel else { return UICollectionViewCell() }
+        cell.viewModel = viewModel.cellForItemAt(at: indexPath)
         return cell
     }
 
@@ -67,8 +67,7 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = UIScreen.main.bounds.width
-        return CGSize(width: width, height: self.frame.height)
+        return CGSize(width: SizeWithScreen().width, height: self.frame.height)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

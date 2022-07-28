@@ -10,11 +10,15 @@ import Foundation
 final class SliderTableCellViewModel {
 
     func numberOfItemsInSection(in section: Int) -> Int {
-        return 10
+        return SliderTableCell().numberOfItemsInSection
     }
 
-    func viewForItemAt(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
-        let cell = SliderCollectionCellViewModel()
-        return cell
+    func cellForItemAt(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
+        let viewModel = SliderCollectionCellViewModel()
+        return viewModel
     }
+}
+
+struct SliderTableCell {
+    let numberOfItemsInSection: Int = 10
 }

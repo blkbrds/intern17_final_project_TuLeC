@@ -24,8 +24,8 @@ final class LatestTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        let nib = UINib(nibName: "NowPlayingCollectionViewCell", bundle: .main)
-        collectionView.register(nib, forCellWithReuseIdentifier: "NowPlayingCollectionViewCell")
+        let nib = UINib(nibName: Strings().nowPlayingCollectionCell, bundle: .main)
+        collectionView.register(nib, forCellWithReuseIdentifier: Strings().nowPlayingCollectionCell)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -38,8 +38,8 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCollectionViewCell", for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewForItemAt(at: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Strings().nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
+        cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
         return cell
     }
 
@@ -48,7 +48,7 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 25) / 2
+        let width = (SizeWithScreen().width - 25) / 2
         return CGSize(width: width, height: width * 0.65)
     }
 }

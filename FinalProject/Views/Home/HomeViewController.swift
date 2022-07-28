@@ -49,16 +49,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func configNib() {
-        let nib = UINib(nibName: "SliderTableViewCell", bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: "SliderTableViewCell")
-        let nib2 = UINib(nibName: "NowPlayingTableViewCell", bundle: .main)
-        tableView.register(nib2, forCellReuseIdentifier: "NowPlayingTableViewCell")
-        let nib3 = UINib(nibName: "TopRatedTableViewCell", bundle: .main)
-        tableView.register(nib3, forCellReuseIdentifier: "TopRatedTableViewCell")
-        let nib4 = UINib(nibName: "LatestTableViewCell", bundle: .main)
-        tableView.register(nib4, forCellReuseIdentifier: "LatestTableViewCell")
-        let nib5 = UINib(nibName: "UpComingTableViewCell", bundle: .main)
-        tableView.register(nib5, forCellReuseIdentifier: "UpComingTableViewCell")
+        let nib = UINib(nibName: Strings().sliderTableCell, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: Strings().sliderTableCell)
+        let nib2 = UINib(nibName: Strings().nowPlayingTableCell, bundle: .main)
+        tableView.register(nib2, forCellReuseIdentifier: Strings().nowPlayingTableCell)
+        let nib3 = UINib(nibName: Strings().topRatedTableCell, bundle: .main)
+        tableView.register(nib3, forCellReuseIdentifier: Strings().topRatedTableCell)
+        let nib4 = UINib(nibName: Strings().latestTableCell, bundle: .main)
+        tableView.register(nib4, forCellReuseIdentifier: Strings().latestTableCell)
+        let nib5 = UINib(nibName: Strings().upComingTableViewCell, bundle: .main)
+        tableView.register(nib5, forCellReuseIdentifier: Strings().upComingTableViewCell)
     }
 
     @objc private func searchButtonTouchUpInside() {
@@ -78,36 +78,36 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let viewModel = viewModel else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.viewForItemAt(at: indexPath).1.deque, for: indexPath)
-        switch viewModel.viewForItemAt(at: indexPath).1 {
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellForRowAt(at: indexPath).typeCell.deque, for: indexPath)
+        switch viewModel.cellForRowAt(at: indexPath).typeCell {
         case .slider:
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.viewForItemAt(at: indexPath).0 as? SliderTableCellViewModel
+            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.viewForItemAt(at: indexPath).0 as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.viewForItemAt(at: indexPath).0 as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewForItemAt(at: indexPath).0 as? LatestTableCellViewModel
+            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewForItemAt(at: indexPath).0 as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? UpComingTableCellViewModel
         }
 
         return cell
@@ -118,6 +118,20 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
 
-        return UIScreen.main.bounds.height / CGFloat(viewModel.heightForRowAt(at: indexPath))
+        return HomeView(height: CGFloat(viewModel.heightForRowAt(at: indexPath))).heightForRowAt
     }
+}
+
+struct HomeView {
+    var heightForRowAt: CGFloat
+
+    init(height: CGFloat) {
+        heightForRowAt = SizeWithScreen().height / height
+    }
+}
+
+class SizeWithScreen {
+    let width = UIScreen.main.bounds.width
+    let height = UIScreen.main.bounds.height
+    let size = UIScreen.main.bounds.size
 }

@@ -29,13 +29,28 @@ final class HomeViewModel {
                 return "UpComingTableViewCell"
             }
         }
+
+        var heightForRow: Double {
+            switch self {
+            case .slider:
+                return 3.5
+            case .nowPlaying:
+                return 5.32
+            case .topRated:
+                return 3.85
+            case .latest:
+                return 1 / 0.85
+            case .upComing:
+                return 4
+            }
+        }
     }
 
     func numberOfRowInSection(section: Int) -> Int {
         return TypeCell.allCases.count
     }
 
-    func viewForItemAt(at indexPath: IndexPath) -> (Any, TypeCell) {
+    func cellForRowAt(at indexPath: IndexPath) -> (viewModel: Any, typeCell: TypeCell) {
         guard let type = TypeCell(rawValue: indexPath.row) else {
             return (0, .slider)
         }
@@ -59,17 +74,6 @@ final class HomeViewModel {
             return 0
         }
 
-        switch type {
-        case .slider:
-            return 3.5
-        case .nowPlaying:
-            return 5.32
-        case .topRated:
-            return 3.85
-        case .latest:
-            return 1 / 0.85
-        case .upComing:
-            return 4
-        }
+        return type.heightForRow
     }
 }

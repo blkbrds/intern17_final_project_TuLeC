@@ -12,6 +12,7 @@ final class NowPlayingTableViewCell: UITableViewCell {
     @IBOutlet private var typeCellLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    private let nowPlayingTableCell = NowPlayingTableCell()
     var viewModel: NowPlayingTableCellViewModel? {
         didSet {
             updateCell()
@@ -21,14 +22,10 @@ final class NowPlayingTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         typeCellLabel.text = "Phim đang chiếu"
-        let screenSize = UIScreen.main.bounds.size
-        let cellWidth = floor(screenSize.width * 0.01)
-        let cellHeight = floor(screenSize.height * 0.01)
-        let insetX = (self.bounds.width - cellWidth) / 2.0
-        let insetY = (self.bounds.height - cellHeight) / 2.0
+        let insetY = (self.bounds.height - nowPlayingTableCell.cellHeight) / 2.0
 
         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        layout?.itemSize = CGSize(width: cellWidth, height: cellHeight)
+        layout?.itemSize = CGSize(width: nowPlayingTableCell.cellWidth, height: nowPlayingTableCell.cellHeight)
         collectionView.contentInset = UIEdgeInsets(top: insetY, left: 10, bottom: insetY, right: 10)
 
     }
@@ -49,7 +46,7 @@ extension NowPlayingTableViewCell: UICollectionViewDelegate, UICollectionViewDat
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCollectionViewCell", for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewForItemAt(at: indexPath)
+        cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
         return cell
     }
 
@@ -58,7 +55,18 @@ extension NowPlayingTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (UIScreen.main.bounds.width - 30) / 2
-        return CGSize(width: width, height: width * 0.65)
+        return nowPlayingTableCell.sizeForItemAt
+    }
+}
+
+class NowPlayingTableCell {
+    var cellWidth: CGFloat
+    var cellHeight: CGFloat
+    var sizeForItemAt: CGSize
+
+    init() {
+        cellWidth = floor(SizeWithScreen().width * 0.01)
+        cellHeight = floor(SizeWithScreen().height * 0.01)
+        sizeForItemAt = CGSize(width: (SizeWithScreen().width - 30) / 2, height: ((SizeWithScreen().width - 30) / 2) * 0.65)
     }
 }
