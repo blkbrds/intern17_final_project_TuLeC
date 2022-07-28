@@ -8,7 +8,7 @@
 import Foundation
 
 final class TopRatedTableCellViewModel {
-    func numberOfItemsInSection(in section: Int) -> Int {
+    func numberOfItemsInSection() -> Int {
         return TopRated().numberOfItemsInSection
     }
 

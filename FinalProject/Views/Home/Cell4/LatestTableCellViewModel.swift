@@ -8,8 +8,8 @@
 import Foundation
 
 final class LatestTableCellViewModel {
-    func numberOfItemsInSection(in section: Int) -> Int {
-        return Latest().numberOfItemsInSection
+    func numberOfItemsInSection() -> Int {
+        return Define.numberOfItemsInSection
     }
 
     func cellForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
@@ -18,6 +18,8 @@ final class LatestTableCellViewModel {
     }
 }
 
-struct Latest {
-    let numberOfItemsInSection: Int = 10
+extension LatestTableCellViewModel {
+    struct Define {
+        static let numberOfItemsInSection: Int = 10
+    }
 }

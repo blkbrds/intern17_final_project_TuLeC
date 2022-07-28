@@ -9,8 +9,8 @@ import Foundation
 
 final class SliderTableCellViewModel {
 
-    func numberOfItemsInSection(in section: Int) -> Int {
-        return SliderTableCell().numberOfItemsInSection
+    func numberOfItemsInSection() -> Int {
+        return Define.numberOfItemsInSection
     }
 
     func cellForItemAt(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
@@ -19,6 +19,8 @@ final class SliderTableCellViewModel {
     }
 }
 
-struct SliderTableCell {
-    let numberOfItemsInSection: Int = 10
+extension SliderTableCellViewModel {
+    struct Define {
+        static let numberOfItemsInSection: Int = 10
+    }
 }

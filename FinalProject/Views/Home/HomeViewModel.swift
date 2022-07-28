@@ -30,23 +30,23 @@ final class HomeViewModel {
             }
         }
 
-        var heightForRow: Double {
+        var ratioHeightForRow: Double {
             switch self {
             case .slider:
                 return 3.5
             case .nowPlaying:
-                return 5.32
+                return 4.5
             case .topRated:
-                return 3.85
+                return 3.5
             case .latest:
                 return 1 / 0.85
             case .upComing:
-                return 4
+                return 4.4
             }
         }
     }
 
-    func numberOfRowInSection(section: Int) -> Int {
+    func numberOfRowInSection() -> Int {
         return TypeCell.allCases.count
     }
 
@@ -74,6 +74,6 @@ final class HomeViewModel {
             return 0
         }
 
-        return type.heightForRow
+        return type.ratioHeightForRow
     }
 }

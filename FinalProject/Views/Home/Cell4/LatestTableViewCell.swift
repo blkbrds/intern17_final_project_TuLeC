@@ -21,24 +21,28 @@ final class LatestTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = "Phim mới nhất"
+        configCollectionView()
+    }
+
+    private func configCollectionView() {
+        let nib = UINib(nibName: Define.nowPlayingCollectionCell, bundle: .main)
+        collectionView.register(nib, forCellWithReuseIdentifier: Define.nowPlayingCollectionCell)
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
 
     private func updateCell() {
-        let nib = UINib(nibName: Strings().nowPlayingCollectionCell, bundle: .main)
-        collectionView.register(nib, forCellWithReuseIdentifier: Strings().nowPlayingCollectionCell)
-        collectionView.delegate = self
-        collectionView.dataSource = self
     }
 }
 
 extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let viewModel = viewModel else { return 0 }
-        return viewModel.numberOfItemsInSection(in: section)
+        return viewModel.numberOfItemsInSection()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Strings().nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
         return cell
     }
@@ -48,7 +52,13 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = (SizeWithScreen().width - 25) / 2
-        return CGSize(width: width, height: width * 0.65)
+        return CGSize(width: Define.width, height: Define.width * 0.65)
+    }
+}
+
+extension LatestTableViewCell {
+    struct Define {
+        static let width = (SizeWithScreen.shared.width - 25) / 2
+        static let nowPlayingCollectionCell: String = "NowPlayingCollectionViewCell"
     }
 }

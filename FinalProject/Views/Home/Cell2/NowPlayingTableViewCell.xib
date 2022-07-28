@@ -36,13 +36,13 @@
                     </collectionView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="WUS-yJ-4Ux" firstAttribute="top" secondItem="6e5-Ce-Vmy" secondAttribute="bottom" id="Tb7-g0-EwK"/>
                     <constraint firstItem="6e5-Ce-Vmy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UDV-6Q-Rlr"/>
-                    <constraint firstItem="6e5-Ce-Vmy" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="dua-cu-uNh"/>
+                    <constraint firstItem="WUS-yJ-4Ux" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.765385" id="XAP-YZ-NuR"/>
                     <constraint firstAttribute="trailing" secondItem="WUS-yJ-4Ux" secondAttribute="trailing" id="fy0-Ka-BRl"/>
                     <constraint firstItem="WUS-yJ-4Ux" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="gSE-lY-qC6"/>
                     <constraint firstAttribute="trailing" secondItem="6e5-Ce-Vmy" secondAttribute="trailing" constant="20" id="keG-B2-2y1"/>
                     <constraint firstAttribute="bottom" secondItem="WUS-yJ-4Ux" secondAttribute="bottom" id="quu-CM-u6f"/>
-                    <constraint firstItem="WUS-yJ-4Ux" firstAttribute="top" secondItem="6e5-Ce-Vmy" secondAttribute="bottom" id="ulw-k2-iln"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

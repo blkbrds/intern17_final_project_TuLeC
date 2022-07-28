@@ -9,8 +9,8 @@ import Foundation
 
 final class NowPlayingTableCellViewModel {
 
-    func numberOfItemsInSection(in section: Int) -> Int {
-        return NowPlaying().numberOfItemsInSection
+    func numberOfItemsInSection() -> Int {
+        return Define.numberOfItemsInSection
     }
 
     func cellForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
@@ -19,6 +19,8 @@ final class NowPlayingTableCellViewModel {
     }
 }
 
-struct NowPlaying {
-    let numberOfItemsInSection: Int = 10
+extension NowPlayingTableCellViewModel {
+    struct Define {
+        static let numberOfItemsInSection: Int = 10
+    }
 }

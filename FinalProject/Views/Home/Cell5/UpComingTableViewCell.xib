@@ -25,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="tsW-jy-prw">
-                        <rect key="frame" x="0.0" y="31" width="334" height="10"/>
+                        <rect key="frame" x="0.0" y="31" width="334" height="50"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="pvC-3V-0ae">
                             <size key="itemSize" width="128" height="128"/>
@@ -39,7 +39,7 @@
                     <constraint firstItem="kTf-f7-BMm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="06T-Op-pEh"/>
                     <constraint firstAttribute="trailing" secondItem="tsW-jy-prw" secondAttribute="trailing" id="ASS-IG-iQR"/>
                     <constraint firstItem="tsW-jy-prw" firstAttribute="top" secondItem="kTf-f7-BMm" secondAttribute="bottom" id="RyE-sw-CGm"/>
-                    <constraint firstAttribute="bottom" secondItem="tsW-jy-prw" secondAttribute="bottom" constant="50" id="cBY-zK-kEi"/>
+                    <constraint firstAttribute="bottom" secondItem="tsW-jy-prw" secondAttribute="bottom" constant="10" id="cBY-zK-kEi"/>
                     <constraint firstItem="tsW-jy-prw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="heP-PI-TiH"/>
                     <constraint firstItem="kTf-f7-BMm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="jOV-9b-4Fp"/>
                 </constraints>

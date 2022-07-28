@@ -49,16 +49,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func configNib() {
-        let nib = UINib(nibName: Strings().sliderTableCell, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: Strings().sliderTableCell)
-        let nib2 = UINib(nibName: Strings().nowPlayingTableCell, bundle: .main)
-        tableView.register(nib2, forCellReuseIdentifier: Strings().nowPlayingTableCell)
-        let nib3 = UINib(nibName: Strings().topRatedTableCell, bundle: .main)
-        tableView.register(nib3, forCellReuseIdentifier: Strings().topRatedTableCell)
-        let nib4 = UINib(nibName: Strings().latestTableCell, bundle: .main)
-        tableView.register(nib4, forCellReuseIdentifier: Strings().latestTableCell)
-        let nib5 = UINib(nibName: Strings().upComingTableViewCell, bundle: .main)
-        tableView.register(nib5, forCellReuseIdentifier: Strings().upComingTableViewCell)
+        let nib = UINib(nibName: Define.sliderTableCell, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: Define.sliderTableCell)
+        let nib2 = UINib(nibName: Define.nowPlayingTableCell, bundle: .main)
+        tableView.register(nib2, forCellReuseIdentifier: Define.nowPlayingTableCell)
+        let nib3 = UINib(nibName: Define.topRatedTableCell, bundle: .main)
+        tableView.register(nib3, forCellReuseIdentifier: Define.topRatedTableCell)
+        let nib4 = UINib(nibName: Define.latestTableCell, bundle: .main)
+        tableView.register(nib4, forCellReuseIdentifier: Define.latestTableCell)
+        let nib5 = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
+        tableView.register(nib5, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
     @objc private func searchButtonTouchUpInside() {
@@ -71,7 +71,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let viewModel = viewModel else {
             return 0
         }
-        return viewModel.numberOfRowInSection(section: section)
+        return viewModel.numberOfRowInSection()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -118,20 +118,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
 
-        return HomeView(height: CGFloat(viewModel.heightForRowAt(at: indexPath))).heightForRowAt
+        return SizeWithScreen.shared.height / CGFloat(viewModel.heightForRowAt(at: indexPath))
     }
 }
 
-struct HomeView {
-    var heightForRowAt: CGFloat
-
-    init(height: CGFloat) {
-        heightForRowAt = SizeWithScreen().height / height
+extension HomeViewController {
+    struct Define {
+        static let sliderTableCell: String = "SliderTableViewCell"
+        static let nowPlayingTableCell: String = "NowPlayingTableViewCell"
+        static let topRatedTableCell: String = "TopRatedTableViewCell"
+        static let latestTableCell: String = "LatestTableViewCell"
+        static let upComingTableViewCell: String = "UpComingTableViewCell"
     }
-}
-
-class SizeWithScreen {
-    let width = UIScreen.main.bounds.width
-    let height = UIScreen.main.bounds.height
-    let size = UIScreen.main.bounds.size
 }

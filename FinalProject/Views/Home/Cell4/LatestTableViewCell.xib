@@ -25,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Rxf-Ox-M9S">
-                        <rect key="frame" x="10" y="39" width="322" height="48"/>
+                        <rect key="frame" x="10" y="46" width="322" height="41"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="thB-C8-6b0">
                             <size key="itemSize" width="128" height="128"/>
@@ -42,7 +42,7 @@
                     <constraint firstAttribute="trailing" secondItem="Rxf-Ox-M9S" secondAttribute="trailing" constant="10" id="Jig-O0-lDA"/>
                     <constraint firstAttribute="trailing" secondItem="PSg-TR-RrX" secondAttribute="trailing" constant="20" id="T4t-CU-Ks2"/>
                     <constraint firstItem="Rxf-Ox-M9S" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="a3Z-Eq-cjs"/>
-                    <constraint firstItem="Rxf-Ox-M9S" firstAttribute="top" secondItem="PSg-TR-RrX" secondAttribute="bottom" constant="8" id="x8z-GD-1cp"/>
+                    <constraint firstItem="Rxf-Ox-M9S" firstAttribute="top" secondItem="PSg-TR-RrX" secondAttribute="bottom" constant="15" id="x8z-GD-1cp"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
