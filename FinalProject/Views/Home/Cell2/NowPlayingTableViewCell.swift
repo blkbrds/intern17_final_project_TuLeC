@@ -44,7 +44,7 @@ extension NowPlayingTableViewCell: UICollectionViewDelegate, UICollectionViewDat
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.cellForItemAt()
+        cell.viewModel = viewModel?.viewModelForItem()
         return cell
     }
 

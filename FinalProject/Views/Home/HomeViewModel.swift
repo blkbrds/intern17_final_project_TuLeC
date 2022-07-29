@@ -50,7 +50,7 @@ final class HomeViewModel {
         return TypeCell.allCases.count
     }
 
-    func cellForRowAt(at indexPath: IndexPath) -> (viewModel: Any, typeCell: TypeCell) {
+    func viewModelForItem(at indexPath: IndexPath) -> (viewModel: Any, typeCell: TypeCell) {
         guard let type = TypeCell(rawValue: indexPath.row) else {
             return (0, .slider)
         }

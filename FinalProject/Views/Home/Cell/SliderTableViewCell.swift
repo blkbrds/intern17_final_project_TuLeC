@@ -62,7 +62,7 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.sliderCollectionCell, for: indexPath) as? SliderCollectionViewCell,
               let viewModel = viewModel else { return UICollectionViewCell() }
-        cell.viewModel = viewModel.cellForItemAt()
+        cell.viewModel = viewModel.viewModelForItem()
         return cell
     }
 

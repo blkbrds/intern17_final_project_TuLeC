@@ -78,36 +78,36 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let viewModel = viewModel else {
             return UITableViewCell()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.cellForRowAt(at: indexPath).typeCell.deque, for: indexPath)
-        switch viewModel.cellForRowAt(at: indexPath).typeCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.viewModelForItem(at: indexPath).typeCell.deque, for: indexPath)
+        switch viewModel.viewModelForItem(at: indexPath).typeCell {
         case .slider:
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? SliderTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath).viewModel as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath).viewModel as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath).viewModel as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? LatestTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath).viewModel as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.cellForRowAt(at: indexPath).viewModel as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath).viewModel as? UpComingTableCellViewModel
         }
 
         return cell

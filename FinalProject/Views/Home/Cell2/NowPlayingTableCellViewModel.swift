@@ -13,7 +13,7 @@ final class NowPlayingTableCellViewModel {
         return Define.numberOfItemsInSection
     }
 
-    func cellForItemAt() -> NowPlayingCollectionCellViewModel {
+    func viewModelForItem() -> NowPlayingCollectionCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel()
         return viewModel
     }
