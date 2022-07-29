@@ -35,7 +35,7 @@ final class HomeViewModel {
         return TypeCell.allCases.count
     }
 
-    func viewModelForItem(at indexPath: IndexPath, type: TypeCell) -> (Any) {
+    func viewModelForItem(type: TypeCell) -> (Any) {
         switch type {
         case .slider:
             return (SliderTableCellViewModel())

@@ -171,24 +171,24 @@
 			path = Tabbar;
 			sourceTree = "<group>";
 		};
-		10899531288F93A700DDE56C /* Cell4 */ = {
+		10899531288F93A700DDE56C /* LatestCell */ = {
 			isa = PBXGroup;
 			children = (
 				10899532288F93D300DDE56C /* LatestTableViewCell.swift */,
 				10899533288F93D300DDE56C /* LatestTableViewCell.xib */,
 				10899536288F93E700DDE56C /* LatestTableCellViewModel.swift */,
 			);
-			path = Cell4;
+			path = LatestCell;
 			sourceTree = "<group>";
 		};
-		10A44107288FC9EB00D5C6EE /* Cell5 */ = {
+		10A44107288FC9EB00D5C6EE /* UpComingCell */ = {
 			isa = PBXGroup;
 			children = (
 				10A44109288FCA3100D5C6EE /* UpComingTableViewCell.swift */,
 				10A4410A288FCA3100D5C6EE /* UpComingTableViewCell.xib */,
 				10A4410D288FCA5300D5C6EE /* UpComingTableCellViewModel.swift */,
 			);
-			path = Cell5;
+			path = UpComingCell;
 			sourceTree = "<group>";
 		};
 		10A4411A2891342500D5C6EE /* Define */ = {
@@ -199,7 +199,7 @@
 			path = Define;
 			sourceTree = "<group>";
 		};
-		10F9F210288E836F00FD7BD2 /* Cell */ = {
+		10F9F210288E836F00FD7BD2 /* SliderCell */ = {
 			isa = PBXGroup;
 			children = (
 				10F9F217288E842D00FD7BD2 /* SliderCollectionCell */,
@@ -207,7 +207,7 @@
 				10F9F21F288E858000FD7BD2 /* SliderTableViewCell.xib */,
 				10F9F222288E859C00FD7BD2 /* SliderTableCellViewModel.swift */,
 			);
-			path = Cell;
+			path = SliderCell;
 			sourceTree = "<group>";
 		};
 		10F9F217288E842D00FD7BD2 /* SliderCollectionCell */ = {
@@ -220,7 +220,7 @@
 			path = SliderCollectionCell;
 			sourceTree = "<group>";
 		};
-		10F9F224288E8FE100FD7BD2 /* Cell2 */ = {
+		10F9F224288E8FE100FD7BD2 /* NowPlayingCell */ = {
 			isa = PBXGroup;
 			children = (
 				10F9F22B288E92D000FD7BD2 /* NowPlayingCollectionCell */,
@@ -228,7 +228,7 @@
 				10F9F226288E900C00FD7BD2 /* NowPlayingTableViewCell.xib */,
 				10F9F229288E902C00FD7BD2 /* NowPlayingTableCellViewModel.swift */,
 			);
-			path = Cell2;
+			path = NowPlayingCell;
 			sourceTree = "<group>";
 		};
 		10F9F22B288E92D000FD7BD2 /* NowPlayingCollectionCell */ = {
@@ -241,14 +241,14 @@
 			path = NowPlayingCollectionCell;
 			sourceTree = "<group>";
 		};
-		10F9F232288F79B600FD7BD2 /* Cell3 */ = {
+		10F9F232288F79B600FD7BD2 /* TopRatedCell */ = {
 			isa = PBXGroup;
 			children = (
 				10F9F234288F7A5600FD7BD2 /* TopRatedTableViewCell.swift */,
 				10F9F235288F7A5600FD7BD2 /* TopRatedTableViewCell.xib */,
 				10F9F238288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift */,
 			);
-			path = Cell3;
+			path = TopRatedCell;
 			sourceTree = "<group>";
 		};
 		38DD5025285081F20048328E = {
@@ -305,11 +305,11 @@
 		38DD5047285082E40048328E /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				10A44107288FC9EB00D5C6EE /* Cell5 */,
-				10899531288F93A700DDE56C /* Cell4 */,
-				10F9F232288F79B600FD7BD2 /* Cell3 */,
-				10F9F224288E8FE100FD7BD2 /* Cell2 */,
-				10F9F210288E836F00FD7BD2 /* Cell */,
+				10A44107288FC9EB00D5C6EE /* UpComingCell */,
+				10899531288F93A700DDE56C /* LatestCell */,
+				10F9F232288F79B600FD7BD2 /* TopRatedCell */,
+				10F9F224288E8FE100FD7BD2 /* NowPlayingCell */,
+				10F9F210288E836F00FD7BD2 /* SliderCell */,
 				38DD5048285083170048328E /* HomeViewController.swift */,
 				38DD5049285083170048328E /* HomeViewController.xib */,
 				106DC705288A99A10013C2D3 /* HomeViewModel.swift */,
