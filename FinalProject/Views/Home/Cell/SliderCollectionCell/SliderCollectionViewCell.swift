@@ -8,7 +8,7 @@
 import UIKit
 
 final class SliderCollectionViewCell: UICollectionViewCell {
-    @IBOutlet private var image: UIImageView!
+    @IBOutlet private var imageView: UIImageView!
 
     var viewModel: SliderCollectionCellViewModel? {
         didSet {

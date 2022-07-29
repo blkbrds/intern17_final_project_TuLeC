@@ -40,7 +40,7 @@
             </constraints>
             <size key="customSize" width="224" height="119"/>
             <connections>
-                <outlet property="image" destination="rK4-hW-y6T" id="LHT-kO-eBT"/>
+                <outlet property="imageView" destination="rK4-hW-y6T" id="yaH-Pr-PFw"/>
                 <outlet property="titleLabel" destination="xda-QD-CPX" id="qOC-E4-i4Y"/>
             </connections>
             <point key="canvasLocation" x="263.768115942029" y="101.45089285714285"/>

@@ -20,7 +20,7 @@ final class TopRatedTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.text = "Top rated"
+        titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
@@ -44,7 +44,7 @@ extension TopRatedTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
+        cell.viewModel = viewModel?.cellForItemAt()
         return cell
     }
 
@@ -61,5 +61,6 @@ extension TopRatedTableViewCell {
     struct Define {
         static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.width - 30) / 2)
         static let nowPlayingCollectionCell: String = "NowPlayingCollectionViewCell"
+        static let titleLabel: String = "Top rated"
     }
 }

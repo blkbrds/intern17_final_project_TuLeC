@@ -13,7 +13,7 @@ final class SliderTableCellViewModel {
         return Define.numberOfItemsInSection
     }
 
-    func cellForItemAt(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
+    func cellForItemAt() -> SliderCollectionCellViewModel {
         let viewModel = SliderCollectionCellViewModel()
         return viewModel
     }

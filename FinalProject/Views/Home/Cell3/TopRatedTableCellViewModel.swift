@@ -9,15 +9,17 @@ import Foundation
 
 final class TopRatedTableCellViewModel {
     func numberOfItemsInSection() -> Int {
-        return TopRated().numberOfItemsInSection
+        return  Define.numberOfItemsInSection
     }
 
-    func cellForItemAt(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+    func cellForItemAt() -> NowPlayingCollectionCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel()
         return viewModel
     }
 }
 
-struct TopRated {
-    let numberOfItemsInSection: Int = 10
+extension TopRatedTableCellViewModel {
+    struct Define {
+        static let numberOfItemsInSection: Int = 10
+    }
 }

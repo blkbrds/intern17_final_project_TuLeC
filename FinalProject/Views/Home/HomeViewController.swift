@@ -24,19 +24,19 @@ final class HomeViewController: UIViewController {
     }
 
     private func configNavigationBar() {
-        let logoImageView: UIImageView = UIImageView(image: UIImage(named: "logo"))
-        logoImageView.frame = CGRect(x: 0, y: 0, width: 150, height: 25)
-        logoImageView.contentMode = .scaleAspectFit
+        let logoImageView: UIImageView = UIImageView(image: UIImage(named: Define.nameImage))
+        logoImageView.frame = Define.frameLogoImageView
+        logoImageView.contentMode = Define.contentMode
         let imageItem = UIBarButtonItem.init(customView: logoImageView)
         let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSpacer.width = -25
+        negativeSpacer.width = Define.widthBarButtonItem
         navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
 
-        let searchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * 3 / 4, height: 20))
-        let searchButton: UIButton = UIButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width * 3 / 4, height: 40))
+        let searchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width * 3 / 4, height: 20))
+        let searchButton: UIButton = UIButton(frame: CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width * 3 / 4, height: 40))
         searchButton.addTarget(self, action: #selector(searchButtonTouchUpInside), for: .touchUpInside)
         searchBar.addSubview(searchButton)
-        searchBar.placeholder = "Tìm kiếm"
+        searchBar.placeholder = Define.searchBarPlaceholder
         let logoNavBar = UIBarButtonItem(customView: searchBar)
         self.navigationItem.rightBarButtonItem = logoNavBar
     }
@@ -129,5 +129,11 @@ extension HomeViewController {
         static let topRatedTableCell: String = "TopRatedTableViewCell"
         static let latestTableCell: String = "LatestTableViewCell"
         static let upComingTableViewCell: String = "UpComingTableViewCell"
+        static let nameImage: String = "logo"
+
+        static let widthBarButtonItem: CGFloat = -25
+        static let contentMode: UIView.ContentMode = .scaleAspectFill
+        static let searchBarPlaceholder: String = "Tìm kiếm"
+        static let frameLogoImageView: CGRect = CGRect(x: 0, y: 0, width: 150, height: 25)
     }
 }

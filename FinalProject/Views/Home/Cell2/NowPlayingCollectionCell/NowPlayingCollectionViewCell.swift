@@ -9,7 +9,7 @@ import UIKit
 
 final class NowPlayingCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet private var image: UIImageView!
+    @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
 
     var viewModel: NowPlayingCollectionCellViewModel? {
@@ -25,9 +25,15 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        image.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = Define.cornerRadius
     }
 
     private func updateCell() {
+    }
+}
+
+extension NowPlayingCollectionViewCell {
+    struct Define {
+        static let cornerRadius: CGFloat = 10
     }
 }

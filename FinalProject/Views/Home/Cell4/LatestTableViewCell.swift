@@ -20,7 +20,7 @@ final class LatestTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.text = "Phim mới nhất"
+        titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
@@ -43,7 +43,7 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.cellForItemAt(at: indexPath)
+        cell.viewModel = viewModel?.cellForItemAt()
         return cell
     }
 
@@ -60,5 +60,6 @@ extension LatestTableViewCell {
     struct Define {
         static let width = (SizeWithScreen.shared.width - 25) / 2
         static let nowPlayingCollectionCell: String = "NowPlayingCollectionViewCell"
+        static let titleLabel: String = "Phim mới nhất"
     }
 }

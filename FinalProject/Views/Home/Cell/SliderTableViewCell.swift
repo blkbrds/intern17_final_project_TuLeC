@@ -24,7 +24,7 @@ final class SliderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
         startTimer()
-        pageControl.numberOfPages = 10
+        pageControl.numberOfPages = Define.numberOfPages
     }
 
     private func configCollectionView() {
@@ -62,7 +62,7 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.sliderCollectionCell, for: indexPath) as? SliderCollectionViewCell,
               let viewModel = viewModel else { return UICollectionViewCell() }
-        cell.viewModel = viewModel.cellForItemAt(at: indexPath)
+        cell.viewModel = viewModel.cellForItemAt()
         return cell
     }
 
@@ -82,5 +82,6 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
 extension SliderTableViewCell {
     struct Define {
         static let sliderCollectionCell: String = "SliderCollectionViewCell"
+        static let numberOfPages: Int = 10
     }
 }
