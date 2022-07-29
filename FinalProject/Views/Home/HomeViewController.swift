@@ -8,14 +8,14 @@
 import UIKit
 
 final class HomeViewController: UIViewController {
-    
+
     enum TypeCell: Int{
         case slider
         case nowPlaying
         case topRated
         case latest
         case upComing
-        
+
         var deque: String {
             switch self {
             case .slider:
@@ -31,21 +31,21 @@ final class HomeViewController: UIViewController {
             }
         }
     }
-    
+
     @IBOutlet private var tableView: UITableView!
-    
+
     var viewModel: HomeViewModel?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
     }
-    
+
     private func configUI() {
         configNavigationBar()
         configTableView()
     }
-    
+
     private func configNavigationBar() {
         let logoImageView: UIImageView = UIImageView(image: UIImage(named: Define.nameImage))
         logoImageView.frame = Define.frameLogoImageView
@@ -54,7 +54,7 @@ final class HomeViewController: UIViewController {
         let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSpacer.width = Define.widthBarButtonItem
         navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
-        
+
         let searchBar: UISearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width * 3 / 4, height: 20))
         let searchButton: UIButton = UIButton(frame: CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width * 3 / 4, height: 40))
         searchButton.addTarget(self, action: #selector(searchButtonTouchUpInside), for: .touchUpInside)
@@ -63,14 +63,14 @@ final class HomeViewController: UIViewController {
         let logoNavBar = UIBarButtonItem(customView: searchBar)
         self.navigationItem.rightBarButtonItem = logoNavBar
     }
-    
+
     private func configTableView() {
         configNib()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
     }
-    
+
     private func configNib() {
         let nib = UINib(nibName: Define.sliderTableCell, bundle: .main)
         tableView.register(nib, forCellReuseIdentifier: Define.sliderTableCell)
@@ -108,29 +108,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? SliderTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath, type: .slider) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath, type: .nowPlaying) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
 
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath, type: .topRated) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? LatestTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath, type: .latest) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(at: indexPath) as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(at: indexPath, type: .upComing) as? UpComingTableCellViewModel
         }
 
         return cell
