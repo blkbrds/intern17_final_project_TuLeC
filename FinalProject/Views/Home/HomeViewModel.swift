@@ -15,21 +15,6 @@ final class HomeViewModel {
         case latest
         case upComing
 
-        var deque: String {
-            switch self {
-            case .slider:
-                return "SliderTableViewCell"
-            case .nowPlaying:
-                return "NowPlayingTableViewCell"
-            case .topRated:
-                return "TopRatedTableViewCell"
-            case .latest:
-                return "LatestTableViewCell"
-            case .upComing:
-                return "UpComingTableViewCell"
-            }
-        }
-
         var ratioHeightForRow: Double {
             switch self {
             case .slider:
@@ -50,22 +35,19 @@ final class HomeViewModel {
         return TypeCell.allCases.count
     }
 
-    func viewModelForItem(at indexPath: IndexPath) -> (viewModel: Any, typeCell: TypeCell) {
-        guard let type = TypeCell(rawValue: indexPath.row) else {
-            return (0, .slider)
-        }
-
+    func viewModelForItem(at indexPath: IndexPath) -> (Any) {
+        guard let type = TypeCell(rawValue: indexPath.row) else { return 0 }
         switch type {
         case .slider:
-            return (SliderTableCellViewModel(), .slider)
+            return (SliderTableCellViewModel())
         case .nowPlaying:
-            return (NowPlayingTableCellViewModel(), .nowPlaying)
+            return (NowPlayingTableCellViewModel())
         case .topRated:
-            return (TopRatedTableCellViewModel(), .topRated)
+            return (TopRatedTableCellViewModel())
         case .latest:
-            return (LatestTableCellViewModel(), .latest)
+            return (LatestTableCellViewModel())
         case .upComing:
-            return (UpComingTableCellViewModel(), .upComing)
+            return (UpComingTableCellViewModel())
         }
     }
 
