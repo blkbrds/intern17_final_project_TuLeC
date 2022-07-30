@@ -8,4 +8,9 @@
 import Foundation
 
 final class SliderCollectionCellViewModel {
+    var slider: Slider
+
+    init(slider: Slider) {
+        self.slider = slider
+    }
 }

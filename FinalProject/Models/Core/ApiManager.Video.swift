@@ -18,7 +18,7 @@ extension ApiManager.Video {
             case search
         }
 
-        func defineAPI(type: CustomPath, path: String) -> String {
+        static func defineAPI(type: CustomPath, path: String) -> String {
             switch type {
             case .movie:
                 return moviePath + path + ApiManager.Path.apiKey
@@ -27,45 +27,59 @@ extension ApiManager.Video {
             }
         }
 
-        func getUpComing() -> String {
+        static func getUpComing() -> String {
             return defineAPI(type: .movie, path: ApiManager.Path.upComing)
         }
 
-        func getTopRated() -> String {
+        static func getTopRated() -> String {
             return defineAPI(type: .movie, path: ApiManager.Path.topRated)
         }
 
-        func getPopular() -> String {
+        static func getPopular() -> String {
             return defineAPI(type: .movie, path: ApiManager.Path.popular)
         }
 
-        func getNowPlaying() -> String {
+        static func getNowPlaying() -> String {
             return defineAPI(type: .movie, path: ApiManager.Path.nowPlaying)
         }
 
-        func getLatest() -> String {
-            return defineAPI(type: .movie, path: ApiManager.Path.latest)
+        static func getLatest(movieID: String) -> String {
+            return defineAPI(type: .movie, path: "\(movieID)\(ApiManager.Path.similar)")
         }
 
-        func getVideos(movieID: String) -> String {
+        static func getVideos(movieID: String) -> String {
             return defineAPI(type: .movie, path: "/\(movieID)/videos")
         }
 
-        func getDetails(movieID: String) -> String {
+        static func getDetails(movieID: String) -> String {
             return defineAPI(type: .movie, path: "/\(movieID)")
         }
 
-        func getRecommendations(movieID: String) -> String {
+        static func getRecommendations(movieID: String) -> String {
             return defineAPI(type: .movie, path: "/\(movieID)/recommendations")
         }
 
-        func searchMovies(query: String) -> String {
+        static func searchMovies(query: String) -> String {
             return defineAPI(type: .search, path: "&query=\(query)")
         }
 
-        func getImage(imagePath: String) -> String {
+        static func getImage(imagePath: String) -> String {
             return ApiManager.Path.imageURL +
             "/\(imagePath)"
         }
     }
+
+    static func callApi(urlString: String, completion: @escaping APICompletion) {
+        ApiManager.shared.request(method: .get, with: urlString) { result in
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    completion(.success(data))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
 }

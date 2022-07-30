@@ -17,25 +17,26 @@
                 <rect key="frame" x="0.0" y="0.0" width="267" height="156"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="slider" translatesAutoresizingMaskIntoConstraints="NO" id="2F4-vd-0wv">
-                        <rect key="frame" x="0.0" y="0.0" width="267" height="156"/>
-                    </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pngegg1" translatesAutoresizingMaskIntoConstraints="NO" id="ayr-bg-Qbm">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2F4-vd-0wv">
                         <rect key="frame" x="0.0" y="0.0" width="267" height="156"/>
                     </imageView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pngegg" translatesAutoresizingMaskIntoConstraints="NO" id="1B0-YU-Dx3">
                         <rect key="frame" x="0.0" y="0.0" width="267" height="156"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ms2-E4-5zx">
+                        <rect key="frame" x="5" y="140" width="33" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="ayr-bg-Qbm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="6sv-if-o9r"/>
-                <constraint firstAttribute="bottom" secondItem="ayr-bg-Qbm" secondAttribute="bottom" id="BoA-nD-ZqA"/>
-                <constraint firstAttribute="trailing" secondItem="ayr-bg-Qbm" secondAttribute="trailing" id="DuK-l9-sbH"/>
+                <constraint firstAttribute="bottom" secondItem="ms2-E4-5zx" secondAttribute="bottom" id="Cll-mj-zac"/>
                 <constraint firstAttribute="trailing" secondItem="2F4-vd-0wv" secondAttribute="trailing" id="Ifi-7o-UME"/>
+                <constraint firstItem="ms2-E4-5zx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="JyH-kC-teX"/>
                 <constraint firstItem="1B0-YU-Dx3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="LGX-Pk-6nR"/>
-                <constraint firstItem="ayr-bg-Qbm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="QM0-Gu-6Sk"/>
                 <constraint firstItem="2F4-vd-0wv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Uur-xs-w4V"/>
                 <constraint firstItem="1B0-YU-Dx3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="duC-Qg-h74"/>
                 <constraint firstAttribute="bottom" secondItem="1B0-YU-Dx3" secondAttribute="bottom" id="ioh-on-IGC"/>
@@ -46,13 +47,12 @@
             <size key="customSize" width="267" height="156"/>
             <connections>
                 <outlet property="imageView" destination="2F4-vd-0wv" id="joH-3K-Bbz"/>
+                <outlet property="nameLabel" destination="ms2-E4-5zx" id="2jn-My-Ruh"/>
             </connections>
             <point key="canvasLocation" x="294.92753623188406" y="113.83928571428571"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="pngegg" width="1000" height="755"/>
-        <image name="pngegg1" width="1000" height="755"/>
-        <image name="slider" width="1920" height="1080"/>
     </resources>
 </document>

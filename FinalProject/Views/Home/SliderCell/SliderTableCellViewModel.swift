@@ -9,12 +9,43 @@ import Foundation
 
 final class SliderTableCellViewModel {
 
-    func numberOfItemsInSection() -> Int {
-        return Define.numberOfItemsInSection
+    enum GetDataResult {
+        case success([Slider])
+        case failure(APIError)
     }
 
-    func viewModelForItem() -> SliderCollectionCellViewModel {
-        let viewModel = SliderCollectionCellViewModel()
+    typealias Completion = (GetDataResult) -> Void
+
+    private var slider: [Slider] = []
+    private let urlString: String = ApiManager.Video.QueryString.getPopular()
+
+    func loadAPI(completion: @escaping Completion) {
+        ApiManager.Video.callApi(urlString: urlString) { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                guard let data = data, let items = data["results"] as? [JSObject] else { return }
+                for slider in items {
+                    this.slider.append(Slider(json: slider))
+                }
+                completion(.success(this.slider))
+            case .failure(let error):
+                completion(.failure(.error(error.localizedDescription)))
+            }
+        }
+    }
+
+    func numberOfItemsInSection() -> Int {
+        if slider.count < Define.numberOfItemsInSection {
+            return slider.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
+    }
+
+    func viewModelForItem(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
+        let item = slider[indexPath.row]
+        let viewModel = SliderCollectionCellViewModel(slider: item)
         return viewModel
     }
 }

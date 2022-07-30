@@ -11,7 +11,7 @@ extension ApiManager {
 
     struct Path {
         static let baseURL: String = "https://api.themoviedb.org"
-        static let imageURL: String = "https://image.tmdb.org/t/p/w500"
+        static let imageURL: String = "https://image.tmdb.org/t/p/original"
 
         static let version: String = "/3"
 
@@ -22,7 +22,7 @@ extension ApiManager {
         static let upComing: String = "/upcoming"
         static let topRated: String = "/top_rated"
         static let nowPlaying: String = "/now_playing"
-        static let latest: String = "/latest"
+        static let similar: String = "/similar"
 
         static let apiKey: String = "?api_key=be80edab20fccfb19907902f8eccdd6b"
     }
