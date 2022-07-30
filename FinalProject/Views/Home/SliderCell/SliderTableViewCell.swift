@@ -25,6 +25,7 @@ final class SliderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
         pageControl.alpha = -Define.alpha
+        startTimer()
     }
 
     private func configCollectionView() {
@@ -51,16 +52,16 @@ final class SliderTableViewCell: UITableViewCell {
                     this.collectionView.reloadData()
                     this.pageControl.alpha = Define.alpha
                     this.pageControl.numberOfPages = data.count
-                    this.startTimer()
                 }
             case .failure(let error):
                 print(error)
             }
+            SVProgressHUD.dismiss()
         }
     }
 
     private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
     }
 
     @objc private func moveToNextIndex() {
@@ -71,7 +72,6 @@ final class SliderTableViewCell: UITableViewCell {
         }
 
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
-        pageControl.currentPage = currentIndex
     }
 }
 

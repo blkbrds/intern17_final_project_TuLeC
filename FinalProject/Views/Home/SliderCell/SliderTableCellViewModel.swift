@@ -17,10 +17,9 @@ final class SliderTableCellViewModel {
     typealias Completion = (GetDataResult) -> Void
 
     private var slider: [Slider] = []
-    private let urlString: String = ApiManager.Video.QueryString.getPopular()
 
     func loadAPI(completion: @escaping Completion) {
-        ApiManager.Video.callApi(urlString: urlString) { [weak self] result in
+        ApiManager.Video.callHomeApi(type: .popular) { [weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):

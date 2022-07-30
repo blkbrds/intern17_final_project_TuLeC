@@ -9,6 +9,14 @@ import Foundation
 
 extension ApiManager.Video {
 
+    enum TypeURL {
+        case popular
+        case nowPlaying
+        case topRated
+        case latest(movieId: String)
+        case upComing
+    }
+
     static let moviePath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.moviePath)"
     static let searchPath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.searchPath)\(ApiManager.Path.moviePath)\(ApiManager.Path.apiKey)"
 
@@ -69,7 +77,25 @@ extension ApiManager.Video {
         }
     }
 
-    static func callApi(urlString: String, completion: @escaping APICompletion) {
+    static func callHomeApi(type: TypeURL, completion: @escaping APICompletion) {
+        var urlString: String?
+        switch type {
+        case .popular:
+            urlString = ApiManager.Video.QueryString.getPopular()
+        case .nowPlaying:
+            urlString = ApiManager.Video.QueryString.getNowPlaying()
+        case .topRated:
+            urlString = ApiManager.Video.QueryString.getTopRated()
+        case .latest(let movieId):
+            urlString = ApiManager.Video.QueryString.getLatest(movieID: movieId)
+        case .upComing:
+            urlString = ApiManager.Video.QueryString.getUpComing()
+        }
+
+        guard let urlString = urlString else {
+            return
+        }
+
         ApiManager.shared.request(method: .get, with: urlString) { result in
             switch result {
             case .success(let data):
@@ -81,5 +107,4 @@ extension ApiManager.Video {
             }
         }
     }
-
 }

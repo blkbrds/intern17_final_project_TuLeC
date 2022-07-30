@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		10129798289232A200EE6428 /* SizeWithScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10129797289232A200EE6428 /* SizeWithScreen.swift */; };
 		1045531C28942E23001C289C /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045531B28942E23001C289C /* Slider.swift */; };
+		1045531E28958B0C001C289C /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1045531D28958B0C001C289C /* ImageView.swift */; };
 		106DC6FB288A96990013C2D3 /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC6F9288A96990013C2D3 /* ExploreViewController.swift */; };
 		106DC6FC288A96990013C2D3 /* ExploreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106DC6FA288A96990013C2D3 /* ExploreViewController.xib */; };
 		106DC6FF288A96B80013C2D3 /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC6FD288A96B80013C2D3 /* StoryViewController.swift */; };
@@ -58,6 +59,7 @@
 /* Begin PBXFileReference section */
 		10129797289232A200EE6428 /* SizeWithScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeWithScreen.swift; sourceTree = "<group>"; };
 		1045531B28942E23001C289C /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Slider.swift; path = FinalProject/Models/Slider.swift; sourceTree = SOURCE_ROOT; };
+		1045531D28958B0C001C289C /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		106DC6F9288A96990013C2D3 /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		106DC6FA288A96990013C2D3 /* ExploreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreViewController.xib; sourceTree = "<group>"; };
 		106DC6FD288A96B80013C2D3 /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				10129797289232A200EE6428 /* SizeWithScreen.swift */,
+				1045531D28958B0C001C289C /* ImageView.swift */,
 			);
 			path = Define;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				106DC703288A96D20013C2D3 /* ProfileViewController.swift in Sources */,
 				10F9F21A288E845700FD7BD2 /* SliderCollectionViewCell.swift in Sources */,
 				38DD5057285086A50048328E /* ApiManager.swift in Sources */,
+				1045531E28958B0C001C289C /* ImageView.swift in Sources */,
 				106DC710288AA8440013C2D3 /* BaseTabbarViewController.swift in Sources */,
 				106DC70C288A99CA0013C2D3 /* ProfileViewModel.swift in Sources */,
 				10F9F239288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift in Sources */,
