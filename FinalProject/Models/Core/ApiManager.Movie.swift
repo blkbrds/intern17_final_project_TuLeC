@@ -40,17 +40,4 @@ extension ApiManager.Movie {
             URLQueryItem(name: "api_key", value: ApiManager.Path.apiKey)
         ])
     }
-
-    static func getHomeApi(url: URL, completion: @escaping APICompletion) {
-        ApiManager.shared.request(method: .get, with: url) { result in
-            switch result {
-            case .success(let data):
-                if let data = data {
-                    completion(.success(data))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
 }
