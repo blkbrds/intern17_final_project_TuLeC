@@ -8,12 +8,27 @@
 import Foundation
 
 final class TopRatedTableCellViewModel {
+    private var topRated: [Slider]?
+    
     func numberOfItemsInSection() -> Int {
-        return  Define.numberOfItemsInSection
+        guard let topRated = topRated else {
+            return 0
+        }
+
+        if topRated.count < Define.numberOfItemsInSection {
+            return topRated.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
     }
 
-    func viewModelForItem() -> NowPlayingCollectionCellViewModel {
-        let viewModel = NowPlayingCollectionCellViewModel()
+    func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+        guard let topRated = topRated else {
+            return NowPlayingCollectionCellViewModel(slider: nil)
+        }
+
+        let item = topRated[indexPath.row]
+        let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
 }

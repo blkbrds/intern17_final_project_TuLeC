@@ -8,7 +8,7 @@
 import UIKit
 
 final class NowPlayingTableViewCell: UITableViewCell {
-
+    
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
@@ -33,6 +33,25 @@ final class NowPlayingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        loadApi()
+    }
+
+    private func loadApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        viewModel.loadAPI {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    this.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
@@ -43,8 +62,9 @@ extension NowPlayingTableViewCell: UICollectionViewDelegate, UICollectionViewDat
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewModelForItem()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell,
+              let viewModel = viewModel else { return UICollectionViewCell() }
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
