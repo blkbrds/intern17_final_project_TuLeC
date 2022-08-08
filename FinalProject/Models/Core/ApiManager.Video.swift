@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension ApiManager.Video {
+extension ApiManager.Movie {
 
     static let moviePath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.moviePath)"
     static let searchPath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.searchPath)\(ApiManager.Path.moviePath)\(ApiManager.Path.apiKey)"

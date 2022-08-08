@@ -126,6 +126,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		10246BB428A0CDC000AE3CD3 /* Scheme */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Scheme;
+			sourceTree = "<group>";
+		};
 		106DC6F5288A96510013C2D3 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,13 +161,6 @@
 				106DC70B288A99CA0013C2D3 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
-			sourceTree = "<group>";
-		};
-		106DC70D288AA7960013C2D3 /* Scheme */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Scheme;
 			sourceTree = "<group>";
 		};
 		106DC70E288AA8260013C2D3 /* Tabbar */ = {
@@ -348,7 +348,7 @@
 		38DD5054285084D10048328E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				106DC70D288AA7960013C2D3 /* Scheme */,
+				10246BB428A0CDC000AE3CD3 /* Scheme */,
 				38DD5055285084E90048328E /* Core */,
 			);
 			path = Models;
