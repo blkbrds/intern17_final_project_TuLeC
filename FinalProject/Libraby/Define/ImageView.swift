@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import SVProgressHUD
 
 extension UIImageView {
     func downloadImage(url: String, completion: @escaping (UIImage?) -> Void) {

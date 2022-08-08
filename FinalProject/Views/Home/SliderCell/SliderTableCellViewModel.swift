@@ -21,6 +21,7 @@ final class SliderTableCellViewModel {
     func loadAPI(completion: @escaping Completion) {
         ApiManager.Video.callHomeApi(type: .popular) { [weak self] result in
             guard let this = self else { return }
+
             switch result {
             case .success(let data):
                 guard let data = data, let items = data["results"] as? [JSObject] else { return }
