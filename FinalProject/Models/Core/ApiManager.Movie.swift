@@ -49,6 +49,10 @@ extension ApiManager.Movie {
         return getURL(type: .nowPlaying, typePath: ApiManager.Path.nowPlaying, movieId: nil)
     }
 
+    static func getTopRated() -> URL {
+        return getURL(type: .topRated, typePath: ApiManager.Path.topRated, movieId: nil)
+    }
+
     static func getHomeApi(url: URL, completion: @escaping Completion<[Slider]>) {
         ApiManager.shared.request(method: .get, with: url) { result in
             switch result {
