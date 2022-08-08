@@ -72,6 +72,7 @@ final class SliderTableViewCell: UITableViewCell {
         }
 
         collectionView.scrollToItem(at: IndexPath(item: currentIndex, section: 0), at: .centeredHorizontally, animated: true)
+        pageControl.currentPage = currentIndex
     }
 }
 

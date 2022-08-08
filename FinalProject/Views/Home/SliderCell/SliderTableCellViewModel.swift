@@ -9,26 +9,18 @@ import Foundation
 
 final class SliderTableCellViewModel {
 
-    enum GetDataResult {
-        case success([Slider])
-        case failure(APIError)
-    }
+    private var sliders: [Slider]?
 
-    typealias Completion = (GetDataResult) -> Void
+    func loadAPI(completion: @escaping Completion<[Slider]>) {
+        let url = ApiManager.Movie.getSliderURL()
 
-    private var slider: [Slider] = []
-
-    func loadAPI(completion: @escaping Completion) {
-        ApiManager.Video.callHomeApi(type: .popular) { [weak self] result in
+        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
             guard let this = self else { return }
 
             switch result {
             case .success(let data):
-                guard let data = data, let items = data["results"] as? [JSObject] else { return }
-                for slider in items {
-                    this.slider.append(Slider(json: slider))
-                }
-                completion(.success(this.slider))
+                this.sliders = data
+                completion(.success(data))
             case .failure(let error):
                 completion(.failure(.error(error.localizedDescription)))
             }
@@ -36,15 +28,23 @@ final class SliderTableCellViewModel {
     }
 
     func numberOfItemsInSection() -> Int {
-        if slider.count < Define.numberOfItemsInSection {
-            return slider.count
+        guard let sliders = sliders else {
+            return 0
+        }
+
+        if sliders.count < Define.numberOfItemsInSection {
+            return sliders.count
         } else {
             return Define.numberOfItemsInSection
         }
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
-        let item = slider[indexPath.row]
+        guard let sliders = sliders else {
+            return SliderCollectionCellViewModel(slider: nil)
+        }
+
+        let item = sliders[indexPath.row]
         let viewModel = SliderCollectionCellViewModel(slider: item)
         return viewModel
     }
