@@ -36,11 +36,9 @@ extension ApiManager.Movie {
             return URL(fileURLWithPath: "")
         }
 
-        return url.appending("api_key", value: ApiManager.Path.apiKey)
-    }
-
-    static func getSliderURL() -> URL {
-        return getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
+        return url.appending([
+            URLQueryItem(name: "api_key", value: ApiManager.Path.apiKey)
+        ])
     }
 
     static func getHomeApi(url: URL, completion: @escaping APICompletion) {
