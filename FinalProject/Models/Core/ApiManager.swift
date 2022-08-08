@@ -8,6 +8,12 @@
 import Foundation
 
 typealias APICompletion = (APIResult) -> Void
+typealias Completion<Value> = (Result<Value>) -> Void
+
+enum Result<Value> {
+    case success(Value)
+    case failure(APIError)
+}
 
 enum APIResult {
     case success(JSObject?)
@@ -47,7 +53,7 @@ final class ApiManager {
     }()
 
     func request(method: Method,
-                 with path: String,
+                 with url: URL?,
                  completion: @escaping APICompletion) {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
@@ -55,7 +61,7 @@ final class ApiManager {
         }
 
         // Check url is existed
-        guard let url = URL(string: path) else {
+        guard let url = url else {
             completion(.failure(.errorURL))
             return
         }
@@ -87,6 +93,13 @@ final class ApiManager {
 
         task.resume()
     }
+}
 
-    struct Video {}
+extension ApiManager {
+
+    struct Path { }
+
+    struct Movie { }
+
+    struct Search { }
 }
