@@ -9,7 +9,7 @@ import UIKit
 
 final class HomeViewController: UIViewController {
 
-    enum TypeCell: Int{
+    enum TypeCell: Int {
         case slider
         case nowPlaying
         case topRated
@@ -83,7 +83,7 @@ final class HomeViewController: UIViewController {
         let nib5 = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
         tableView.register(nib5, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
-    
+
     @objc private func searchButtonTouchUpInside() {
         print("abc")
     }

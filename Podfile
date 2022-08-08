@@ -7,5 +7,6 @@ target 'FinalProject' do
 
   # Pods for FinalProject
   pod 'SwiftLint'
+  pod 'SVProgressHUD', '2.2.5'
 
 end

@@ -40,4 +40,27 @@ extension ApiManager.Movie {
             URLQueryItem(name: "api_key", value: ApiManager.Path.apiKey)
         ])
     }
+
+    static func getSliderURL() -> URL {
+        return getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
+    }
+
+    static func getHomeApi(url: URL, completion: @escaping Completion<[Slider]>) {
+        ApiManager.shared.request(method: .get, with: url) { result in
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    var sliders: [Slider] = []
+                    if let items = data["results"] as? [JSObject] {
+                        for slider in items {
+                            sliders.append(Slider(json: slider))
+                        }
+                    }
+                    completion(.success(sliders))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }

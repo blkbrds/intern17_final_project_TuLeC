@@ -9,12 +9,43 @@ import Foundation
 
 final class SliderTableCellViewModel {
 
-    func numberOfItemsInSection() -> Int {
-        return Define.numberOfItemsInSection
+    private var sliders: [Slider]?
+
+    func loadAPI(completion: @escaping Completion<[Slider]>) {
+        let url = ApiManager.Movie.getSliderURL()
+        
+        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
+            guard let this = self else { return }
+
+            switch result {
+            case .success(let data):
+                this.sliders = data
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(.error(error.localizedDescription)))
+            }
+        }
     }
 
-    func viewModelForItem() -> SliderCollectionCellViewModel {
-        let viewModel = SliderCollectionCellViewModel()
+    func numberOfItemsInSection() -> Int {
+        guard let sliders = sliders else {
+            return 0
+        }
+
+        if sliders.count < Define.numberOfItemsInSection {
+            return sliders.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
+    }
+
+    func viewModelForItem(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
+        guard let sliders = sliders else {
+            return SliderCollectionCellViewModel(slider: nil)
+        }
+
+        let item = sliders[indexPath.row]
+        let viewModel = SliderCollectionCellViewModel(slider: item)
         return viewModel
     }
 }

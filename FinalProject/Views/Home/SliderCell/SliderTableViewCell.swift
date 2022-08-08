@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class SliderTableViewCell: UITableViewCell {
 
@@ -23,8 +24,8 @@ final class SliderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
+        pageControl.alpha = -Define.alpha
         startTimer()
-        pageControl.numberOfPages = Define.numberOfPages
     }
 
     private func configCollectionView() {
@@ -35,6 +36,28 @@ final class SliderTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        loadApi()
+    }
+
+    private func loadApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        SVProgressHUD.show()
+        viewModel.loadAPI {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    this.collectionView.reloadData()
+                    this.pageControl.alpha = Define.alpha
+                    this.pageControl.numberOfPages = data.count
+                }
+            case .failure(let error):
+                print(error)
+            }
+            SVProgressHUD.dismiss()
+        }
     }
 
     private func startTimer() {
@@ -62,7 +85,7 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.sliderCollectionCell, for: indexPath) as? SliderCollectionViewCell,
               let viewModel = viewModel else { return UICollectionViewCell() }
-        cell.viewModel = viewModel.viewModelForItem()
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
@@ -83,5 +106,6 @@ extension SliderTableViewCell {
     struct Define {
         static let sliderCollectionCell: String = "SliderCollectionViewCell"
         static let numberOfPages: Int = 10
+        static let alpha: CGFloat = 1
     }
 }
