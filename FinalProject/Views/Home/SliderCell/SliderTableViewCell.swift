@@ -46,6 +46,7 @@ final class SliderTableViewCell: UITableViewCell {
         SVProgressHUD.show()
         viewModel.loadAPI {[weak self] result in
             guard let this = self else { return }
+
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {

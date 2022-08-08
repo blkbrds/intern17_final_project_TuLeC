@@ -22,7 +22,7 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xda-QD-CPX">
                         <rect key="frame" x="0.0" y="106" width="224" height="12"/>
-                        <fontDescription key="fontDescription" type="system" weight="thin" pointSize="10"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>

@@ -29,6 +29,7 @@ final class SliderCollectionViewCell: UICollectionViewCell {
         } else {
             downloadImageForRow {[weak self] image in
                 guard let this = self else { return }
+
                 if let image = image {
                     this.imageView.image = image
                 } else {

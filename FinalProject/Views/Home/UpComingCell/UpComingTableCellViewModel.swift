@@ -8,12 +8,19 @@
 import Foundation
 
 final class UpComingTableCellViewModel {
+    private var upComing: [Slider] = []
+
     func numberOfItemsInSection() -> Int {
-        return Define.numberOfItemsInSection
+        if upComing.count < 10 {
+            return upComing.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
     }
 
-    func viewModelForItem() -> NowPlayingCollectionCellViewModel {
-        let viewModel = NowPlayingCollectionCellViewModel()
+    func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+        let item = upComing[indexPath.row]
+        let viewModel = NowPlayingCollectionCellViewModel(nowPlaying: item)
         return viewModel
     }
 }

@@ -29,6 +29,41 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
     }
 
     private func updateCell() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        titleLabel.text = viewModel.nowPlaying.originalTitle
+
+        if let image = viewModel.nowPlaying.image {
+            imageView.image = image
+        } else {
+            downloadImageForRow {[weak self] image in
+                guard let this = self else { return }
+
+                if let image = image {
+                    this.imageView.image = image
+                } else {
+                    this.imageView.image = nil
+                }
+            }
+        }
+    }
+
+    private func downloadImageForRow(completion: @escaping (UIImage?) -> Void) {
+        guard let viewModel = viewModel,
+              let backdropPath = viewModel.nowPlaying.backdropPath else {
+            return
+        }
+
+        imageView.downloadImage(url: ApiManager.Path.imageURL + backdropPath) { image in
+            if let image = image {
+                viewModel.nowPlaying.image = image
+                completion(image)
+            } else {
+                completion(nil)
+            }
+        }
     }
 }
 

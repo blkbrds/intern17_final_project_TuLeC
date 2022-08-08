@@ -8,4 +8,9 @@
 import Foundation
 
 final class NowPlayingCollectionCellViewModel {
+    var nowPlaying: Slider
+
+    init(nowPlaying: Slider) {
+        self.nowPlaying = nowPlaying
+    }
 }
