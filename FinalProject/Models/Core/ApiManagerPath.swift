@@ -23,5 +23,5 @@ extension ApiManager.Path {
     static let nowPlaying: String = "/now_playing"
     static let latest: String = "/latest"
 
-    static let apiKey: String = "?api_key=be80edab20fccfb19907902f8eccdd6b"
+    static let apiKey: String = "be80edab20fccfb19907902f8eccdd6b"
 }
