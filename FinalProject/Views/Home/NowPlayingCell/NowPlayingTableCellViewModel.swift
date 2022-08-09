@@ -9,23 +9,7 @@ import Foundation
 
 final class NowPlayingTableCellViewModel {
 
-    private var nowPlayings: [Slider]?
-
-    func loadAPI(completion: @escaping Completion<[Slider]>) {
-        let url = ApiManager.Movie.getNowPlayingURL()
-        
-        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
-            guard let this = self else { return }
-
-            switch result {
-            case .success(let data):
-                this.nowPlayings = data
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(.error(error.localizedDescription)))
-            }
-        }
-    }
+    var nowPlayings: [Slider]?
 
     func numberOfItemsInSection() -> Int {
         guard let nowPlayings = nowPlayings else {

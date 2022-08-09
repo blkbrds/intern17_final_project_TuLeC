@@ -6,6 +6,15 @@
 //
 
 import UIKit
+import SVProgressHUD
+
+protocol HomeViewControllerDataSource: AnyObject {
+    func getDataSlider() -> [Slider]
+    func getDataNowPlaying() -> [Slider]
+    func getDataTopRated() -> [Slider]
+    func getDataLatest() -> [Slider]
+    func getDataUpComming() -> [Slider]
+}
 
 final class HomeViewController: UIViewController {
 
@@ -35,15 +44,97 @@ final class HomeViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
 
     var viewModel: HomeViewModel?
+    private var sliders: [Slider] = []
+    private var nowPlaying: [Slider] = []
+    private var topRated: [Slider] = []
+    private var latest: [Slider] = []
+    private var upComing: [Slider] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        demoDispatchGroup()
     }
 
     private func configUI() {
         configNavigationBar()
         configTableView()
+    }
+
+    func demoDispatchGroup() {
+
+        let dispatchGroup = DispatchGroup()
+        SVProgressHUD.show()
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getSliderURL()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.sliders = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getNowPlayingURL()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.nowPlaying = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getTopRated()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.topRated = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.latest = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getUpComing()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.upComing = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.tableView.reloadData()
+            SVProgressHUD.dismiss()
+        }
     }
 
     private func configNavigationBar() {
@@ -108,28 +199,31 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForItem(type: .slider) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
-
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForItem(type: .topRated) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForItem(type: .latest) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForItem(type: .upComing) as? UpComingTableCellViewModel
         }
 
@@ -158,5 +252,27 @@ extension HomeViewController {
         static let contentMode: UIView.ContentMode = .scaleAspectFill
         static let searchBarPlaceholder: String = "Tìm kiếm"
         static let frameLogoImageView: CGRect = CGRect(x: 0, y: 0, width: 150, height: 25)
+    }
+}
+
+extension HomeViewController: HomeViewControllerDataSource {
+    func getDataUpComming() -> [Slider] {
+        return upComing
+    }
+
+    func getDataLatest() -> [Slider] {
+        return latest
+    }
+
+    func getDataTopRated() -> [Slider] {
+        return topRated
+    }
+
+    func getDataNowPlaying() -> [Slider] {
+        return nowPlaying
+    }
+
+    func getDataSlider() -> [Slider] {
+        return sliders
     }
 }

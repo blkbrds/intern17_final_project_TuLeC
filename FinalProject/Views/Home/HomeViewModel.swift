@@ -50,6 +50,18 @@ final class HomeViewModel {
         }
     }
 
+    func getHomeApi(completion: @escaping Completion<[Slider]>) {
+        let url = ApiManager.Movie.getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
+        ApiManager.Movie.getHomeApi(url: url) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     func heightForRowAt(at indexPath: IndexPath) -> Double {
         guard let type = TypeCell(rawValue: indexPath.row) else {
             return 0

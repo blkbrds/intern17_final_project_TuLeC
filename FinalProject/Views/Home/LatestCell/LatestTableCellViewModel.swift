@@ -8,23 +8,7 @@
 import Foundation
 
 final class LatestTableCellViewModel {
-    private var latest: [Slider]?
-
-    func loadAPI(completion: @escaping Completion<[Slider]>) {
-        let url = ApiManager.Movie.getLatest()
-
-        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
-            guard let this = self else { return }
-
-            switch result {
-            case .success(let data):
-                this.latest = data
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(.error(error.localizedDescription)))
-            }
-        }
-    }
+    var latest: [Slider]?
 
     func numberOfItemsInSection() -> Int {
         guard let latest = latest else {

@@ -26,7 +26,7 @@ final class SliderCollectionViewCell: UICollectionViewCell {
         if let image = viewModel.slider?.image {
             imageView.image = image
         } else {
-            downloadImageForRow {[weak self] image in
+            downloadImageForRow { [weak self] image in
                 guard let this = self else { return }
                 if let image = image {
                     this.imageView.image = image

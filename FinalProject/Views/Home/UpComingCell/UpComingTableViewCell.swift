@@ -12,6 +12,7 @@ final class UpComingTableViewCell: UITableViewCell {
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    var dataSource: HomeViewControllerDataSource?
     var viewModel: UpComingTableCellViewModel? {
         didSet {
             updateCell()
@@ -33,25 +34,12 @@ final class UpComingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        loadApi()
-    }
-
-    private func loadApi() {
-        guard let viewModel = viewModel else {
+        guard let dataSource = dataSource else {
             return
         }
 
-        viewModel.loadAPI {[weak self] result in
-            guard let this = self else { return }
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    this.collectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+        viewModel?.upComing = dataSource.getDataUpComming()
+        collectionView.reloadData()
     }
 }
 

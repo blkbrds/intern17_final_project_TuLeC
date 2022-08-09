@@ -13,6 +13,7 @@ final class SliderTableViewCell: UITableViewCell {
     @IBOutlet private var collectionView: UICollectionView!
     @IBOutlet private var pageControl: UIPageControl!
 
+    var dataSource: HomeViewControllerDataSource?
     private var timer: Timer?
     private var currentIndex = 0
     var viewModel: SliderTableCellViewModel? {
@@ -25,6 +26,7 @@ final class SliderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
         pageControl.alpha = -Define.alpha
+        startTimer()
     }
 
     private func configCollectionView() {
@@ -35,29 +37,18 @@ final class SliderTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        loadApi()
-    }
-
-    private func loadApi() {
-        guard let viewModel = viewModel else {
+        guard let dataSource = dataSource else {
             return
         }
-        SVProgressHUD.show()
-        viewModel.loadAPI {[weak self] result in
-            guard let this = self else { return }
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    this.collectionView.reloadData()
-                    this.pageControl.alpha = Define.alpha
-                    this.pageControl.numberOfPages = data.count
-                    this.startTimer()
-                }
-            case .failure(let error):
-                print(error)
-            }
-            SVProgressHUD.dismiss()
+        viewModel?.sliders = dataSource.getDataSlider()
+        pageControl.numberOfPages = Define.numberOfPages
+        pageControl.alpha = Define.alpha
+        let userdefault = UserDefaults.standard
+        guard let movieId = viewModel?.sliders?.first?.id else {
+            return
         }
+        userdefault.set(movieId, forKey: Session.shared.movieId)
+        collectionView.reloadData()
     }
 
     private func startTimer() {

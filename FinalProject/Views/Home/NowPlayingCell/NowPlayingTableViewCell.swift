@@ -8,10 +8,11 @@
 import UIKit
 
 final class NowPlayingTableViewCell: UITableViewCell {
-    
+
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    var dataSource: HomeViewControllerDataSource?
     var viewModel: NowPlayingTableCellViewModel? {
         didSet {
             updateCell()
@@ -33,25 +34,12 @@ final class NowPlayingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        loadApi()
-    }
-
-    private func loadApi() {
-        guard let viewModel = viewModel else {
+        guard let dataSource = dataSource else {
             return
         }
 
-        viewModel.loadAPI {[weak self] result in
-            guard let this = self else { return }
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                    this.collectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
+        viewModel?.nowPlayings = dataSource.getDataNowPlaying()
+        collectionView.reloadData()
     }
 }
 

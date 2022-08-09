@@ -8,7 +8,7 @@
 import Foundation
 
 final class TopRatedTableCellViewModel {
-    private var topRated: [Slider]?
+    var topRated: [Slider]?
 
     func loadAPI(completion: @escaping Completion<[Slider]>) {
         let url = ApiManager.Movie.getTopRated()
