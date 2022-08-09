@@ -13,7 +13,7 @@ extension ApiManager.Movie {
         case topRated
         case popular
         case nowPlaying
-        case similar
+        case latest
         case videos
         case details
         case recommendations
@@ -26,8 +26,11 @@ extension ApiManager.Movie {
         switch type {
         case .popular, .topRated, .nowPlaying, .upComing:
             url = URL(string: ApiManager.Movie.moviePath + typePath)
-        case .similar, .videos, .recommendations:
-            url = URL(string: ApiManager.Movie.moviePath + "/\(String(describing: movieId))/" + typePath)
+        case .latest, .videos, .recommendations:
+            guard let movieId = movieId else {
+                return URL(fileURLWithPath: "")
+            }
+            url = URL(string: ApiManager.Movie.moviePath + "/\(movieId)" + typePath)
         case .details:
             url = URL(string: ApiManager.Movie.moviePath + "/\(String(describing: movieId))/")
         }
@@ -51,6 +54,11 @@ extension ApiManager.Movie {
 
     static func getTopRated() -> URL {
         return getURL(type: .topRated, typePath: ApiManager.Path.topRated, movieId: nil)
+    }
+
+    static func getLatest() -> URL {
+        let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
+        return getURL(type: .latest, typePath: ApiManager.Path.latest, movieId: movieId)
     }
 
     static func getHomeApi(url: URL, completion: @escaping Completion<[Slider]>) {

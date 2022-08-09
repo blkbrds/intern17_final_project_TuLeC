@@ -20,6 +20,11 @@ final class SliderTableCellViewModel {
             switch result {
             case .success(let data):
                 this.sliders = data
+                let userdefault = UserDefaults.standard
+                guard let movieId = data.first?.id else {
+                    return
+                }
+                userdefault.set(movieId, forKey: Session.shared.movieId)
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(.error(error.localizedDescription)))

@@ -9,7 +9,7 @@ import Foundation
 
 final class UpComingTableCellViewModel {
     private var upComing: [Slider]?
-    
+
     func numberOfItemsInSection() -> Int {
         guard let upComing = upComing else {
             return 0

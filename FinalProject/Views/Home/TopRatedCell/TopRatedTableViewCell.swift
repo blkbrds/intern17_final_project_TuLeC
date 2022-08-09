@@ -79,7 +79,7 @@ extension TopRatedTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
 
 extension TopRatedTableViewCell {
     struct Define {
-        static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.width - 30) / 2)
+        static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.height) / 4.2)
         static let nowPlayingCollectionCell: String = "NowPlayingCollectionViewCell"
         static let titleLabel: String = "Top rated"
     }

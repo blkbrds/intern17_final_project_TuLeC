@@ -32,6 +32,25 @@ final class LatestTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        loadApi()
+    }
+
+    private func loadApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        viewModel.loadAPI { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    this.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
@@ -42,8 +61,9 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewModelForItem(at: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell,
+              let viewModel = viewModel  else { return UICollectionViewCell() }
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
@@ -60,6 +80,6 @@ extension LatestTableViewCell {
     struct Define {
         static let width = (SizeWithScreen.shared.width - 25) / 2
         static let nowPlayingCollectionCell: String = "NowPlayingCollectionViewCell"
-        static let titleLabel: String = "Phim mới nhất"
+        static let titleLabel: String = "Đề xuất cho bạn"
     }
 }

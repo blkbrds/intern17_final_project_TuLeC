@@ -25,7 +25,6 @@ final class SliderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
         pageControl.alpha = -Define.alpha
-        startTimer()
     }
 
     private func configCollectionView() {
@@ -52,6 +51,7 @@ final class SliderTableViewCell: UITableViewCell {
                     this.collectionView.reloadData()
                     this.pageControl.alpha = Define.alpha
                     this.pageControl.numberOfPages = data.count
+                    this.startTimer()
                 }
             case .failure(let error):
                 print(error)

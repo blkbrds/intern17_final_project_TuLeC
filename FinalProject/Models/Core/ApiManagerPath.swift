@@ -21,7 +21,7 @@ extension ApiManager.Path {
     static let upComing: String = "/upcoming"
     static let topRated: String = "/top_rated"
     static let nowPlaying: String = "/now_playing"
-    static let latest: String = "/latest"
+    static let latest: String = "/similar"
 
     static let apiKey: String = "be80edab20fccfb19907902f8eccdd6b"
 }
