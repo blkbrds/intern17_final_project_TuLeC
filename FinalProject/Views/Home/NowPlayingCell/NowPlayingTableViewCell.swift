@@ -14,7 +14,6 @@ final class NowPlayingTableViewCell: UITableViewCell {
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
-    var dataSource: HomeViewControllerDataSource?
     var viewModel: NowPlayingTableCellViewModel? {
         didSet {
             updateCell()
@@ -38,11 +37,6 @@ final class NowPlayingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        viewModel?.nowPlayings = dataSource.getDataNowPlaying()
         collectionView.reloadData()
     }
 }

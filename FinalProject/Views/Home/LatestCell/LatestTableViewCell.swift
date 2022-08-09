@@ -14,7 +14,6 @@ final class LatestTableViewCell: UITableViewCell {
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
-    var dataSource: HomeViewControllerDataSource?
     var viewModel: LatestTableCellViewModel? {
         didSet {
             updateCell()
@@ -37,11 +36,6 @@ final class LatestTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        viewModel?.latest = dataSource.getDataLatest()
         collectionView.reloadData()
     }
 }

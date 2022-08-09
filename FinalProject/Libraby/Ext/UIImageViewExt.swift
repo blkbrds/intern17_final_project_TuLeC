@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 extension UIImageView {
-    func downloadImage(url: String, completion: @escaping (UIImage?) -> Void) {
+    func downloadImage(url: String) {
         guard let url = URL(string: url) else {
-            completion(nil)
+            self.image = nil
             return
         }
         let config = URLSessionConfiguration.default
@@ -19,13 +19,12 @@ extension UIImageView {
         let task = session.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 if let _ = error {
-                    completion(nil)
+                    self.image = nil
                 } else {
                     if let data = data {
-                        let image = UIImage(data: data)
-                        completion(image)
+                        self.image = UIImage(data: data)
                     } else {
-                        completion(nil)
+                        self.image = nil
                     }
                 }
             }

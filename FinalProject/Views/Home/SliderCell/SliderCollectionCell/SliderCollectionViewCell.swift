@@ -46,13 +46,6 @@ final class SliderCollectionViewCell: UICollectionViewCell {
               let backdropPath = viewModel.slider?.backdropPath else {
             return
         }
-        imageView.downloadImage(url: ApiManager.Path.imageURL + backdropPath) { image in
-            if let image = image {
-                viewModel.slider?.image = image
-                completion(image)
-            } else {
-                completion(nil)
-            }
-        }
+        imageView.downloadImage(url: ApiManager.Path.imageURL + backdropPath)
     }
 }

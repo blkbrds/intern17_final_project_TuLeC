@@ -37,18 +37,18 @@ final class HomeViewModel {
         return TypeCell.allCases.count
     }
 
-    func viewModelForItem(type: TypeCell) -> (Any) {
+    func viewModelForItem(type: TypeCell, data: [Slider]) -> (Any) {
         switch type {
         case .slider:
-            return (SliderTableCellViewModel())
+            return (SliderTableCellViewModel(sliders: data))
         case .nowPlaying:
-            return (NowPlayingTableCellViewModel())
+            return (NowPlayingTableCellViewModel(nowPlayings: data))
         case .topRated:
-            return (TopRatedTableCellViewModel())
+            return (TopRatedTableCellViewModel(topRated: data))
         case .latest:
-            return (LatestTableCellViewModel())
+            return (LatestTableCellViewModel(latest: data))
         case .upComing:
-            return (UpComingTableCellViewModel())
+            return (UpComingTableCellViewModel(upComings: data))
         }
     }
 

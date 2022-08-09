@@ -14,7 +14,6 @@ final class UpComingTableViewCell: UITableViewCell {
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
-    var dataSource: HomeViewControllerDataSource?
     var viewModel: UpComingTableCellViewModel? {
         didSet {
             updateCell()
@@ -38,11 +37,6 @@ final class UpComingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        viewModel?.upComing = dataSource.getDataUpComming()
         collectionView.reloadData()
     }
 }

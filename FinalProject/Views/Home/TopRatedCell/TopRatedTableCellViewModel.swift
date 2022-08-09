@@ -10,25 +10,13 @@ import Foundation
 final class TopRatedTableCellViewModel {
 
     // MARK: - Properties
-    var topRated: [Slider]?
+    private var topRated: [Slider]?
 
-    // MARK: - Public functions
-    func loadAPI(completion: @escaping Completion<[Slider]>) {
-        let url = ApiManager.Movie.getTopRated()
-
-        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
-            guard let this = self else { return }
-
-            switch result {
-            case .success(let data):
-                this.topRated = data
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(.error(error.localizedDescription)))
-            }
-        }
+    init (topRated: [Slider]) {
+        self.topRated = topRated
     }
 
+    // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
         guard let topRated = topRated else {
             return 0
@@ -45,7 +33,7 @@ final class TopRatedTableCellViewModel {
         guard let topRated = topRated else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-
+        if topRated.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
         let item = topRated[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel

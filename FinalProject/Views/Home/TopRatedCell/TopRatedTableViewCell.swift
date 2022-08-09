@@ -14,7 +14,6 @@ final class TopRatedTableViewCell: UITableViewCell {
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
-    var dataSource: HomeViewControllerDataSource?
     var viewModel: TopRatedTableCellViewModel? {
         didSet {
             updateCell()
@@ -38,11 +37,6 @@ final class TopRatedTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        viewModel?.topRated = dataSource.getDataTopRated()
         collectionView.reloadData()
     }
 }

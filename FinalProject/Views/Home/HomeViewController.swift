@@ -8,15 +8,6 @@
 import UIKit
 import SVProgressHUD
 
-// MARK: - Protocol
-protocol HomeViewControllerDataSource: AnyObject {
-    func getDataSlider() -> [Slider]
-    func getDataNowPlaying() -> [Slider]
-    func getDataTopRated() -> [Slider]
-    func getDataLatest() -> [Slider]
-    func getDataUpComming() -> [Slider]
-}
-
 final class HomeViewController: UIViewController {
 
     // MARK: - enum
@@ -48,17 +39,13 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: HomeViewModel?
-    private var sliders: [Slider] = []
-    private var nowPlaying: [Slider] = []
-    private var topRated: [Slider] = []
-    private var latest: [Slider] = []
-    private var upComing: [Slider] = []
+    private var data: [TypeCell: [Slider]] = [:]
 
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
-        demoDispatchGroup()
+        callAllApi()
     }
 
     // MARK: - Private functions
@@ -67,7 +54,7 @@ final class HomeViewController: UIViewController {
         configTableView()
     }
 
-    private func demoDispatchGroup() {
+    private func callAllApi() {
 
         let dispatchGroup = DispatchGroup()
         SVProgressHUD.show()
@@ -77,7 +64,7 @@ final class HomeViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.sliders = data
+                this.data[.slider] = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -90,7 +77,7 @@ final class HomeViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.nowPlaying = data
+                this.data[.nowPlaying] = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -103,7 +90,8 @@ final class HomeViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.topRated = data
+                this.data[.topRated] = data
+                print("fss")
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -116,7 +104,7 @@ final class HomeViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.latest = data
+                this.data[.latest] = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -129,7 +117,7 @@ final class HomeViewController: UIViewController {
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.upComing = data
+                this.data[.upComing] = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -207,32 +195,27 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
-            cell.dataSource = self
-            cell.viewModel = viewModel.viewModelForItem(type: .slider) as? SliderTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .slider, data: data[.slider] ?? []) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.dataSource = self
-            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying) as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying, data: data[.nowPlaying] ?? []) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
-            cell.dataSource = self
-            cell.viewModel = viewModel.viewModelForItem(type: .topRated) as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .topRated, data: data[.topRated] ?? []) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
-            cell.dataSource = self
-            cell.viewModel = viewModel.viewModelForItem(type: .latest) as? LatestTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .latest, data: data[.latest] ?? []) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.dataSource = self
-            cell.viewModel = viewModel.viewModelForItem(type: .upComing) as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .upComing, data: data[.upComing] ?? []) as? UpComingTableCellViewModel
         }
 
         return cell
@@ -260,27 +243,5 @@ extension HomeViewController {
         static let contentMode: UIView.ContentMode = .scaleAspectFill
         static let searchBarPlaceholder: String = "Tìm kiếm"
         static let frameLogoImageView: CGRect = CGRect(x: 0, y: 0, width: 150, height: 25)
-    }
-}
-
-extension HomeViewController: HomeViewControllerDataSource {
-    func getDataUpComming() -> [Slider] {
-        return upComing
-    }
-
-    func getDataLatest() -> [Slider] {
-        return latest
-    }
-
-    func getDataTopRated() -> [Slider] {
-        return topRated
-    }
-
-    func getDataNowPlaying() -> [Slider] {
-        return nowPlaying
-    }
-
-    func getDataSlider() -> [Slider] {
-        return sliders
     }
 }

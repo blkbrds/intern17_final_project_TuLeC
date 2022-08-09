@@ -15,7 +15,6 @@ final class SliderTableViewCell: UITableViewCell {
     @IBOutlet private var pageControl: UIPageControl!
 
     // MARK: - Properties
-    var dataSource: HomeViewControllerDataSource?
     private var timer: Timer?
     private var currentIndex = 0
     var viewModel: SliderTableCellViewModel? {
@@ -28,7 +27,7 @@ final class SliderTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
-        pageControl.alpha = -Define.alpha
+        pageControl.numberOfPages = Define.numberOfPages
         startTimer()
     }
 
@@ -41,17 +40,6 @@ final class SliderTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
-        guard let dataSource = dataSource else {
-            return
-        }
-        viewModel?.sliders = dataSource.getDataSlider()
-        pageControl.numberOfPages = Define.numberOfPages
-        pageControl.alpha = Define.alpha
-        let userdefault = UserDefaults.standard
-        guard let movieId = viewModel?.sliders?.first?.id else {
-            return
-        }
-        userdefault.set(movieId, forKey: Session.shared.movieId)
         collectionView.reloadData()
     }
 

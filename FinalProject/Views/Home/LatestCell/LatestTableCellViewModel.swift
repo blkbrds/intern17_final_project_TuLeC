@@ -10,7 +10,11 @@ import Foundation
 final class LatestTableCellViewModel {
 
     // MARK: - Properties
-    var latest: [Slider]?
+    private var latest: [Slider]?
+
+    init(latest: [Slider]) {
+        self.latest = latest
+    }
 
     // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
@@ -29,7 +33,7 @@ final class LatestTableCellViewModel {
         guard let latest = latest else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-
+        if latest.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
         let item = latest[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel

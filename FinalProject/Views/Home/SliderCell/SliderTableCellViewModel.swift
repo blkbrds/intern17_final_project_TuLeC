@@ -10,7 +10,11 @@ import Foundation
 final class SliderTableCellViewModel {
 
     // MARK: - Properties
-    var sliders: [Slider]?
+    private var sliders: [Slider]?
+
+    init (sliders: [Slider]) {
+        self.sliders = sliders
+    }
 
     // MARK: - public functions
     func numberOfItemsInSection() -> Int {
@@ -29,9 +33,13 @@ final class SliderTableCellViewModel {
         guard let sliders = sliders else {
             return SliderCollectionCellViewModel(slider: nil)
         }
-
+        if sliders.count - 1 < indexPath.row { return SliderCollectionCellViewModel(slider: nil) }
         let item = sliders[indexPath.row]
         let viewModel = SliderCollectionCellViewModel(slider: item)
+        if indexPath.row == 0 {
+            let userdefault = UserDefaults.standard
+            userdefault.set(item.id, forKey: Session.shared.movieId)
+        }
         return viewModel
     }
 }
