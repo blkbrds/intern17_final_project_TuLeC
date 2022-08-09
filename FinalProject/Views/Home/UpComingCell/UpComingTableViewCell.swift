@@ -33,6 +33,25 @@ final class UpComingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        loadApi()
+    }
+
+    private func loadApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        viewModel.loadAPI {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    this.collectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

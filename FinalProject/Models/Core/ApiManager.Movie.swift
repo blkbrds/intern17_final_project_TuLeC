@@ -61,6 +61,10 @@ extension ApiManager.Movie {
         return getURL(type: .latest, typePath: ApiManager.Path.latest, movieId: movieId)
     }
 
+    static func getUpComing() -> URL {
+        return getURL(type: .upComing, typePath: ApiManager.Path.upComing, movieId: nil)
+    }
+
     static func getHomeApi(url: URL, completion: @escaping Completion<[Slider]>) {
         ApiManager.shared.request(method: .get, with: url) { result in
             switch result {

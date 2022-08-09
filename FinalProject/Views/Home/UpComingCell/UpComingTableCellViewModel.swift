@@ -10,6 +10,22 @@ import Foundation
 final class UpComingTableCellViewModel {
     private var upComing: [Slider]?
 
+    func loadAPI(completion: @escaping Completion<[Slider]>) {
+        let url = ApiManager.Movie.getUpComing()
+
+        ApiManager.Movie.getHomeApi(url: url) { [weak self] result in
+            guard let this = self else { return }
+
+            switch result {
+            case .success(let data):
+                this.upComing = data
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(.error(error.localizedDescription)))
+            }
+        }
+    }
+
     func numberOfItemsInSection() -> Int {
         guard let upComing = upComing else {
             return 0
