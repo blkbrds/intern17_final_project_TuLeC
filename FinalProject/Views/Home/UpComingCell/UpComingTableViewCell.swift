@@ -9,9 +9,11 @@ import UIKit
 
 final class UpComingTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    // MARK: - Properties
     var dataSource: HomeViewControllerDataSource?
     var viewModel: UpComingTableCellViewModel? {
         didSet {
@@ -19,12 +21,14 @@ final class UpComingTableViewCell: UITableViewCell {
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
+    // MARK: - Private functions
     private func configCollectionView() {
         let nib = UINib(nibName: Define.nowPlayingCollectionCell, bundle: .main)
         collectionView.register(nib, forCellWithReuseIdentifier: Define.nowPlayingCollectionCell)
@@ -64,6 +68,7 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Define
 extension UpComingTableViewCell {
     struct Define {
         static let sizeForItemAt: CGSize = CGSize(width: (SizeWithScreen.shared.width - 30) / 2, height: ((SizeWithScreen.shared.width - 30) / 2) * 0.65)

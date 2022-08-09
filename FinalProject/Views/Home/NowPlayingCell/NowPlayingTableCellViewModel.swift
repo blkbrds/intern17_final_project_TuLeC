@@ -9,8 +9,10 @@ import Foundation
 
 final class NowPlayingTableCellViewModel {
 
+    // MARK: - Properties
     var nowPlayings: [Slider]?
 
+    // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
         guard let nowPlayings = nowPlayings else {
             return 0
@@ -34,6 +36,7 @@ final class NowPlayingTableCellViewModel {
     }
 }
 
+// MARK: - Define
 extension NowPlayingTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

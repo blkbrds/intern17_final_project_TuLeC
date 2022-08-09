@@ -8,6 +8,8 @@
 import Foundation
 
 extension ApiManager.Movie {
+
+    // MARK: - Enum
     enum Path {
         case upComing
         case topRated
@@ -19,8 +21,10 @@ extension ApiManager.Movie {
         case recommendations
     }
 
+    // MARK: - Properties
     static let moviePath: String = "\(ApiManager.Path.baseURL)\(ApiManager.Path.version)\(ApiManager.Path.moviePath)"
 
+    // MARK: - Static functions
     static func getURL(type: Path, typePath: String, movieId: Int?) -> URL {
         var url: URL?
         switch type {

@@ -8,15 +8,19 @@
 import UIKit
 
 final class SliderCollectionViewCell: UICollectionViewCell {
+
+    // MARK: - IBOutlets
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var nameLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: SliderCollectionCellViewModel? {
         didSet {
             updateCell()
         }
     }
 
+    // MARK: - Private functions
     private func updateCell() {
         guard let viewModel = viewModel else {
             return

@@ -8,6 +8,7 @@
 import Foundation
 
 final class HomeViewModel {
+    // MARK: - enum
     enum TypeCell: Int, CaseIterable {
         case slider
         case nowPlaying
@@ -31,6 +32,7 @@ final class HomeViewModel {
         }
     }
 
+    // MARK: - Public functions
     func numberOfRowInSection() -> Int {
         return TypeCell.allCases.count
     }

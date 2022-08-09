@@ -10,7 +10,9 @@ import Foundation
 final class Session {
     static let shared: Session = Session()
 
+    // MARK: - Initialize
     private init() {}
 
+    // MARK: - Properties
     let movieId = "movieId"
 }

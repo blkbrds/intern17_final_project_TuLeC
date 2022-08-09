@@ -8,8 +8,11 @@
 import Foundation
 
 final class UpComingTableCellViewModel {
+
+    // MARK: - Properties
     var upComing: [Slider]?
 
+    // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
         guard let upComing = upComing else {
             return 0
@@ -33,6 +36,7 @@ final class UpComingTableCellViewModel {
     }
 }
 
+// MARK: - Define
 extension UpComingTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

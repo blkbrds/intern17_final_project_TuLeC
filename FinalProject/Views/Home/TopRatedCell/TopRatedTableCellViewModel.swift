@@ -8,8 +8,11 @@
 import Foundation
 
 final class TopRatedTableCellViewModel {
+
+    // MARK: - Properties
     var topRated: [Slider]?
 
+    // MARK: - Public functions
     func loadAPI(completion: @escaping Completion<[Slider]>) {
         let url = ApiManager.Movie.getTopRated()
 
@@ -49,6 +52,7 @@ final class TopRatedTableCellViewModel {
     }
 }
 
+// MARK: - Define
 extension TopRatedTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

@@ -9,9 +9,11 @@ import UIKit
 
 final class LatestTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    // MARK: - Properties
     var dataSource: HomeViewControllerDataSource?
     var viewModel: LatestTableCellViewModel? {
         didSet {
@@ -19,12 +21,14 @@ final class LatestTableViewCell: UITableViewCell {
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
+    // MARK: - Private functions
     private func configCollectionView() {
         let nib = UINib(nibName: Define.nowPlayingCollectionCell, bundle: .main)
         collectionView.register(nib, forCellWithReuseIdentifier: Define.nowPlayingCollectionCell)
@@ -64,6 +68,7 @@ extension LatestTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
+// MARK: - Define
 extension LatestTableViewCell {
     struct Define {
         static let width = (SizeWithScreen.shared.width - 25) / 2

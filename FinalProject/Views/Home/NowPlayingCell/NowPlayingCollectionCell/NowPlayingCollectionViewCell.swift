@@ -9,25 +9,30 @@ import UIKit
 
 final class NowPlayingCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
 
+    // MARK: - Properties
     var viewModel: NowPlayingCollectionCellViewModel? {
         didSet {
             updateCell()
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = "Phim khủng long"
     }
 
+    // MARK: - Override functions
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.layer.cornerRadius = Define.cornerRadius
     }
 
+    // MARK: - Private functions
     private func updateCell() {
         guard let viewModel = viewModel else {
             return
@@ -64,6 +69,7 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
     }
 }
 
+// MARK: - Define
 extension NowPlayingCollectionViewCell {
     struct Define {
         static let cornerRadius: CGFloat = 10

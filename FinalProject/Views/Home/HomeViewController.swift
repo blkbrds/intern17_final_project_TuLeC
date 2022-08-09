@@ -8,6 +8,7 @@
 import UIKit
 import SVProgressHUD
 
+// MARK: - Protocol
 protocol HomeViewControllerDataSource: AnyObject {
     func getDataSlider() -> [Slider]
     func getDataNowPlaying() -> [Slider]
@@ -18,6 +19,7 @@ protocol HomeViewControllerDataSource: AnyObject {
 
 final class HomeViewController: UIViewController {
 
+    // MARK: - enum
     enum TypeCell: Int {
         case slider
         case nowPlaying
@@ -41,8 +43,10 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    // MARK: - IBOutlets
     @IBOutlet private var tableView: UITableView!
 
+    // MARK: - Properties
     var viewModel: HomeViewModel?
     private var sliders: [Slider] = []
     private var nowPlaying: [Slider] = []
@@ -50,18 +54,20 @@ final class HomeViewController: UIViewController {
     private var latest: [Slider] = []
     private var upComing: [Slider] = []
 
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
         demoDispatchGroup()
     }
 
+    // MARK: - Private functions
     private func configUI() {
         configNavigationBar()
         configTableView()
     }
 
-    func demoDispatchGroup() {
+    private func demoDispatchGroup() {
 
         let dispatchGroup = DispatchGroup()
         SVProgressHUD.show()
@@ -175,11 +181,13 @@ final class HomeViewController: UIViewController {
         tableView.register(nib5, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
+    // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
         print("abc")
     }
 }
 
+// MARK: - Datasource,Delegate
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else {

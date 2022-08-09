@@ -8,8 +8,11 @@
 import Foundation
 
 final class LatestTableCellViewModel {
+
+    // MARK: - Properties
     var latest: [Slider]?
 
+    // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
         guard let latest = latest else {
             return 0
@@ -33,6 +36,7 @@ final class LatestTableCellViewModel {
     }
 }
 
+// MARK: - Define
 extension LatestTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

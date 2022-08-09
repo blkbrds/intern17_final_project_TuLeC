@@ -9,9 +9,11 @@ import UIKit
 
 final class TopRatedTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    // MARK: - Properties
     var dataSource: HomeViewControllerDataSource?
     var viewModel: TopRatedTableCellViewModel? {
         didSet {
@@ -19,12 +21,14 @@ final class TopRatedTableViewCell: UITableViewCell {
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
+    // MARK: - Private functions
     private func configCollectionView() {
         let nib = UINib(nibName: Define.nowPlayingCollectionCell, bundle: .main)
         collectionView.register(nib, forCellWithReuseIdentifier: Define.nowPlayingCollectionCell)
@@ -65,6 +69,7 @@ extension TopRatedTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Define
 extension TopRatedTableViewCell {
     struct Define {
         static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.height) / 4.2)

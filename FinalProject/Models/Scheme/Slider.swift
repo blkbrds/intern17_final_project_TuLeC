@@ -9,11 +9,14 @@ import Foundation
 import UIKit
 
 class Slider {
+
+    // MARK: - Properties
     var backdropPath: String?
     var id: Int?
     var originalTitle: String?
     var image: UIImage?
-    
+
+    // MARK: - Initialize
     init(json: JSObject) {
         self.backdropPath = json["backdrop_path"] as? String
         self.id = json["id"] as? Int

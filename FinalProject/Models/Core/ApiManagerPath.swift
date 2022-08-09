@@ -9,6 +9,7 @@ import Foundation
 
 extension ApiManager.Path {
 
+    // MARK: - Properties
     static let baseURL: String = "https://api.themoviedb.org"
     static let imageURL: String = "https://image.tmdb.org/t/p/w500"
 
