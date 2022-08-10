@@ -16,9 +16,9 @@ extension UIImageView {
         }
         let config = URLSessionConfiguration.default
         let session = URLSession(configuration: config)
-        let task = session.dataTask(with: url) { (data, response, error) in
+        let task = session.dataTask(with: url) { (data, _, error) in
             DispatchQueue.main.async {
-                if let _ = error {
+                if error != nil {
                     self.image = nil
                 } else {
                     if let data = data {

@@ -7,6 +7,4 @@
 
 import Foundation
 
-final class ExploreViewModel {
-    
-}
+final class ExploreViewModel { }

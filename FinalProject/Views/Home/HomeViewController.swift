@@ -171,7 +171,7 @@ final class HomeViewController: UIViewController {
 
     // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
-        print("abc")
+        #warning("Handle later")
     }
 }
 

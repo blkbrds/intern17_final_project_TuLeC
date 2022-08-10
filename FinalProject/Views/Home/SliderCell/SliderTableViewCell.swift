@@ -53,7 +53,7 @@ final class SliderTableViewCell: UITableViewCell {
         if collectionView.numberOfItems(inSection: 0) < Define.numberOfPages {
             return
         }
-        if currentIndex < 9 {
+        if currentIndex < Define.maxIndex {
             currentIndex += 1
         } else {
             currentIndex = 0
@@ -96,5 +96,6 @@ extension SliderTableViewCell {
         static let sliderCollectionCell: String = "SliderCollectionViewCell"
         static let numberOfPages: Int = 10
         static let alpha: CGFloat = 1
+        static let maxIndex: Int = 9
     }
 }
