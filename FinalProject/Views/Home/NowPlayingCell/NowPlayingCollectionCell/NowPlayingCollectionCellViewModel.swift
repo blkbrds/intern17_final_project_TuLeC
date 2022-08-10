@@ -8,4 +8,12 @@
 import Foundation
 
 final class NowPlayingCollectionCellViewModel {
+
+    // MARK: - Properties
+    var slider: Slider?
+
+    // MARK: - Initialize
+    init(slider: Slider?) {
+        self.slider = slider
+    }
 }

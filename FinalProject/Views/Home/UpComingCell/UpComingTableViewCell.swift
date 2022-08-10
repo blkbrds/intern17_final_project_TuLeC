@@ -9,21 +9,25 @@ import UIKit
 
 final class UpComingTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
+    // MARK: - Properties
     var viewModel: UpComingTableCellViewModel? {
         didSet {
             updateCell()
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         titleLabel.text = Define.titleLabel
         configCollectionView()
     }
 
+    // MARK: - Private functions
     private func configCollectionView() {
         let nib = UINib(nibName: Define.nowPlayingCollectionCell, bundle: .main)
         collectionView.register(nib, forCellWithReuseIdentifier: Define.nowPlayingCollectionCell)
@@ -33,6 +37,7 @@ final class UpComingTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        collectionView.reloadData()
     }
 }
 
@@ -43,13 +48,11 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel?.viewModelForItem()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.nowPlayingCollectionCell, for: indexPath) as? NowPlayingCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.viewModel = viewModel?.viewModelForItem(at: indexPath)
         return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -57,6 +60,7 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
     }
 }
 
+// MARK: - Define
 extension UpComingTableViewCell {
     struct Define {
         static let sizeForItemAt: CGSize = CGSize(width: (SizeWithScreen.shared.width - 30) / 2, height: ((SizeWithScreen.shared.width - 30) / 2) * 0.65)

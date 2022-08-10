@@ -9,16 +9,42 @@ import Foundation
 
 final class SliderTableCellViewModel {
 
-    func numberOfItemsInSection() -> Int {
-        return Define.numberOfItemsInSection
+    // MARK: - Properties
+    private var sliders: [Slider]?
+
+    init (sliders: [Slider]) {
+        self.sliders = sliders
     }
 
-    func viewModelForItem() -> SliderCollectionCellViewModel {
-        let viewModel = SliderCollectionCellViewModel()
+    // MARK: - public functions
+    func numberOfItemsInSection() -> Int {
+        guard let sliders = sliders else {
+            return 0
+        }
+
+        if sliders.count < Define.numberOfItemsInSection {
+            return sliders.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
+    }
+
+    func viewModelForItem(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
+        guard let sliders = sliders,
+            let item = sliders[safe: indexPath.row] else {
+            return SliderCollectionCellViewModel(slider: nil)
+        }
+
+        let viewModel = SliderCollectionCellViewModel(slider: item)
+        if indexPath.row == 0 {
+            let userdefault = UserDefaults.standard
+            userdefault.set(item.id, forKey: Session.shared.movieId)
+        }
         return viewModel
     }
 }
 
+// MARK: - Define
 extension SliderTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

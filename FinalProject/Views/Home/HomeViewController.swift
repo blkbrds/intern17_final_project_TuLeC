@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class HomeViewController: UIViewController {
 
-    enum TypeCell: Int{
+    // MARK: - enum
+    enum TypeCell: Int {
         case slider
         case nowPlaying
         case topRated
@@ -32,26 +34,108 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    // MARK: - IBOutlets
     @IBOutlet private var tableView: UITableView!
 
+    // MARK: - Properties
     var viewModel: HomeViewModel?
+    private var data: [TypeCell: [Slider]] = [:]
 
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        callAllApi()
     }
 
+    // MARK: - Private functions
     private func configUI() {
         configNavigationBar()
         configTableView()
+    }
+
+    private func callAllApi() {
+
+        let dispatchGroup = DispatchGroup()
+        SVProgressHUD.show()
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getSliderURL()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.data[.slider] = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getNowPlayingURL()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.data[.nowPlaying] = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getTopRated()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.data[.topRated] = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.data[.latest] = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getUpComing()) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.data[.upComing] = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            SVProgressHUD.dismiss()
+            self.tableView.reloadData()
+        }
     }
 
     private func configNavigationBar() {
         let logoImageView: UIImageView = UIImageView(image: UIImage(named: Define.nameImage))
         logoImageView.frame = Define.frameLogoImageView
         logoImageView.contentMode = Define.contentMode
-        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let imageItem = UIBarButtonItem(customView: logoImageView)
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSpacer.width = Define.widthBarButtonItem
         navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
 
@@ -72,23 +156,25 @@ final class HomeViewController: UIViewController {
     }
 
     private func configNib() {
-        let nib = UINib(nibName: Define.sliderTableCell, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: Define.sliderTableCell)
-        let nib2 = UINib(nibName: Define.nowPlayingTableCell, bundle: .main)
-        tableView.register(nib2, forCellReuseIdentifier: Define.nowPlayingTableCell)
-        let nib3 = UINib(nibName: Define.topRatedTableCell, bundle: .main)
-        tableView.register(nib3, forCellReuseIdentifier: Define.topRatedTableCell)
-        let nib4 = UINib(nibName: Define.latestTableCell, bundle: .main)
-        tableView.register(nib4, forCellReuseIdentifier: Define.latestTableCell)
-        let nib5 = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
-        tableView.register(nib5, forCellReuseIdentifier: Define.upComingTableViewCell)
+        let sliderCellNib = UINib(nibName: Define.sliderTableCell, bundle: .main)
+        tableView.register(sliderCellNib, forCellReuseIdentifier: Define.sliderTableCell)
+        let nowPlayingCellNib = UINib(nibName: Define.nowPlayingTableCell, bundle: .main)
+        tableView.register(nowPlayingCellNib, forCellReuseIdentifier: Define.nowPlayingTableCell)
+        let topRatedCellNib = UINib(nibName: Define.topRatedTableCell, bundle: .main)
+        tableView.register(topRatedCellNib, forCellReuseIdentifier: Define.topRatedTableCell)
+        let latestCellNib = UINib(nibName: Define.latestTableCell, bundle: .main)
+        tableView.register(latestCellNib, forCellReuseIdentifier: Define.latestTableCell)
+        let upComingCellNib = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
+        tableView.register(upComingCellNib, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
-    
+
+    // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
-        print("abc")
+        #warning("Handle later")
     }
 }
 
+// MARK: - Datasource,Delegate
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let viewModel = viewModel else {
@@ -108,29 +194,27 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(type: .slider) as? SliderTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .slider, data: data[.slider] ?? []) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
-
-            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying) as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying, data: data[.nowPlaying] ?? []) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
-
-            cell.viewModel = viewModel.viewModelForItem(type: .topRated) as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .topRated, data: data[.topRated] ?? []) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(type: .latest) as? LatestTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .latest, data: data[.latest] ?? []) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
-            cell.viewModel = viewModel.viewModelForItem(type: .upComing) as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .upComing, data: data[.upComing] ?? []) as? UpComingTableCellViewModel
         }
 
         return cell
@@ -145,6 +229,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - Define
 extension HomeViewController {
     struct Define {
         static let sliderTableCell: String = "SliderTableViewCell"

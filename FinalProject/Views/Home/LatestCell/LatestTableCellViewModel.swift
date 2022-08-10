@@ -8,16 +8,38 @@
 import Foundation
 
 final class LatestTableCellViewModel {
-    func numberOfItemsInSection() -> Int {
-        return Define.numberOfItemsInSection
+
+    // MARK: - Properties
+    private var latest: [Slider]?
+
+    init(latest: [Slider]) {
+        self.latest = latest
     }
 
-    func viewModelForItem() -> NowPlayingCollectionCellViewModel {
-        let viewModel = NowPlayingCollectionCellViewModel()
+    // MARK: - Public functions
+    func numberOfItemsInSection() -> Int {
+        guard let latest = latest else {
+            return 0
+        }
+
+        if latest.count < Define.numberOfItemsInSection {
+            return latest.count
+        } else {
+            return Define.numberOfItemsInSection
+        }
+    }
+
+    func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
+        guard let latest = latest,
+              let item = latest[safe: indexPath.row] else {
+            return NowPlayingCollectionCellViewModel(slider: nil)
+        }
+        let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
 }
 
+// MARK: - Define
 extension LatestTableCellViewModel {
     struct Define {
         static let numberOfItemsInSection: Int = 10

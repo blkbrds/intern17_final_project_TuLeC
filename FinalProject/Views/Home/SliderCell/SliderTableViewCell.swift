@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class SliderTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
     @IBOutlet private var collectionView: UICollectionView!
     @IBOutlet private var pageControl: UIPageControl!
 
+    // MARK: - Properties
     private var timer: Timer?
     private var currentIndex = 0
     var viewModel: SliderTableCellViewModel? {
@@ -20,13 +23,16 @@ final class SliderTableViewCell: UITableViewCell {
         }
     }
 
+    // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
-        startTimer()
         pageControl.numberOfPages = Define.numberOfPages
+        pageControl.alpha = Define.alpha
+        startTimer()
     }
 
+    // MARK: - Private functions
     private func configCollectionView() {
         let nib = UINib(nibName: Define.sliderCollectionCell, bundle: .main)
         collectionView.register(nib, forCellWithReuseIdentifier: Define.sliderCollectionCell)
@@ -35,14 +41,19 @@ final class SliderTableViewCell: UITableViewCell {
     }
 
     private func updateCell() {
+        collectionView.reloadData()
     }
 
     private func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(moveToNextIndex), userInfo: nil, repeats: true)
     }
 
+    // MARK: - objc functions
     @objc private func moveToNextIndex() {
-        if currentIndex < 9 {
+        if collectionView.numberOfItems(inSection: 0) < Define.numberOfPages {
+            return
+        }
+        if currentIndex < Define.maxIndex {
             currentIndex += 1
         } else {
             currentIndex = 0
@@ -62,12 +73,8 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.sliderCollectionCell, for: indexPath) as? SliderCollectionViewCell,
               let viewModel = viewModel else { return UICollectionViewCell() }
-        cell.viewModel = viewModel.viewModelForItem()
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -79,9 +86,12 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
+// MARK: - Define
 extension SliderTableViewCell {
     struct Define {
         static let sliderCollectionCell: String = "SliderCollectionViewCell"
         static let numberOfPages: Int = 10
+        static let alpha: CGFloat = 1
+        static let maxIndex: Int = 9
     }
 }

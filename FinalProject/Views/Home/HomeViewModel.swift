@@ -8,6 +8,7 @@
 import Foundation
 
 final class HomeViewModel {
+    // MARK: - enum
     enum TypeCell: Int, CaseIterable {
         case slider
         case nowPlaying
@@ -31,22 +32,35 @@ final class HomeViewModel {
         }
     }
 
+    // MARK: - Public functions
     func numberOfRowInSection() -> Int {
         return TypeCell.allCases.count
     }
 
-    func viewModelForItem(type: TypeCell) -> (Any) {
+    func viewModelForItem(type: TypeCell, data: [Slider]) -> (Any) {
         switch type {
         case .slider:
-            return (SliderTableCellViewModel())
+            return (SliderTableCellViewModel(sliders: data))
         case .nowPlaying:
-            return (NowPlayingTableCellViewModel())
+            return (NowPlayingTableCellViewModel(nowPlayings: data))
         case .topRated:
-            return (TopRatedTableCellViewModel())
+            return (TopRatedTableCellViewModel(topRated: data))
         case .latest:
-            return (LatestTableCellViewModel())
+            return (LatestTableCellViewModel(latest: data))
         case .upComing:
-            return (UpComingTableCellViewModel())
+            return (UpComingTableCellViewModel(upComings: data))
+        }
+    }
+
+    func getHomeApi(completion: @escaping Completion<[Slider]>) {
+        let url = ApiManager.Movie.getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
+        ApiManager.Movie.getHomeApi(url: url) { result in
+            switch result {
+            case .success(let data):
+                completion(.success(data))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 
