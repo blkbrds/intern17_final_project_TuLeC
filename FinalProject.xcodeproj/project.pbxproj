@@ -46,6 +46,7 @@
 		10F9F236288F7A5600FD7BD2 /* TopRatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F234288F7A5600FD7BD2 /* TopRatedTableViewCell.swift */; };
 		10F9F237288F7A5600FD7BD2 /* TopRatedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F9F235288F7A5600FD7BD2 /* TopRatedTableViewCell.xib */; };
 		10F9F239288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F238288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift */; };
+		10FDB87228A35B6B00B82419 /* CollectionExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FDB87128A35B6B00B82419 /* CollectionExt.swift */; };
 		2CBC12FE6ACC0CA5CD143C70 /* Pods_FinalProject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE761AF6F63EEE973AEA1EF /* Pods_FinalProject.framework */; };
 		38DD5032285081F20048328E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DD5031285081F20048328E /* AppDelegate.swift */; };
 		38DD503B285081F40048328E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38DD503A285081F40048328E /* Assets.xcassets */; };
@@ -99,6 +100,7 @@
 		10F9F234288F7A5600FD7BD2 /* TopRatedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedTableViewCell.swift; sourceTree = "<group>"; };
 		10F9F235288F7A5600FD7BD2 /* TopRatedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TopRatedTableViewCell.xib; sourceTree = "<group>"; };
 		10F9F238288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedTableCellViewModel.swift; sourceTree = "<group>"; };
+		10FDB87128A35B6B00B82419 /* CollectionExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExt.swift; sourceTree = "<group>"; };
 		38DD502E285081F20048328E /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		38DD5031285081F20048328E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		38DD503A285081F40048328E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				38DD505A2850908F0048328E /* DataExt.swift */,
 				10246BBA28A0E92200AE3CD3 /* URLExt.swift */,
 				10E0584928A1090B004A7982 /* UIImageViewExt.swift */,
+				10FDB87128A35B6B00B82419 /* CollectionExt.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				10F9F223288E859C00FD7BD2 /* SliderTableCellViewModel.swift in Sources */,
 				38DD505D2850938A0048328E /* Reachability.swift in Sources */,
 				10F9F220288E858000FD7BD2 /* SliderTableViewCell.swift in Sources */,
+				10FDB87228A35B6B00B82419 /* CollectionExt.swift in Sources */,
 				10A4410B288FCA3100D5C6EE /* UpComingTableViewCell.swift in Sources */,
 				10246BC728A1066F00AE3CD3 /* Slider.swift in Sources */,
 				10899537288F93E700DDE56C /* LatestTableCellViewModel.swift in Sources */,

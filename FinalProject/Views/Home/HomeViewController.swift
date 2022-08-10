@@ -91,7 +91,6 @@ final class HomeViewController: UIViewController {
             switch result {
             case .success(let data):
                 this.data[.topRated] = data
-                print("fss")
             case .failure(let error):
                 print(error.localizedDescription)
             }

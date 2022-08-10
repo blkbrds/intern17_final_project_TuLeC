@@ -30,11 +30,10 @@ final class TopRatedTableCellViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        guard let topRated = topRated else {
+        guard let topRated = topRated,
+              let item = topRated[safe: indexPath.row] else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-        if topRated.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
-        let item = topRated[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }

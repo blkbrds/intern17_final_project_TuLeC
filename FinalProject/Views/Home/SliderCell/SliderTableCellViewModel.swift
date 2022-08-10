@@ -30,11 +30,11 @@ final class SliderTableCellViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> SliderCollectionCellViewModel {
-        guard let sliders = sliders else {
+        guard let sliders = sliders,
+            let item = sliders[safe: indexPath.row] else {
             return SliderCollectionCellViewModel(slider: nil)
         }
-        if sliders.count - 1 < indexPath.row { return SliderCollectionCellViewModel(slider: nil) }
-        let item = sliders[indexPath.row]
+
         let viewModel = SliderCollectionCellViewModel(slider: item)
         if indexPath.row == 0 {
             let userdefault = UserDefaults.standard

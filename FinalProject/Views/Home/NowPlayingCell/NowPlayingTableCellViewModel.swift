@@ -29,11 +29,10 @@ final class NowPlayingTableCellViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        guard let nowPlayings = nowPlayings else {
+        guard let nowPlayings = nowPlayings,
+              let item = nowPlayings[safe: indexPath.row] else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-        if nowPlayings.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
-        let item = nowPlayings[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }

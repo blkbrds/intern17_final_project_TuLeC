@@ -30,11 +30,10 @@ final class LatestTableCellViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        guard let latest = latest else {
+        guard let latest = latest,
+              let item = latest[safe: indexPath.row] else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-        if latest.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
-        let item = latest[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }

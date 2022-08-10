@@ -30,11 +30,10 @@ final class UpComingTableCellViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> NowPlayingCollectionCellViewModel {
-        guard let upComings = upComings else {
+        guard let upComings = upComings,
+              let item = upComings[safe: indexPath.row] else {
             return NowPlayingCollectionCellViewModel(slider: nil)
         }
-        if upComings.count - 1 < indexPath.row { return NowPlayingCollectionCellViewModel(slider: nil) }
-        let item = upComings[indexPath.row]
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
