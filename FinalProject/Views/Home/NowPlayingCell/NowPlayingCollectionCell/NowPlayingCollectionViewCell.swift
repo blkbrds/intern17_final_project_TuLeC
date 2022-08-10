@@ -32,32 +32,20 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
     }
 
     // MARK: - Private functions
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+
+    // MARK: - Private functions
     private func updateCell() {
         guard let viewModel = viewModel else {
             return
         }
         titleLabel.text = viewModel.slider?.originalTitle
-
-        if let image = viewModel.slider?.image {
-            imageView.image = image
-        } else {
-            downloadImageForRow {[weak self] image in
-                guard let this = self else { return }
-                if let image = image {
-                    this.imageView.image = image
-                } else {
-                    this.imageView.image = nil
-                }
-            }
+        if let imgURL = viewModel.slider?.backdropPath {
+            imageView.downloadImage(url: ApiManager.Path.imageURL + imgURL)
         }
-    }
-
-    private func downloadImageForRow(completion: @escaping (UIImage?) -> Void) {
-        guard let viewModel = viewModel,
-              let backdropPath = viewModel.slider?.backdropPath else {
-            return
-        }
-        imageView.downloadImage(url: ApiManager.Path.imageURL + backdropPath)
     }
 }
 

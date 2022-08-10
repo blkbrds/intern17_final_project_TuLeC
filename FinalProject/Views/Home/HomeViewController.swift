@@ -125,8 +125,8 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.notify(queue: .main) {
-            self.tableView.reloadData()
             SVProgressHUD.dismiss()
+            self.tableView.reloadData()
         }
     }
 
@@ -156,16 +156,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func configNib() {
-        let nib = UINib(nibName: Define.sliderTableCell, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: Define.sliderTableCell)
-        let nib2 = UINib(nibName: Define.nowPlayingTableCell, bundle: .main)
-        tableView.register(nib2, forCellReuseIdentifier: Define.nowPlayingTableCell)
-        let nib3 = UINib(nibName: Define.topRatedTableCell, bundle: .main)
-        tableView.register(nib3, forCellReuseIdentifier: Define.topRatedTableCell)
-        let nib4 = UINib(nibName: Define.latestTableCell, bundle: .main)
-        tableView.register(nib4, forCellReuseIdentifier: Define.latestTableCell)
-        let nib5 = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
-        tableView.register(nib5, forCellReuseIdentifier: Define.upComingTableViewCell)
+        let sliderCellNib = UINib(nibName: Define.sliderTableCell, bundle: .main)
+        tableView.register(sliderCellNib, forCellReuseIdentifier: Define.sliderTableCell)
+        let nowPlayingCellNib = UINib(nibName: Define.nowPlayingTableCell, bundle: .main)
+        tableView.register(nowPlayingCellNib, forCellReuseIdentifier: Define.nowPlayingTableCell)
+        let topRatedCellNib = UINib(nibName: Define.topRatedTableCell, bundle: .main)
+        tableView.register(topRatedCellNib, forCellReuseIdentifier: Define.topRatedTableCell)
+        let latestCellNib = UINib(nibName: Define.latestTableCell, bundle: .main)
+        tableView.register(latestCellNib, forCellReuseIdentifier: Define.latestTableCell)
+        let upComingCellNib = UINib(nibName: Define.upComingTableViewCell, bundle: .main)
+        tableView.register(upComingCellNib, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
     // MARK: - objc functions
