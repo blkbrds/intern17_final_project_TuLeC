@@ -134,8 +134,8 @@ final class HomeViewController: UIViewController {
         let logoImageView: UIImageView = UIImageView(image: UIImage(named: Define.nameImage))
         logoImageView.frame = Define.frameLogoImageView
         logoImageView.contentMode = Define.contentMode
-        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let imageItem = UIBarButtonItem(customView: logoImageView)
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         negativeSpacer.width = Define.widthBarButtonItem
         navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
 
