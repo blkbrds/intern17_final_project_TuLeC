@@ -28,6 +28,7 @@ final class SliderTableViewCell: UITableViewCell {
         super.awakeFromNib()
         configCollectionView()
         pageControl.numberOfPages = Define.numberOfPages
+        pageControl.alpha = Define.alpha
         startTimer()
     }
 
@@ -49,6 +50,9 @@ final class SliderTableViewCell: UITableViewCell {
 
     // MARK: - objc functions
     @objc private func moveToNextIndex() {
+        if collectionView.numberOfItems(inSection: 0) < Define.numberOfPages {
+            return
+        }
         if currentIndex < 9 {
             currentIndex += 1
         } else {

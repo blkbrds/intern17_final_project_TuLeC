@@ -23,7 +23,6 @@ final class NowPlayingCollectionViewCell: UICollectionViewCell {
     // MARK: - Life cycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.text = "Phim khủng long"
     }
 
     // MARK: - Override functions

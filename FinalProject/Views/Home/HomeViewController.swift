@@ -230,6 +230,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - Define
 extension HomeViewController {
     struct Define {
         static let sliderTableCell: String = "SliderTableViewCell"
