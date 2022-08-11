@@ -7,4 +7,27 @@
 
 import Foundation
 
-final class ExploreViewModel { }
+final class ExploreViewModel {
+
+    // MARK: - Properties
+    #warning("Dummy data")
+    private let contentMovies: [ContentMovie] = [ContentMovie(id: 12, originalTitle: "Doctor Strange", voteAverage: 7.3)]
+    private var testLoadMore: Int = 20
+
+    // MARK: - Public functions
+    func numberOfItemsInSection() -> Int {
+        return testLoadMore
+    }
+
+    func viewModelForItem() -> ContentMovieCollectionCellViewModel {
+        return ContentMovieCollectionCellViewModel(contentMovie: contentMovies.first)
+    }
+
+    func viewModelForHeader() -> ExploreHeaderViewModel {
+        return ExploreHeaderViewModel()
+    }
+
+    func loadMoreData() {
+        testLoadMore += 10
+    }
+}
