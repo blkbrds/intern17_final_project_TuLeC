@@ -15,7 +15,8 @@ final class ExploreViewController: UIViewController {
     // MARK: - Properties
     var viewModel: ExploreViewModel?
     private var loadingView: LoadingReusableView?
-    private var isLoading: Bool = false
+    private var isLoading: Bool = Define.isLoading
+    private var pageNumer: Int = Define.pageNumer
 
     // MARK: - Override functions
     override func viewDidLoad() {
@@ -39,6 +40,9 @@ final class ExploreViewController: UIViewController {
             searchButton.setImage(image, for: .normal)
             searchButton.tintColor = Define.tintColor
         } else {
+            let image = UIImage(named: Define.systemName)
+            searchButton.setImage(image, for: .normal)
+            searchButton.tintColor = Define.tintColor
         }
 
         let rightItem = UIBarButtonItem(customView: searchButton)
@@ -62,18 +66,12 @@ final class ExploreViewController: UIViewController {
     }
 
     private func loadMoreData() {
-        guard let viewModel = viewModel else {
-            return
-        }
-
         if !isLoading {
             isLoading = true
-            viewModel.loadMoreData()
-            DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(1)) {
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                    self.isLoading = false
-                }
+            pageNumer += 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                self.collectionView.reloadData()
+                self.isLoading = false
             }
         }
     }
@@ -87,7 +85,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             return 0
         }
 
-        return viewModel.numberOfItemsInSection()
+        return viewModel.numberOfItemsInSection(page: pageNumer)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -104,19 +102,21 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Define.header, for: indexPath)
-                    as? ExploreHeaderView else {
+                    as? ExploreHeaderView,
+                  let viewModel = viewModel else {
 
                 return UICollectionReusableView()
-
             }
             header.frame = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: Define.genresCellHeight)
-            header.viewModel = viewModel?.viewModelForHeader()
+            header.viewModel = viewModel.viewModelForHeader()
             return header
         default:
-            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView
+            guard let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView else {
+                return UICollectionReusableView()
+            }
             loadingView = aFooterView
             loadingView?.backgroundColor = UIColor.clear
-            return aFooterView ?? UICollectionReusableView()
+            return aFooterView
         }
     }
 
@@ -124,20 +124,26 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let viewModel = viewModel else {
             return
         }
-        if indexPath.row == viewModel.numberOfItemsInSection() - 5, !isLoading {
+        if indexPath.row == viewModel.numberOfItemsInSection(page: pageNumer) - 5, !isLoading {
             loadMoreData()
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-            loadingView?.isShowIndicator = true
+            guard let loadingView = loadingView else {
+                return
+            }
+            loadingView.isShowIndicator = true
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
         if elementKind == UICollectionView.elementKindSectionFooter {
-            loadingView?.isShowIndicator = false
+            guard let loadingView = loadingView else {
+                return
+            }
+            loadingView.isShowIndicator = false
         }
     }
 }
@@ -153,7 +159,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        if self.isLoading {
+        if isLoading {
             return CGSize.zero
         } else {
             return CGSize(width: collectionView.bounds.size.width, height: 20)
@@ -175,5 +181,7 @@ extension ExploreViewController {
         static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
         static let tintColor: UIColor = .gray
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        static let pageNumer: Int = 1
+        static let isLoading: Bool = false
     }
 }

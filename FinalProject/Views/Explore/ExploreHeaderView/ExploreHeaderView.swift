@@ -49,13 +49,13 @@ extension ExploreHeaderView: UICollectionViewDelegate, UICollectionViewDataSourc
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let viewModel = viewModel else {
+        guard let viewModel = viewModel,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.genresCollectionCell, for: indexPath) as? GenresCollectionViewCell else {
             return UICollectionViewCell()
         }
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.genresCollectionCell, for: indexPath) as? GenresCollectionViewCell
-        cell?.viewModel = viewModel.viewModelForItem(at: indexPath)
-        return cell ?? UICollectionViewCell()
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
+        return cell
     }
 }
 

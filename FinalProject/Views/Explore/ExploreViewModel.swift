@@ -12,11 +12,9 @@ final class ExploreViewModel {
     // MARK: - Properties
     #warning("Dummy data")
     private let contentMovies: [ContentMovie] = [ContentMovie(id: 12, originalTitle: "Doctor Strange", voteAverage: 7.3)]
-    private var testLoadMore: Int = 20
-
     // MARK: - Public functions
-    func numberOfItemsInSection() -> Int {
-        return testLoadMore
+    func numberOfItemsInSection(page: Int) -> Int {
+        return Define.numberOfItems * page
     }
 
     func viewModelForItem() -> ContentMovieCollectionCellViewModel {
@@ -26,8 +24,10 @@ final class ExploreViewModel {
     func viewModelForHeader() -> ExploreHeaderViewModel {
         return ExploreHeaderViewModel()
     }
+}
 
-    func loadMoreData() {
-        testLoadMore += 10
+extension ExploreViewModel {
+    struct Define {
+        static let numberOfItems: Int = 20
     }
 }

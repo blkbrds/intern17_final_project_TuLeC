@@ -45,6 +45,9 @@ final class GenresCollectionViewCell: UICollectionViewCell {
             if #available(iOS 13.0, *) {
                 backgroundColor = .systemGray5
                 genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: .regular)
+            } else {
+                backgroundColor = .systemGray
+                genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: .regular)
             }
         }
     }
