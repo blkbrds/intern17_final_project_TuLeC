@@ -27,6 +27,11 @@ final class ContentMovieCollectionViewCell: UICollectionViewCell {
         configUI()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+
     // MARK: - Private functions
     private func configUI() {
         imageView.layer.cornerRadius = Define.cornerRadius
@@ -40,6 +45,18 @@ final class ContentMovieCollectionViewCell: UICollectionViewCell {
 
         ratingLabel.text = "\(String(describing: rating))"
         titleLabel.text = viewModel.contenMovie?.originalTitle
+        if let image = viewModel.contenMovie?.image {
+            imageView.image = image
+        } else {
+            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.contenMovie?.backdropPath ?? "")) { image in
+                if let image = image {
+                    viewModel.contenMovie?.image = image
+                    self.imageView.image = image
+                } else {
+                    self.imageView.image = nil
+                }
+            }
+        }
     }
 }
 

@@ -25,6 +25,12 @@ final class LoadingReusableView: UICollectionReusableView {
     // MARK: - Initialize
     override func awakeFromNib() {
         super.awakeFromNib()
-        activityIndicator.color = UIColor.black
+        activityIndicator.color = Define.colorIndicator
+    }
+}
+
+extension LoadingReusableView {
+    struct Define {
+        static let colorIndicator: UIColor = .black
     }
 }

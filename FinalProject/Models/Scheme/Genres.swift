@@ -12,10 +12,12 @@ class Genres {
     // MARK: - Properties
     var id: Int?
     var name: String?
+    var isSelect: Bool
 
     // MARK: - Initialize
-    init(json: JSObject) {
+    init(json: JSObject, isSelect: Bool) {
         self.id = json["id"] as? Int
         self.name = json["name"] as? String
+        self.isSelect = isSelect
     }
 }

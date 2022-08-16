@@ -10,18 +10,47 @@ import Foundation
 final class ExploreViewModel {
 
     // MARK: - Properties
-    #warning("Dummy data")
-    private let contentMovies: [ContentMovie] = [ContentMovie(id: 12, originalTitle: "Doctor Strange", voteAverage: 7.3)]
-    // MARK: - Public functions
-    func numberOfItemsInSection(page: Int) -> Int {
-        return contentMovies.count
+    private let contentMovies: [ContentMovie]?
+
+    init (contentMovies: [ContentMovie]?) {
+        self.contentMovies = contentMovies
     }
 
-    func viewModelForItem() -> ContentMovieCollectionCellViewModel {
-        return ContentMovieCollectionCellViewModel(contentMovie: contentMovies.first)
+    // MARK: - Public functions\
+    func numberOfItemsInSection(pageNumber: Int) -> Int {
+        return contentMovies?.count ?? 0
     }
 
-    func viewModelForHeader() -> ExploreHeaderViewModel {
-        return ExploreHeaderViewModel()
+    func viewModelForItem(at indexPath: IndexPath) -> ContentMovieCollectionCellViewModel {
+        guard let contentMovies = contentMovies,
+              let item = contentMovies[safe: indexPath.row] else {
+            return ContentMovieCollectionCellViewModel(contentMovie: nil)
+        }
+
+        return ContentMovieCollectionCellViewModel(contentMovie: item)
+    }
+
+    func viewModelForHeader(data: [Genres]) -> ExploreHeaderViewModel {
+        return ExploreHeaderViewModel(genres: data)
+    }
+
+    func reloadWhenSelect(data: [SelectKey], genres: [Genres]) -> [SelectKey] {
+        var genresKey = data
+        for item in data {
+            let check = genres.firstIndex { $0.id == item.genresId }
+            guard let check = check else {
+                return []
+            }
+
+            genres[check].isSelect = item.isSelect
+            if item.isSelect == false {
+                let index = data.firstIndex { $0.isSelect == item.isSelect }
+                guard let index = index else {
+                    return[]
+                }
+                genresKey.remove(at: index)
+            }
+        }
+        return genresKey
     }
 }

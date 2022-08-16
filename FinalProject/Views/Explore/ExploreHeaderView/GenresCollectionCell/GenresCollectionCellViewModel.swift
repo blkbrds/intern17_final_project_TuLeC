@@ -10,10 +10,10 @@ import Foundation
 final class GenresCollectionCellViewModel {
 
     // MARK: - Properties
-    var genre: String?
+    var genre: Genres?
 
     // MARK: - Initialize
-    init(genre: String?) {
+    init(genre: Genres?) {
         self.genre = genre
     }
 }

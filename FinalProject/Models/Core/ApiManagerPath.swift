@@ -17,6 +17,8 @@ extension ApiManager.Path {
 
     static let moviePath: String = "/movie"
     static let searchPath: String = "/search"
+    static let discoverPath: String = "/discover"
+    static let genrePath: String = "/genre\(moviePath)/list"
 
     static let popular: String = "/popular"
     static let upComing: String = "/upcoming"
