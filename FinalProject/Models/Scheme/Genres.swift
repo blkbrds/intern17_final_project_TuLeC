@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Genres {
+final class Genres {
 
     // MARK: - Properties
     var id: Int?
