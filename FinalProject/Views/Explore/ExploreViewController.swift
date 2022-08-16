@@ -70,8 +70,8 @@ final class ExploreViewController: UIViewController {
             isLoading = true
             pageNumer += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.collectionView.reloadData()
                 self.isLoading = false
+                self.collectionView.reloadData()
             }
         }
     }
@@ -124,7 +124,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let viewModel = viewModel else {
             return
         }
-        if indexPath.row == viewModel.numberOfItemsInSection(page: pageNumer) - 5, !isLoading {
+        if indexPath.row == viewModel.numberOfItemsInSection(page: pageNumer) - Define.itemStartReload, !isLoading {
             loadMoreData()
         }
     }
@@ -162,7 +162,7 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
         if isLoading {
             return CGSize.zero
         } else {
-            return CGSize(width: collectionView.bounds.size.width, height: 20)
+            return CGSize(width: collectionView.bounds.size.width, height: Define.heightFootter)
         }
     }
 }
@@ -183,5 +183,7 @@ extension ExploreViewController {
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         static let pageNumer: Int = 1
         static let isLoading: Bool = false
+        static let heightFootter: CGFloat = 20
+        static let itemStartReload: Int = 5
     }
 }

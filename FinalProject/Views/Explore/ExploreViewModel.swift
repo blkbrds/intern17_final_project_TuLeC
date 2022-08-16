@@ -14,7 +14,7 @@ final class ExploreViewModel {
     private let contentMovies: [ContentMovie] = [ContentMovie(id: 12, originalTitle: "Doctor Strange", voteAverage: 7.3)]
     // MARK: - Public functions
     func numberOfItemsInSection(page: Int) -> Int {
-        return Define.numberOfItems * page
+        return contentMovies.count
     }
 
     func viewModelForItem() -> ContentMovieCollectionCellViewModel {
@@ -23,11 +23,5 @@ final class ExploreViewModel {
 
     func viewModelForHeader() -> ExploreHeaderViewModel {
         return ExploreHeaderViewModel()
-    }
-}
-
-extension ExploreViewModel {
-    struct Define {
-        static let numberOfItems: Int = 20
     }
 }

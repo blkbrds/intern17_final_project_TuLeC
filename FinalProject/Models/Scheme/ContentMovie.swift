@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ContentMovie {
+final class ContentMovie {
     var id: Int?
     var originalTitle: String?
     var voteAverage: Float?
