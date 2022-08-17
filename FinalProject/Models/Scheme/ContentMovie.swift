@@ -15,7 +15,7 @@ final class ContentMovie {
     var voteAverage: Double?
     var image: UIImage?
 
-    init(json: JSObject, imageView: UIImageView?) {
+    init(json: JSObject) {
         self.backdropPath = json["backdrop_path"] as? String
         self.id = json["id"] as? Int
         self.originalTitle = json["original_title"] as? String

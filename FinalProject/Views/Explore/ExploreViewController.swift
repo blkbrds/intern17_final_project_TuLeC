@@ -104,7 +104,7 @@ final class ExploreViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 guard let viewModel = self.viewModel else { return }
                 self.isLoading = false
-                self.callApi(genresKey: viewModel.genreskey, pageNumber: self.pageNumber, isCallKey: false)
+                self.callApi(genresKey: viewModel.genresKeys, pageNumber: self.pageNumber, isCallKey: false)
             }
         }
     }
@@ -142,7 +142,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
             header.delegate = self
             header.frame = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: Define.genresCellHeight)
-            header.viewModel = viewModel.viewModelForHeader(data: viewModel.genres ?? [])
+            header.viewModel = viewModel.viewModelForHeader(data: viewModel.genres)
             return header
         default:
             let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView
@@ -206,15 +206,15 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
             return
         }
         switch action {
-        case .passDataFromHeader(genresKey: let data):
+        case .passKeyFromHeader(genresKey: let key):
             viewModel.contentMovies.removeAll()
             pageNumber = 1
-            if let index = viewModel.genreskey.firstIndex(of: data) {
-                viewModel.genreskey.remove(at: index)
+            if let index = viewModel.genresKeys.firstIndex(of: key) {
+                viewModel.genresKeys.remove(at: index)
             } else {
-                viewModel.genreskey.append(data)
+                viewModel.genresKeys.append(key)
             }
-            callApi(genresKey: viewModel.genreskey, pageNumber: pageNumber, isCallKey: false)
+            callApi(genresKey: viewModel.genresKeys, pageNumber: pageNumber, isCallKey: false)
         }
     }
 }

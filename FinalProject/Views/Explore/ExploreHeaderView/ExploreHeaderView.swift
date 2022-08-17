@@ -15,7 +15,7 @@ final class ExploreHeaderView: UICollectionReusableView {
 
     // MARK: - Enums
     enum Action {
-        case passDataFromHeader(genresKey: Int)
+        case passKeyFromHeader(genresKey: Int)
     }
 
     // MARK: - IBOutlets
@@ -89,8 +89,8 @@ extension ExploreHeaderView: GenresCollectionViewCellDelegate {
         }
         switch action {
         case .genresButtonIsSelected:
-            viewModel.genresKeys = viewModel.genres[indexPath.row].id ?? 0
-            delegate.view(view: self, needPerformAtion: .passDataFromHeader(genresKey: viewModel.genresKeys))
+            viewModel.genresKey = viewModel.genres[indexPath.row].id ?? 0
+            delegate.view(view: self, needPerformAtion: .passKeyFromHeader(genresKey: viewModel.genresKey))
         }
     }
 }

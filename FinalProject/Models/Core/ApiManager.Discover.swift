@@ -41,7 +41,7 @@ extension ApiManager.Discover {
                     var contentMovies: [ContentMovie] = []
                     if let items = data["results"] as? [JSObject] {
                         for contentMovie in items {
-                            contentMovies.append(ContentMovie(json: contentMovie, imageView: nil))
+                            contentMovies.append(ContentMovie(json: contentMovie))
                         }
                     }
                     completion(.success(contentMovies))

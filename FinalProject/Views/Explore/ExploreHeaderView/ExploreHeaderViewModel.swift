@@ -11,7 +11,7 @@ final class ExploreHeaderViewModel {
 
     // MARK: - Properties
     var genres: [Genres] = []
-    var genresKeys: Int = 0
+    var genresKey: Int = 0
 
     init (genres: [Genres]) {
         self.genres = genres

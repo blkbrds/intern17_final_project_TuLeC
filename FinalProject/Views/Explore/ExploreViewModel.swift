@@ -12,7 +12,7 @@ final class ExploreViewModel {
     // MARK: - Properties
     var contentMovies: [ContentMovie]
     var genres: [Genres] = []
-    var genreskey: [Int] = []
+    var genresKeys: [Int] = []
 
     init(contentMovies: [ContentMovie]) {
         self.contentMovies = contentMovies
