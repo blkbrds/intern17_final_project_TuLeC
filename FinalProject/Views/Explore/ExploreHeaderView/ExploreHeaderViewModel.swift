@@ -11,6 +11,7 @@ final class ExploreHeaderViewModel {
 
     // MARK: - Properties
     var genres: [Genres] = []
+    var genresKeys: Int = 0
 
     init (genres: [Genres]) {
         self.genres = genres
@@ -29,7 +30,7 @@ final class ExploreHeaderViewModel {
         return GenresCollectionCellViewModel(genre: item, isSelected: item.isSelect)
     }
 
-    func sizeForItem(at indexPath: IndexPath) -> String {
+    func stringForItem(at indexPath: IndexPath) -> String {
         return genres[safe: indexPath.row]?.name ?? ""
     }
 }

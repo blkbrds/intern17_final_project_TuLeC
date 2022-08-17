@@ -15,7 +15,6 @@ final class GenresCollectionViewCell: UICollectionViewCell {
 
     enum Action {
         case genresButtonIsSelected
-        case genresButtonUnSelected
     }
 
     // MARK: - IBOutlets
@@ -61,7 +60,10 @@ final class GenresCollectionViewCell: UICollectionViewCell {
     // MARK: - IBAction
     @IBAction private func genresTouchUpInside(_ sender: UIButton) {
 
-        isSelect = !(viewModel?.genre?.isSelect ?? true)
+        guard let viewModel = viewModel else { return }
+        guard let genre = viewModel.genre else { return }
+
+        isSelect = !(genre.isSelect)
         guard let delegate = delegate else {
             return
         }
@@ -69,7 +71,7 @@ final class GenresCollectionViewCell: UICollectionViewCell {
         if isSelect {
             genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: Define.boldFont)
             backgroundColor = .systemOrange
-            delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected)
+            genre.isSelect = true
         } else {
             if #available(iOS 13.0, *) {
                 backgroundColor = .systemGray5
@@ -78,8 +80,9 @@ final class GenresCollectionViewCell: UICollectionViewCell {
                 backgroundColor = .systemGray
                 genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: Define.regularFont)
             }
-            delegate.cell(cell: self, needPerformAtion: .genresButtonUnSelected)
+            genre.isSelect = false
         }
+        delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected)
     }
 }
 

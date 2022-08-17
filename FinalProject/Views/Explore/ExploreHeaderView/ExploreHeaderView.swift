@@ -15,7 +15,7 @@ final class ExploreHeaderView: UICollectionReusableView {
 
     // MARK: - Enums
     enum Action {
-        case passDataFromHeader(genresKey: [Int])
+        case passDataFromHeader(genresKey: Int)
     }
 
     // MARK: - IBOutlets
@@ -23,7 +23,6 @@ final class ExploreHeaderView: UICollectionReusableView {
 
     // MARK: - Properties
     weak var delegate: ExploreHeaderViewDelegate?
-    private var genresKeys: [Int] = []
     var viewModel: ExploreHeaderViewModel? {
         didSet {
             updateCell()
@@ -76,7 +75,7 @@ extension ExploreHeaderView: UICollectionViewDelegateFlowLayout {
         guard let viewModel = viewModel else {
             return CGSize(width: 0, height: 0)
         }
-        let cellWidth = viewModel.sizeForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
+        let cellWidth = viewModel.stringForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
         return CGSize(width: cellWidth, height: 30.0)
     }
 }
@@ -90,15 +89,9 @@ extension ExploreHeaderView: GenresCollectionViewCellDelegate {
         }
         switch action {
         case .genresButtonIsSelected:
-            genresKeys.append(viewModel.genres[indexPath.row].id ?? 0)
-            viewModel.genres[indexPath.row].isSelect = true
-        case .genresButtonUnSelected:
-            guard let genreId = viewModel.genres[indexPath.row].id else { return }
-            guard let index = genresKeys.firstIndex(of: genreId) else { return }
-            viewModel.genres[indexPath.row].isSelect = false
-            genresKeys.remove(at: index)
+            viewModel.genresKeys = viewModel.genres[indexPath.row].id ?? 0
+            delegate.view(view: self, needPerformAtion: .passDataFromHeader(genresKey: viewModel.genresKeys))
         }
-        delegate.view(view: self, needPerformAtion: .passDataFromHeader(genresKey: genresKeys))
     }
 }
 

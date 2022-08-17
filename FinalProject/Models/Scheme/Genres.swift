@@ -15,7 +15,7 @@ final class Genres {
     var isSelect: Bool
 
     // MARK: - Initialize
-    init(json: JSObject, isSelect: Bool) {
+    init(json: JSObject, isSelect: Bool = false) {
         self.id = json["id"] as? Int
         self.name = json["name"] as? String
         self.isSelect = isSelect
