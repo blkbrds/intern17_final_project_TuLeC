@@ -30,7 +30,7 @@ final class ExploreHeaderViewModel {
         return GenresCollectionCellViewModel(genre: item, isSelected: item.isSelect)
     }
 
-    func stringForItem(at indexPath: IndexPath) -> String {
+    func getNameGenre(at indexPath: IndexPath) -> String {
         return genres[safe: indexPath.row]?.name ?? ""
     }
 }

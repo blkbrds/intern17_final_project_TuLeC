@@ -22,7 +22,6 @@ final class GenresCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Properties
     weak var delegate: GenresCollectionViewCellDelegate?
-    private var isSelect: Bool = false
     var viewModel: GenresCollectionCellViewModel? {
         didSet {
             updateCell()
@@ -63,12 +62,11 @@ final class GenresCollectionViewCell: UICollectionViewCell {
         guard let viewModel = viewModel,
               let genre = viewModel.genre else { return }
 
-        isSelect = !(genre.isSelect)
         guard let delegate = delegate else {
             return
         }
 
-        if isSelect {
+        if !genre.isSelect {
             genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: Define.boldFont)
             backgroundColor = .systemOrange
             genre.isSelect = true
