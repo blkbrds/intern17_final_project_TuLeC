@@ -60,8 +60,8 @@ final class GenresCollectionViewCell: UICollectionViewCell {
     // MARK: - IBAction
     @IBAction private func genresTouchUpInside(_ sender: UIButton) {
 
-        guard let viewModel = viewModel else { return }
-        guard let genre = viewModel.genre else { return }
+        guard let viewModel = viewModel,
+              let genre = viewModel.genre else { return }
 
         isSelect = !(genre.isSelect)
         guard let delegate = delegate else {
