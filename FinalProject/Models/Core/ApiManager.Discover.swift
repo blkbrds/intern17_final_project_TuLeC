@@ -11,18 +11,18 @@ extension ApiManager.Discover {
 
     static let searchPath: String = ApiManager.Path.baseURL + ApiManager.Path.version + ApiManager.Path.discoverPath + ApiManager.Path.moviePath
 
-    static func getURL(querys: [SelectKey], page: Int) -> URL {
+    static func getURL(keys: [Int], page: Int) -> URL {
         var queryString: String = ""
         let url = URL(string: searchPath)
         guard let url = url else {
             return URL(fileURLWithPath: "")
         }
 
-        for query in querys {
-            if query.genresId == querys.first?.genresId {
-                queryString += "\(query.genresId)"
+        for key in keys {
+            if key == keys.first {
+                queryString += "\(key)"
             } else {
-                queryString += ",\(query.genresId)"
+                queryString += ",\(key)"
             }
         }
 

@@ -31,7 +31,6 @@
 		10A4410B288FCA3100D5C6EE /* UpComingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A44109288FCA3100D5C6EE /* UpComingTableViewCell.swift */; };
 		10A4410C288FCA3100D5C6EE /* UpComingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10A4410A288FCA3100D5C6EE /* UpComingTableViewCell.xib */; };
 		10A4410E288FCA5300D5C6EE /* UpComingTableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4410D288FCA5300D5C6EE /* UpComingTableCellViewModel.swift */; };
-		10D9519E28AB3A6C0056D237 /* SelectKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10D9519D28AB3A6C0056D237 /* SelectKey.swift */; };
 		10E0584A28A1090B004A7982 /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E0584928A1090B004A7982 /* UIImageViewExt.swift */; };
 		10F9F20B288E3A4A00FD7BD2 /* ApiManager.Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F20A288E3A4A00FD7BD2 /* ApiManager.Movie.swift */; };
 		10F9F21A288E845700FD7BD2 /* SliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F218288E845700FD7BD2 /* SliderCollectionViewCell.swift */; };
@@ -102,7 +101,6 @@
 		10A44109288FCA3100D5C6EE /* UpComingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingTableViewCell.swift; sourceTree = "<group>"; };
 		10A4410A288FCA3100D5C6EE /* UpComingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpComingTableViewCell.xib; sourceTree = "<group>"; };
 		10A4410D288FCA5300D5C6EE /* UpComingTableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpComingTableCellViewModel.swift; sourceTree = "<group>"; };
-		10D9519D28AB3A6C0056D237 /* SelectKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectKey.swift; sourceTree = "<group>"; };
 		10E0584928A1090B004A7982 /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		10F9F20A288E3A4A00FD7BD2 /* ApiManager.Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Movie.swift; sourceTree = "<group>"; };
 		10F9F218288E845700FD7BD2 /* SliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -249,7 +247,6 @@
 				10129797289232A200EE6428 /* SizeWithScreen.swift */,
 				10677B6328A1F6680076AE2D /* Session.swift */,
 				10FDB8C328A39BBE00B82419 /* CollectionViewFlowLayout.swift */,
-				10D9519D28AB3A6C0056D237 /* SelectKey.swift */,
 			);
 			path = Define;
 			sourceTree = "<group>";
@@ -634,7 +631,6 @@
 				10677B6428A1F6680076AE2D /* Session.swift in Sources */,
 				10899534288F93D300DDE56C /* LatestTableViewCell.swift in Sources */,
 				10FDB8B328A3912200B82419 /* GenresCollectionCellViewModel.swift in Sources */,
-				10D9519E28AB3A6C0056D237 /* SelectKey.swift in Sources */,
 				106DC706288A99A10013C2D3 /* HomeViewModel.swift in Sources */,
 				10F9F227288E900C00FD7BD2 /* NowPlayingTableViewCell.swift in Sources */,
 				38DD5032285081F20048328E /* AppDelegate.swift in Sources */,

@@ -10,20 +10,21 @@ import Foundation
 final class ExploreViewModel {
 
     // MARK: - Properties
-    private let contentMovies: [ContentMovie]?
+    var contentMovies: [ContentMovie]
+    var genres: [Genres] = []
+    var genreskey: [Int] = []
 
-    init (contentMovies: [ContentMovie]?) {
+    init(contentMovies: [ContentMovie]) {
         self.contentMovies = contentMovies
     }
 
     // MARK: - Public functions\
     func numberOfItemsInSection(pageNumber: Int) -> Int {
-        return contentMovies?.count ?? 0
+        return contentMovies.count
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> ContentMovieCollectionCellViewModel {
-        guard let contentMovies = contentMovies,
-              let item = contentMovies[safe: indexPath.row] else {
+        guard let item = contentMovies[safe: indexPath.row] else {
             return ContentMovieCollectionCellViewModel(contentMovie: nil)
         }
 
@@ -34,23 +35,32 @@ final class ExploreViewModel {
         return ExploreHeaderViewModel(genres: data)
     }
 
-    func reloadWhenSelect(data: [SelectKey], genres: [Genres]) -> [SelectKey] {
-        var genresKey = data
-        for item in data {
-            let check = genres.firstIndex { $0.id == item.genresId }
-            guard let check = check else {
-                return []
-            }
-
-            genres[check].isSelect = item.isSelect
-            if item.isSelect == false {
-                let index = data.firstIndex { $0.isSelect == item.isSelect }
-                guard let index = index else {
-                    return[]
+    // MARK: - APIs
+    func getExploreApi(genresKey: [Int], isCallKey: Bool = true, pageNumber: Int, completion: @escaping Completion<[ContentMovie]>) {
+        ApiManager.Discover.getExploreApi(url: ApiManager.Discover.getURL(keys: genresKey, page: pageNumber) ) { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                for item in data {
+                    this.contentMovies.append(item)
                 }
-                genresKey.remove(at: index)
+                completion(.success(this.contentMovies))
+            case .failure(let error):
+                print(error)
             }
         }
-        return genresKey
+    }
+
+    func getGenresApi(completion: @escaping Completion<[Genres]>) {
+        ApiManager.Genre.getGenreApi(url: ApiManager.Genre.getURL()) { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.genres = data
+                completion(.success(this.genres))
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

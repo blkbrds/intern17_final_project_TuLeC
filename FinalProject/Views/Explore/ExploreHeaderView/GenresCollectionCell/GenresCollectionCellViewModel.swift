@@ -11,9 +11,11 @@ final class GenresCollectionCellViewModel {
 
     // MARK: - Properties
     var genre: Genres?
+    var isSelected: Bool
 
     // MARK: - Initialize
-    init(genre: Genres?) {
+    init(genre: Genres?, isSelected: Bool = false) {
         self.genre = genre
+        self.isSelected = isSelected
     }
 }

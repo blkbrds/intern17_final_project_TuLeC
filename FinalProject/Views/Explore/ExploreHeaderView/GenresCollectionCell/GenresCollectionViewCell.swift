@@ -14,7 +14,8 @@ protocol GenresCollectionViewCellDelegate: AnyObject {
 final class GenresCollectionViewCell: UICollectionViewCell {
 
     enum Action {
-        case genresButtonIsSelected(SelectKey)
+        case genresButtonIsSelected
+        case genresButtonUnSelected
     }
 
     // MARK: - IBOutlets
@@ -22,6 +23,7 @@ final class GenresCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Properties
     weak var delegate: GenresCollectionViewCellDelegate?
+    private var isSelect: Bool = false
     var viewModel: GenresCollectionCellViewModel? {
         didSet {
             updateCell()
@@ -41,9 +43,8 @@ final class GenresCollectionViewCell: UICollectionViewCell {
         }
 
         genresLabel.text = viewModel.genre?.name
-        guard let genre = viewModel.genre else { return }
 
-        if genre.isSelect {
+        if viewModel.isSelected {
             genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: .bold)
             backgroundColor = .systemOrange
         } else {
@@ -60,15 +61,15 @@ final class GenresCollectionViewCell: UICollectionViewCell {
     // MARK: - IBAction
     @IBAction private func genresTouchUpInside(_ sender: UIButton) {
 
-        Define.isSelect = !(viewModel?.genre?.isSelect ?? true)
+        isSelect = !(viewModel?.genre?.isSelect ?? true)
         guard let delegate = delegate else {
             return
         }
 
-        if Define.isSelect {
+        if isSelect {
             genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: Define.boldFont)
             backgroundColor = .systemOrange
-            delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected(SelectKey(genresId: viewModel?.genre?.id ?? 0, isSelect: true)))
+            delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected)
         } else {
             if #available(iOS 13.0, *) {
                 backgroundColor = .systemGray5
@@ -77,7 +78,7 @@ final class GenresCollectionViewCell: UICollectionViewCell {
                 backgroundColor = .systemGray
                 genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: Define.regularFont)
             }
-            delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected(SelectKey(genresId: viewModel?.genre?.id ?? 0, isSelect: false)))
+            delegate.cell(cell: self, needPerformAtion: .genresButtonUnSelected)
         }
     }
 }
@@ -87,7 +88,6 @@ extension GenresCollectionViewCell {
     struct Define {
         static let cornerRadius: CGFloat = 10
         static let fontSize: CGFloat = 14
-        static var isSelect: Bool = false
         static let boldFont: UIFont.Weight = .bold
         static let regularFont: UIFont.Weight = .regular
     }

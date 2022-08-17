@@ -15,7 +15,7 @@ final class ExploreHeaderView: UICollectionReusableView {
 
     // MARK: - Enums
     enum Action {
-        case passDataFromHeader(genresKey: [SelectKey])
+        case passDataFromHeader(genresKey: [Int])
     }
 
     // MARK: - IBOutlets
@@ -23,7 +23,7 @@ final class ExploreHeaderView: UICollectionReusableView {
 
     // MARK: - Properties
     weak var delegate: ExploreHeaderViewDelegate?
-    private var genresKey: [SelectKey] = []
+    private var genresKeys: [Int] = []
     var viewModel: ExploreHeaderViewModel? {
         didSet {
             updateCell()
@@ -83,19 +83,22 @@ extension ExploreHeaderView: UICollectionViewDelegateFlowLayout {
 
 extension ExploreHeaderView: GenresCollectionViewCellDelegate {
     func cell(cell: GenresCollectionViewCell, needPerformAtion action: GenresCollectionViewCell.Action) {
-        guard let viewModel = viewModel else {
+        guard let viewModel = viewModel,
+              let indexPath = collectionView.indexPath(for: cell),
+              let delegate = delegate else {
             return
         }
         switch action {
-        case .genresButtonIsSelected(let data):
-            let genresArray = viewModel.removeData(data: data, genresKey: genresKey).genresArray
-            genresKey = viewModel.removeData(data: data, genresKey: genresKey).genresKey
-
-            guard let delegate = delegate else {
-                return
-            }
-            delegate.view(view: self, needPerformAtion: .passDataFromHeader(genresKey: genresArray))
+        case .genresButtonIsSelected:
+            genresKeys.append(viewModel.genres[indexPath.row].id ?? 0)
+            viewModel.genres[indexPath.row].isSelect = true
+        case .genresButtonUnSelected:
+            guard let genreId = viewModel.genres[indexPath.row].id else { return }
+            guard let index = genresKeys.firstIndex(of: genreId) else { return }
+            viewModel.genres[indexPath.row].isSelect = false
+            genresKeys.remove(at: index)
         }
+        delegate.view(view: self, needPerformAtion: .passDataFromHeader(genresKey: genresKeys))
     }
 }
 

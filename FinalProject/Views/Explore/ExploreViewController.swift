@@ -16,35 +16,24 @@ final class ExploreViewController: UIViewController {
     // MARK: - Properties
     var viewModel: ExploreViewModel?
     private var loadingView: LoadingReusableView?
-    private var contentMovies: [ContentMovie] = []
-    private var genres: [Genres] = []
-    private var genresKey: [SelectKey] = []
+    private var pageNumber: Int = 1
 
     // MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationBar()
         configTableView()
-        callApi()
+        callApi(genresKey: [], pageNumber: pageNumber)
     }
 
     // MARK: - Private functions
-    private func callApi(genresKey: [SelectKey] = [], isCallKey: Bool = true) {
+    private func callApi(genresKey: [Int], pageNumber: Int, isCallKey: Bool = true) {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        ApiManager.Discover.getExploreApi(url: ApiManager.Discover.getURL(querys: genresKey, page: Define.pageNumber) ) { [weak self] result in
-            guard let this = self else { return }
-            switch result {
-            case .success(let data):
-                for item in data {
-                    this.contentMovies.append(item)
-                }
-                this.viewModel = ExploreViewModel(contentMovies: this.contentMovies)
-            case .failure(let error):
-                print(error)
-            }
+        getAPIContenMovie(genresKey: genresKey, pageNumber: pageNumber) {
             dispatchGroup.leave()
         }
+
         guard isCallKey else {
             dispatchGroup.notify(queue: .main) {
                 self.collectionView.reloadData()
@@ -52,20 +41,21 @@ final class ExploreViewController: UIViewController {
             return
         }
         dispatchGroup.enter()
-        ApiManager.Genre.getGenreApi(url: ApiManager.Genre.getURL()) { [weak self] result in
-            guard let this = self else { return }
-            switch result {
-            case .success(let data):
-                this.genres = data
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        getAPIGenres {
             dispatchGroup.leave()
         }
 
         dispatchGroup.notify(queue: .main) {
             self.collectionView.reloadData()
         }
+    }
+
+    private func getAPIContenMovie(genresKey: [Int], pageNumber: Int, completion: @escaping (() -> Void)) {
+        viewModel?.getExploreApi(genresKey: genresKey, pageNumber: pageNumber, completion: { _ in completion() })
+    }
+
+    private func getAPIGenres(completion: @escaping(() -> Void)) {
+        viewModel?.getGenresApi(completion: { _ in completion() })
     }
 
     private func configNavigationBar() {
@@ -106,10 +96,10 @@ final class ExploreViewController: UIViewController {
 
     private func loadMoreData() {
         if Define.isLoading {
-            Define.pageNumber += 1
+            pageNumber += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 Define.isLoading = false
-                self.callApi(genresKey: self.genresKey, isCallKey: false)
+                self.callApi(genresKey: self.viewModel?.genreskey ?? [], pageNumber: self.pageNumber, isCallKey: false)
             }
         }
     }
@@ -123,7 +113,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             return 0
         }
 
-        return viewModel.numberOfItemsInSection(pageNumber: Define.pageNumber)
+        return viewModel.numberOfItemsInSection(pageNumber: pageNumber)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -146,7 +136,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
             header.delegate = self
             header.frame = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: Define.genresCellHeight)
-            header.viewModel = viewModel?.viewModelForHeader(data: genres)
+            header.viewModel = viewModel?.viewModelForHeader(data: viewModel?.genres ?? [])
             return header
         default:
             let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView
@@ -160,7 +150,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let viewModel = viewModel else {
             return
         }
-        if indexPath.row == viewModel.numberOfItemsInSection(pageNumber: Define.pageNumber) - Define.itemStartReload {
+        if indexPath.row == viewModel.numberOfItemsInSection(pageNumber: pageNumber) - Define.itemStartReload {
             Define.isLoading = !Define.isLoading
             loadMoreData()
         }
@@ -211,10 +201,10 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passDataFromHeader(genresKey: let data):
-            contentMovies.removeAll()
-            Define.pageNumber = 1
-            genresKey = viewModel.reloadWhenSelect(data: data, genres: genres)
-            callApi(genresKey: genresKey, isCallKey: false)
+            viewModel.contentMovies.removeAll()
+            pageNumber = 1
+            viewModel.genreskey = data
+            callApi(genresKey: viewModel.genreskey, pageNumber: pageNumber, isCallKey: false)
         }
     }
 }
@@ -235,7 +225,6 @@ extension ExploreViewController {
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         static let heightFootter: CGFloat = 20
         static let itemStartReload: Int = 5
-        static var pageNumber: Int = 1
         static var isLoading: Bool = false
     }
 }
