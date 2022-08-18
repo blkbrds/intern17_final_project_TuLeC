@@ -26,11 +26,11 @@ final class DetailViewController: UIViewController {
     // MARK: - Private functions
     private func configUI() {
         playerView.delegate = self
-        playerView.webView?.backgroundColor = .black
-        playerView.webView?.isOpaque = false
+        playerView.webView?.backgroundColor = Define.ytBackgroundColor
+        playerView.webView?.isOpaque = Define.ytIsOpaque
         configNavigationBar()
         configCollectionView()
-        tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = Define.isHidden
     }
 
     private func configCollectionView() {
@@ -51,7 +51,7 @@ final class DetailViewController: UIViewController {
         if #available(iOS 13.0, *) {
             backButton.setImage(Define.systemImage, for: .normal)
         }
-        backButton.tintColor = .white
+        backButton.tintColor = Define.backButtonTintColor
         backButton.addTarget(self, action: #selector(popToRoot), for: .touchUpInside)
 
         let leftItem = UIBarButtonItem(customView: backButton)
@@ -61,6 +61,7 @@ final class DetailViewController: UIViewController {
     // MARK: - Objc functions
     @objc private func popToRoot() {
         navigationController?.popToRootViewController(animated: true)
+        tabBarController?.tabBar.isHidden = !Define.isHidden
     }
 }
 
@@ -119,5 +120,9 @@ extension DetailViewController {
         static let frameForHeader = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: 200)
         static let sizeForHeader = CGSize(width: SizeWithScreen.shared.width, height: 200)
         static let sizeForItem = CGSize(width: SizeWithScreen.shared.width, height: 130)
+        static let backButtonTintColor: UIColor = .white
+        static let ytBackgroundColor: UIColor = .black
+        static let ytIsOpaque: Bool = false
+        static let isHidden: Bool = true
     }
 }

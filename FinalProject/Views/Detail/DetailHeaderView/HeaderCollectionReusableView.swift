@@ -67,7 +67,7 @@ extension HeaderCollectionReusableView: UICollectionViewDelegateFlowLayout {
         guard let viewModel = viewModel else {
             return CGSize(width: 0, height: 0)
         }
-        let cellWidth = viewModel.sizeForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 30.0
+        let cellWidth = viewModel.getTagForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 30.0
         return CGSize(width: cellWidth, height: Define.height)
     }
 }

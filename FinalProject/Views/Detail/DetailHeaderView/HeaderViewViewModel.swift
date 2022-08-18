@@ -25,7 +25,7 @@ final class HeaderViewViewModel {
         return TagsCollectionCellViewModel(tag: item)
     }
 
-    func sizeForItem(at indexPath: IndexPath) -> String {
+    func getTagForItem(at indexPath: IndexPath) -> String {
         return tags[safe: indexPath.row] ?? ""
     }
 
