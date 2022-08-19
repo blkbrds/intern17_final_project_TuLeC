@@ -102,4 +102,8 @@ extension ApiManager {
     struct Movie { }
 
     struct Search { }
+
+    struct Discover { }
+
+    struct Genre { }
 }

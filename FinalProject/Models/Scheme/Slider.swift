@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class Slider {
+final class Slider {
 
     // MARK: - Properties
     var backdropPath: String?

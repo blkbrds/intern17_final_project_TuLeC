@@ -11,9 +11,11 @@
 		100908DD28ACD41C0005FB75 /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 100908DB28ACD41C0005FB75 /* DetailViewController.xib */; };
 		100908E028ACD43E0005FB75 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100908DF28ACD43E0005FB75 /* DetailViewModel.swift */; };
 		10129798289232A200EE6428 /* SizeWithScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10129797289232A200EE6428 /* SizeWithScreen.swift */; };
+		1017BC5C28A93FC600DB0F3B /* ApiManager.Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1017BC5B28A93FC600DB0F3B /* ApiManager.Genre.swift */; };
 		10246BB628A0D16700AE3CD3 /* ApiManager.Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BB528A0D16700AE3CD3 /* ApiManager.Search.swift */; };
 		10246BBB28A0E92200AE3CD3 /* URLExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BBA28A0E92200AE3CD3 /* URLExt.swift */; };
 		10246BC728A1066F00AE3CD3 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BC628A1066F00AE3CD3 /* Slider.swift */; };
+		1043114D28A5EDE800593FE1 /* ApiManager.Discover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1043114C28A5EDE800593FE1 /* ApiManager.Discover.swift */; };
 		10677B6428A1F6680076AE2D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10677B6328A1F6680076AE2D /* Session.swift */; };
 		106B4C8A28AD26440069F343 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B4C8828AD26440069F343 /* HeaderCollectionReusableView.swift */; };
 		106B4C8B28AD26440069F343 /* HeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106B4C8928AD26440069F343 /* HeaderCollectionReusableView.xib */; };
@@ -91,9 +93,11 @@
 		100908DB28ACD41C0005FB75 /* DetailViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailViewController.xib; sourceTree = "<group>"; };
 		100908DF28ACD43E0005FB75 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		10129797289232A200EE6428 /* SizeWithScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeWithScreen.swift; sourceTree = "<group>"; };
+		1017BC5B28A93FC600DB0F3B /* ApiManager.Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Genre.swift; sourceTree = "<group>"; };
 		10246BB528A0D16700AE3CD3 /* ApiManager.Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Search.swift; sourceTree = "<group>"; };
 		10246BBA28A0E92200AE3CD3 /* URLExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExt.swift; sourceTree = "<group>"; };
 		10246BC628A1066F00AE3CD3 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
+		1043114C28A5EDE800593FE1 /* ApiManager.Discover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Discover.swift; sourceTree = "<group>"; };
 		10677B6328A1F6680076AE2D /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		106B4C8828AD26440069F343 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		106B4C8928AD26440069F343 /* HeaderCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderCollectionReusableView.xib; sourceTree = "<group>"; };
@@ -521,6 +525,8 @@
 				38DD5058285086FB0048328E /* ApiManagerPath.swift */,
 				10F9F20A288E3A4A00FD7BD2 /* ApiManager.Movie.swift */,
 				10246BB528A0D16700AE3CD3 /* ApiManager.Search.swift */,
+				1043114C28A5EDE800593FE1 /* ApiManager.Discover.swift */,
+				1017BC5B28A93FC600DB0F3B /* ApiManager.Genre.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -712,6 +718,7 @@
 				38DD5057285086A50048328E /* ApiManager.swift in Sources */,
 				106DC710288AA8440013C2D3 /* BaseTabbarViewController.swift in Sources */,
 				10FC612128A4F7EE004333EC /* ExploreHeaderViewModel.swift in Sources */,
+				1043114D28A5EDE800593FE1 /* ApiManager.Discover.swift in Sources */,
 				106DC70C288A99CA0013C2D3 /* ProfileViewModel.swift in Sources */,
 				10F9F239288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift in Sources */,
 				106DC6FF288A96B80013C2D3 /* StoryViewController.swift in Sources */,
@@ -726,6 +733,7 @@
 				10FC611828A4F557004333EC /* LoadingReusableView.swift in Sources */,
 				38DD5053285084A90048328E /* StringExt.swift in Sources */,
 				10F9F231288E930800FD7BD2 /* NowPlayingCollectionCellViewModel.swift in Sources */,
+				1017BC5C28A93FC600DB0F3B /* ApiManager.Genre.swift in Sources */,
 				10A4410E288FCA5300D5C6EE /* UpComingTableCellViewModel.swift in Sources */,
 				106DC70A288A99C00013C2D3 /* StoryViewModel.swift in Sources */,
 				10F9F223288E859C00FD7BD2 /* SliderTableCellViewModel.swift in Sources */,

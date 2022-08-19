@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import UIKit
 
 final class ContentMovie {
     var id: Int?
     var originalTitle: String?
-    var voteAverage: Float?
+    var backdropPath: String?
+    var voteAverage: Double?
+    var image: UIImage?
 
-    init(id: Int, originalTitle: String, voteAverage: Float) {
-        self.id = id
-        self.originalTitle = originalTitle
-        self.voteAverage = voteAverage
+    init(json: JSObject) {
+        self.backdropPath = json["backdrop_path"] as? String
+        self.id = json["id"] as? Int
+        self.originalTitle = json["original_title"] as? String
+        self.voteAverage = json["vote_average"] as? Double
     }
 }
