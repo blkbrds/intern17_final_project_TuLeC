@@ -27,10 +27,10 @@ final class DetailViewController: UIViewController {
     private func configUI() {
         playerView.delegate = self
         playerView.webView?.backgroundColor = Define.ytBackgroundColor
-        playerView.webView?.isOpaque = Define.ytIsOpaque
+        playerView.webView?.isOpaque = false
         configNavigationBar()
         configCollectionView()
-        tabBarController?.tabBar.isHidden = Define.isHidden
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func configCollectionView() {
@@ -126,7 +126,5 @@ extension DetailViewController {
         static let sizeForItem = CGSize(width: SizeWithScreen.shared.width, height: 130)
         static let backButtonTintColor: UIColor = .white
         static let ytBackgroundColor: UIColor = .black
-        static let ytIsOpaque: Bool = false
-        static let isHidden: Bool = true
     }
 }
