@@ -52,16 +52,15 @@ final class DetailViewController: UIViewController {
             backButton.setImage(Define.systemImage, for: .normal)
         }
         backButton.tintColor = Define.backButtonTintColor
-        backButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
 
         let leftItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = leftItem
     }
 
     // MARK: - Objc functions
-    @objc private func pop() {
-        navigationController?.popToRootViewController(animated: true)
-        tabBarController?.tabBar.isHidden = !Define.isHidden
+    @objc private func backButtonTapped() {
+        #warning("handle later")
     }
 }
 
