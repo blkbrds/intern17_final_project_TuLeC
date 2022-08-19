@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController {
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
-    var viewModel: DetailViewModel = DetailViewModel()
+    var viewModel: DetailViewModel?
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -52,14 +52,14 @@ final class DetailViewController: UIViewController {
             backButton.setImage(Define.systemImage, for: .normal)
         }
         backButton.tintColor = Define.backButtonTintColor
-        backButton.addTarget(self, action: #selector(popToRoot), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
 
         let leftItem = UIBarButtonItem(customView: backButton)
         navigationItem.leftBarButtonItem = leftItem
     }
 
     // MARK: - Objc functions
-    @objc private func popToRoot() {
+    @objc private func pop() {
         navigationController?.popToRootViewController(animated: true)
         tabBarController?.tabBar.isHidden = !Define.isHidden
     }
@@ -68,11 +68,15 @@ final class DetailViewController: UIViewController {
 // MARK: - Delegate, Datasource
 extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfItems()
+        guard let viewModel = viewModel else {
+            return 0
+        }
+        return viewModel.numberOfItems()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellNib, for: indexPath) as? DetailCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.cellNib, for: indexPath) as? DetailCollectionViewCell,
+            let viewModel = viewModel else {
             return UICollectionViewCell()
         }
         cell.viewModel = viewModel.viewModelForItem()
@@ -82,7 +86,8 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         default:
-            guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.headerNib, for: indexPath) as? HeaderCollectionReusableView else {
+            guard let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.headerNib, for: indexPath) as? HeaderCollectionReusableView,
+                  let viewModel = viewModel else {
                 return UICollectionReusableView()
             }
             cell.frame = Define.frameForHeader
