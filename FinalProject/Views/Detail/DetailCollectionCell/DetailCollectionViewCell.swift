@@ -14,11 +14,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet private var imageView: UIImageView!
 
     // MARK: - Properties
-    var viewModel: DetailCollectionCellViewModel? {
-        didSet {
-            updateCell()
-        }
-    }
+    var viewModel: DetailCollectionCellViewModel?
 
     // MARK: - Override functions
     override func awakeFromNib() {
@@ -30,9 +26,6 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         ratingLabel.layer.masksToBounds = Define.labelMasksToBounds
         ratingLabel.layer.cornerRadius = Define.labelCornerRadius
         imageView.layer.cornerRadius = Define.imageCornerRadius
-    }
-
-    private func updateCell() {
     }
 }
 
