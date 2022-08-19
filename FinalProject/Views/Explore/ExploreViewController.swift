@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class ExploreViewController: UIViewController {
 
@@ -15,17 +16,52 @@ final class ExploreViewController: UIViewController {
     // MARK: - Properties
     var viewModel: ExploreViewModel?
     private var loadingView: LoadingReusableView?
-    private var isLoading: Bool = Define.isLoading
-    private var pageNumer: Int = Define.pageNumer
+    private var pageNumber: Int = 1
+    private var isLoading: Bool = false
 
     // MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationBar()
         configTableView()
+        callApi(genresKey: [], pageNumber: pageNumber)
     }
 
     // MARK: - Private functions
+    private func callApi(genresKey: [Int], pageNumber: Int, isCallKey: Bool = true) {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        getAPIContenMovie(genresKey: genresKey, pageNumber: pageNumber) {
+            dispatchGroup.leave()
+        }
+
+        guard isCallKey else {
+            dispatchGroup.notify(queue: .main) {
+                self.collectionView.reloadData()
+            }
+            return
+        }
+        dispatchGroup.enter()
+        getAPIGenres {
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.collectionView.reloadData()
+        }
+    }
+
+    private func getAPIContenMovie(genresKey: [Int], pageNumber: Int, completion: @escaping (() -> Void)) {
+        guard let viewModel = viewModel else { return }
+
+        viewModel.getExploreApi(genresKey: genresKey, pageNumber: pageNumber, completion: { _ in completion() })
+    }
+
+    private func getAPIGenres(completion: @escaping(() -> Void)) {
+        guard let viewModel = viewModel else { return }
+        viewModel.getGenresApi(completion: { _ in completion() })
+    }
+
     private func configNavigationBar() {
         let titleLabel = UILabel()
         titleLabel.text = Define.titleLabel
@@ -40,9 +76,6 @@ final class ExploreViewController: UIViewController {
             searchButton.setImage(image, for: .normal)
             searchButton.tintColor = Define.tintColor
         } else {
-            let image = UIImage(named: Define.systemName)
-            searchButton.setImage(image, for: .normal)
-            searchButton.tintColor = Define.tintColor
         }
 
         let rightItem = UIBarButtonItem(customView: searchButton)
@@ -66,12 +99,12 @@ final class ExploreViewController: UIViewController {
     }
 
     private func loadMoreData() {
-        if !isLoading {
-            isLoading = true
-            pageNumer += 1
+        if isLoading {
+            pageNumber += 1
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                guard let viewModel = self.viewModel else { return }
                 self.isLoading = false
-                self.collectionView.reloadData()
+                self.callApi(genresKey: viewModel.genresKeys, pageNumber: self.pageNumber, isCallKey: false)
             }
         }
     }
@@ -85,7 +118,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             return 0
         }
 
-        return viewModel.numberOfItemsInSection(page: pageNumer)
+        return viewModel.numberOfItemsInSection(pageNumber: pageNumber)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -93,8 +126,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.contentMovieNib, for: indexPath) as? ContentMovieCollectionViewCell else {
             return UICollectionViewCell()
         }
-
-        cell.viewModel = viewModel.viewModelForItem()
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
@@ -106,17 +138,17 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
                   let viewModel = viewModel else {
 
                 return UICollectionReusableView()
+
             }
+            header.delegate = self
             header.frame = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: Define.genresCellHeight)
-            header.viewModel = viewModel.viewModelForHeader()
+            header.viewModel = viewModel.viewModelForHeader(data: viewModel.genres)
             return header
         default:
-            guard let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView else {
-                return UICollectionReusableView()
-            }
+            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.loadingReusableViewCell, for: indexPath) as? LoadingReusableView
             loadingView = aFooterView
             loadingView?.backgroundColor = UIColor.clear
-            return aFooterView
+            return aFooterView ?? UICollectionReusableView()
         }
     }
 
@@ -124,7 +156,8 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         guard let viewModel = viewModel else {
             return
         }
-        if indexPath.row == viewModel.numberOfItemsInSection(page: pageNumer) - Define.itemStartReload, !isLoading {
+        if indexPath.row == viewModel.numberOfItemsInSection(pageNumber: pageNumber) - Define.itemStartReload {
+            isLoading = !isLoading
             loadMoreData()
         }
     }
@@ -167,6 +200,25 @@ extension ExploreViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ExploreViewController: ExploreHeaderViewDelegate {
+    func view(view: ExploreHeaderView, needPerformAtion action: ExploreHeaderView.Action) {
+        guard let viewModel = viewModel else {
+            return
+        }
+        switch action {
+        case .passKeyFromHeader(genresKey: let key):
+            viewModel.contentMovies.removeAll()
+            pageNumber = 1
+            if let index = viewModel.genresKeys.firstIndex(of: key) {
+                viewModel.genresKeys.remove(at: index)
+            } else {
+                viewModel.genresKeys.append(key)
+            }
+            callApi(genresKey: viewModel.genresKeys, pageNumber: pageNumber, isCallKey: false)
+        }
+    }
+}
+
 // MARK: - Define
 extension ExploreViewController {
     struct Define {
@@ -181,8 +233,6 @@ extension ExploreViewController {
         static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
         static let tintColor: UIColor = .gray
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        static let pageNumer: Int = 1
-        static let isLoading: Bool = false
         static let heightFootter: CGFloat = 20
         static let itemStartReload: Int = 5
     }

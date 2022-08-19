@@ -15,6 +15,10 @@ extension UIImageView {
             return
         }
         let config = URLSessionConfiguration.default
+        if #available(iOS 11.0, *) {
+            config.waitsForConnectivity = true
+        } else {
+        }
         let session = URLSession(configuration: config)
         let task = session.dataTask(with: url) { (data, _, error) in
             DispatchQueue.main.async {
@@ -25,6 +29,30 @@ extension UIImageView {
                         self.image = UIImage(data: data)
                     } else {
                         self.image = nil
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+
+    func downloadImage(url: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: url) else {
+            completion(nil)
+            return
+        }
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        let task = session.dataTask(with: url) { (data, _, error) in
+            DispatchQueue.main.async {
+                if error != nil {
+                    completion(nil)
+                } else {
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        completion(image)
+                    } else {
+                        completion(nil)
                     }
                 }
             }

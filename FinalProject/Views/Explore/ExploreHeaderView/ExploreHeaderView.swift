@@ -7,12 +7,22 @@
 
 import UIKit
 
+protocol ExploreHeaderViewDelegate: AnyObject {
+    func view(view: ExploreHeaderView, needPerformAtion action: ExploreHeaderView.Action)
+}
+
 final class ExploreHeaderView: UICollectionReusableView {
+
+    // MARK: - Enums
+    enum Action {
+        case passKeyFromHeader(genresKey: Int)
+    }
 
     // MARK: - IBOutlets
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
+    weak var delegate: ExploreHeaderViewDelegate?
     var viewModel: ExploreHeaderViewModel? {
         didSet {
             updateCell()
@@ -53,7 +63,7 @@ extension ExploreHeaderView: UICollectionViewDelegate, UICollectionViewDataSourc
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Define.genresCollectionCell, for: indexPath) as? GenresCollectionViewCell else {
             return UICollectionViewCell()
         }
-
+        cell.delegate = self
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
@@ -65,8 +75,23 @@ extension ExploreHeaderView: UICollectionViewDelegateFlowLayout {
         guard let viewModel = viewModel else {
             return CGSize(width: 0, height: 0)
         }
-        let cellWidth = viewModel.sizeForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
+        let cellWidth = viewModel.stringForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
         return CGSize(width: cellWidth, height: 30.0)
+    }
+}
+
+extension ExploreHeaderView: GenresCollectionViewCellDelegate {
+    func cell(cell: GenresCollectionViewCell, needPerformAtion action: GenresCollectionViewCell.Action) {
+        guard let viewModel = viewModel,
+              let indexPath = collectionView.indexPath(for: cell),
+              let delegate = delegate else {
+            return
+        }
+        switch action {
+        case .genresButtonIsSelected:
+            viewModel.genresKey = viewModel.genres[indexPath.row].id ?? 0
+            delegate.view(view: self, needPerformAtion: .passKeyFromHeader(genresKey: viewModel.genresKey))
+        }
     }
 }
 

@@ -10,12 +10,12 @@ import Foundation
 final class ExploreHeaderViewModel {
 
     // MARK: - Properties
-    #warning("dummy data")
-    private var genres = ["Action", "Adventure", "Animation",
-                       "Comedy", "Crime", "Documentary", "Drama",
-                       "Family", "Fantasy", "History", "Horror", "Music",
-                       "Mystery", "Romance", "Science Fiction", "TV Movie",
-                       "Thriller", "War", "Western"]
+    var genres: [Genres] = []
+    var genresKey: Int = 0
+
+    init (genres: [Genres]) {
+        self.genres = genres
+    }
 
     // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
@@ -26,10 +26,11 @@ final class ExploreHeaderViewModel {
         guard let item = genres[safe: indexPath.row] else {
             return GenresCollectionCellViewModel(genre: nil)
         }
-        return GenresCollectionCellViewModel(genre: item)
+
+        return GenresCollectionCellViewModel(genre: item, isSelected: item.isSelect)
     }
 
-    func sizeForItem(at indexPath: IndexPath) -> String {
-        return genres[safe: indexPath.row] ?? ""
+    func getNameGenre(at indexPath: IndexPath) -> String {
+        return genres[safe: indexPath.row]?.name ?? ""
     }
 }
