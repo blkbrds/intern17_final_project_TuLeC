@@ -7,12 +7,21 @@
 
 import UIKit
 
+protocol HeaderCollectionReusableViewDataSource: AnyObject {
+    func getTitle() -> String
+    func getOverView() -> String
+    func getGenres() -> [Int]
+}
+
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
     // MARK: - IBOutlets
     @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var overviewLabel: UILabel!
 
     // MARK: - Properties
+    var dataSource: HeaderCollectionReusableViewDataSource?
     var viewModel: HeaderViewViewModel? {
         didSet {
             updateCell()
@@ -23,11 +32,27 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
+        configUI()
+    }
+
+    private func configUI() {
+        guard let dataSource = dataSource else {
+            return
+        }
+        titleLabel.text = dataSource.getTitle()
+        overviewLabel.text = dataSource.getOverView()
     }
 
     // MARK: - Private functions
     private func updateCell() {
         collectionView.reloadData()
+        guard let dataSource = dataSource,
+              let viewModel = viewModel else {
+            return
+        }
+        titleLabel.text = dataSource.getTitle()
+        overviewLabel.text = dataSource.getOverView()
+        viewModel.tags = dataSource.getGenres()
     }
 
     private func configCollectionView() {

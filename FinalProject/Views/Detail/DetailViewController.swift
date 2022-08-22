@@ -16,11 +16,55 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: DetailViewModel?
+    var id: Int?
+    var originalTitle: String?
+    var overview: String?
+    var genres: [Int]?
+    private var pageNumber: Int = 1
 
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+    }
+
+    private func callApi() {
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        guard let id = id,
+              let viewModel = viewModel else {
+            return
+        }
+        getVideosApi(movieId: id) {
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        viewModel.getDetailApi(movieId: id, pageNumber: pageNumber, completion: { _ in
+            dispatchGroup.leave()
+        })
+        dispatchGroup.notify(queue: .main) {
+            self.collectionView.reloadData()
+        }
+    }
+
+    private func getVideosApi(movieId: Int, completion: @escaping (() -> Void)) {
+        guard let viewModel = viewModel else { return }
+        var keyId: String = ""
+        viewModel.getVideosApi(movieId: movieId) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                keyId = data
+                this.playerView.load(withVideoId: keyId, playerVars: ["playsinline": "1"])
+                this.playerView.delegate = this
+                this.playerView.webView?.backgroundColor = Define.ytBackgroundColor
+                this.playerView.webView?.isOpaque = false
+                completion()
+            case .failure:
+                completion()
+            }
+        }
     }
 
     // MARK: - Private functions
@@ -29,6 +73,7 @@ final class DetailViewController: UIViewController {
         playerView.webView?.backgroundColor = Define.ytBackgroundColor
         playerView.webView?.isOpaque = false
         configNavigationBar()
+        callApi()
         configCollectionView()
         tabBarController?.tabBar.isHidden = true
     }
@@ -58,9 +103,21 @@ final class DetailViewController: UIViewController {
         navigationItem.leftBarButtonItem = leftItem
     }
 
+    private func loadMoreData() {
+        pageNumber += 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            guard let id = self.id,
+                  let viewModel = self.viewModel else { return }
+            viewModel.getDetailApi(movieId: id, pageNumber: self.pageNumber, completion: { _ in
+                self.collectionView.reloadData()
+            })
+        }
+    }
+
     // MARK: - Objc functions
     @objc private func backButtonTapped() {
-        #warning("handle later")
+        navigationController?.popToRootViewController(animated: true)
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
@@ -78,7 +135,7 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
             let viewModel = viewModel else {
             return UICollectionViewCell()
         }
-        cell.viewModel = viewModel.viewModelForItem()
+        cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
     }
 
@@ -90,6 +147,7 @@ extension DetailViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 return UICollectionReusableView()
             }
             cell.frame = Define.frameForHeader
+            cell.dataSource = self
             cell.viewModel = viewModel.viewModelForHeader()
             return cell
         }
@@ -104,6 +162,53 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return Define.sizeForItem
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let id = viewModel.detail[safe: indexPath.row]?.id,
+              let originalTitle = viewModel.detail[safe: indexPath.row]?.originalTitle,
+              let overview = viewModel.detail[safe: indexPath.row]?.overview,
+              let genres = viewModel.detail[safe: indexPath.row]?.genres  else { return }
+        self.id = id
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.genres = genres
+        pageNumber = 1
+        viewModel.detail.removeAll()
+        viewDidLoad()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else {
+            return
+        }
+        if indexPath.row == viewModel.numberOfItems() - 5 {
+            loadMoreData()
+        }
+    }
+}
+
+extension DetailViewController: HeaderCollectionReusableViewDataSource {
+    func getGenres() -> [Int] {
+        guard let genres = genres else {
+            return []
+        }
+        return genres
+    }
+
+    func getTitle() -> String {
+        guard let title = originalTitle else {
+            return ""
+        }
+        return title
+    }
+
+    func getOverView() -> String {
+        guard let overview = overview else {
+            return ""
+        }
+        return overview
     }
 }
 
@@ -121,8 +226,8 @@ extension DetailViewController {
         static let cellNib: String = "DetailCollectionViewCell"
         @available(iOS 13.0, *)
         static let systemImage = UIImage(systemName: "chevron.backward")
-        static let frameForHeader = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: 200)
-        static let sizeForHeader = CGSize(width: SizeWithScreen.shared.width, height: 200)
+        static let frameForHeader = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: 250)
+        static let sizeForHeader = CGSize(width: SizeWithScreen.shared.width, height: 250)
         static let sizeForItem = CGSize(width: SizeWithScreen.shared.width, height: 130)
         static let backButtonTintColor: UIColor = .white
         static let ytBackgroundColor: UIColor = .black

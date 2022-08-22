@@ -37,6 +37,14 @@ final class LatestTableCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
+
+    func getItemFor(indexPath: IndexPath) -> Slider? {
+        guard let latest = latest else {
+            return nil
+        }
+
+        return latest[indexPath.row]
+    }
 }
 
 // MARK: - Define

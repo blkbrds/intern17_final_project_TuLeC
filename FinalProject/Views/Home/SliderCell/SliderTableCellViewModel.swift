@@ -42,6 +42,14 @@ final class SliderTableCellViewModel {
         }
         return viewModel
     }
+
+    func getItemFor(indexPath: IndexPath) -> Slider? {
+        guard let sliders = sliders else {
+            return nil
+        }
+
+        return sliders[indexPath.row]
+    }
 }
 
 // MARK: - Define

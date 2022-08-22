@@ -13,6 +13,8 @@ final class ContentMovie {
     var originalTitle: String?
     var backdropPath: String?
     var voteAverage: Double?
+    var overview: String?
+    var genres: [Int]?
     var image: UIImage?
 
     init(json: JSObject) {
@@ -20,5 +22,7 @@ final class ContentMovie {
         self.id = json["id"] as? Int
         self.originalTitle = json["original_title"] as? String
         self.voteAverage = json["vote_average"] as? Double
+        self.overview = json["overview"] as? String
+        self.genres = json["genre_ids"] as? [Int]
     }
 }

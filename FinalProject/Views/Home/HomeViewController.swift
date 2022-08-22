@@ -99,7 +99,8 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest()) {[weak self] result in
+        let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
+        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest(movieId: movieId)) {[weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):
@@ -168,6 +169,20 @@ final class HomeViewController: UIViewController {
         tableView.register(upComingCellNib, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
+    private func pushDetailVC(data: Slider) {
+        guard let id = data.id,
+              let originalTitle = data.originalTitle,
+              let overview = data.overview,
+              let genres = data.genres else { return }
+        let detailVC = DetailViewController()
+        detailVC.id = id
+        detailVC.originalTitle = originalTitle
+        detailVC.overview = overview
+        detailVC.genres = genres
+        detailVC.viewModel = DetailViewModel()
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+
     // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
         #warning("Handle later")
@@ -194,26 +209,31 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .slider, data: data[.slider] ?? []) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying, data: data[.nowPlaying] ?? []) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .topRated, data: data[.topRated] ?? []) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .latest, data: data[.latest] ?? []) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .upComing, data: data[.upComing] ?? []) as? UpComingTableCellViewModel
         }
 
@@ -226,6 +246,51 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return SizeWithScreen.shared.height / CGFloat(viewModel.heightForRowAt(at: indexPath))
+    }
+}
+
+extension HomeViewController: SliderTableViewCellDelegate {
+    func cell(_ cell: SliderTableViewCell, needPerform action: SliderTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let data):
+            pushDetailVC(data: data)
+        }
+    }
+}
+
+extension HomeViewController: NowPlayingTableViewCellDelegate {
+    func cell(_ cell: NowPlayingTableViewCell, needPerform action: NowPlayingTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let data):
+            pushDetailVC(data: data)
+        }
+    }
+}
+
+extension HomeViewController: TopRatedTableViewCellDelegate {
+    func cell(_ cell: TopRatedTableViewCell, needPerform action: TopRatedTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let data):
+            pushDetailVC(data: data)
+        }
+    }
+}
+
+extension HomeViewController: LatestTableViewCellDelegate {
+    func cell(_ cell: LatestTableViewCell, needPerform action: LatestTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let data):
+            pushDetailVC(data: data)
+        }
+    }
+}
+
+extension HomeViewController: UpComingTableViewCellDelegate {
+    func cell(_ cell: UpComingTableViewCell, needPerform action: UpComingTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let data):
+            pushDetailVC(data: data)
+        }
     }
 }
 

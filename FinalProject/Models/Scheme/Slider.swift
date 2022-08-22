@@ -14,6 +14,9 @@ final class Slider {
     var backdropPath: String?
     var id: Int?
     var originalTitle: String?
+    var overview: String?
+    var voteAverage: Double?
+    var genres: [Int]?
     var image: UIImage?
 
     // MARK: - Initialize
@@ -21,5 +24,8 @@ final class Slider {
         self.backdropPath = json["backdrop_path"] as? String
         self.id = json["id"] as? Int
         self.originalTitle = json["original_title"] as? String
+        self.overview = json["overview"] as? String
+        self.voteAverage = json["vote_average"] as? Double
+        self.genres = json["genre_ids"] as? [Int]
     }
 }

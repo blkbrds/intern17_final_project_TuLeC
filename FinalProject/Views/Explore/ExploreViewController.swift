@@ -179,6 +179,21 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             loadingView.isShowIndicator = false
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let id = viewModel.contentMovies[indexPath.row].id,
+              let overview = viewModel.contentMovies[indexPath.row].overview,
+              let title = viewModel.contentMovies[indexPath.row].originalTitle,
+              let genres = viewModel.contentMovies[indexPath.row].genres  else { return }
+        let detailVC = DetailViewController()
+        detailVC.id = id
+        detailVC.originalTitle = title
+        detailVC.overview = overview
+        detailVC.genres = genres
+        detailVC.viewModel = DetailViewModel()
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 // MARK: - DelegateFlowLayout
