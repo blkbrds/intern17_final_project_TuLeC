@@ -66,26 +66,27 @@ final class SearchViewController: UIViewController {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     DispatchQueue.main.async {
-                        let suggestView = UITableView()
-                        suggestView.frame = Define.framreSubView
-                        suggestView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+                        let tableView = UITableView()
+                        tableView.frame = Define.framreSubView
+                        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
                         let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
-                        suggestView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
-                        suggestView.tag = Define.tagSubView
-                        suggestView.delegate = self
-                        suggestView.dataSource = self
-                        self?.view.addSubview(suggestView)
+                        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
+                        tableView.tag = Define.tagSubView
+                        tableView.delegate = self
+                        tableView.dataSource = self
+                        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
+                        self?.view.addSubview(tableView)
                     }
                 }
             })
         } else {
-            let suggestView = UITableView()
-            suggestView.frame = Define.framreSubView
-            suggestView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
-            suggestView.tag = Define.tagSubView
-            suggestView.delegate = self
-            suggestView.dataSource = self
-            view.addSubview(suggestView)
+            let tableView = UITableView()
+            tableView.frame = Define.framreSubView
+            tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+            tableView.tag = Define.tagSubView
+            tableView.delegate = self
+            tableView.dataSource = self
+            view.addSubview(tableView)
         }
     }
 
@@ -97,6 +98,7 @@ final class SearchViewController: UIViewController {
 
     @objc private func pop() {
         navigationController?.popViewController(animated: true)
+        searchBar.text = ""
     }
 }
 
@@ -123,6 +125,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             header.frame = Define.headerFrame
             return header
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        searchBar.text = viewModel.history[indexPath.row]
+        searchCell = .contentSearchCell
+        loadSuggestView()
     }
 }
 
@@ -185,7 +194,7 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.searchTimer?.invalidate()
         searchCell = .suggestSearchCell
-        if !searchText.isEmpty {
+        if !searchText.isEmpty && searchText != "" {
             loadSuggestView()
         } else {
             removeSubview()
