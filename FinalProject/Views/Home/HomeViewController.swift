@@ -170,7 +170,9 @@ final class HomeViewController: UIViewController {
 
     // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
-        #warning("Handle later")
+        let searchVC = SearchViewController()
+        searchVC.viewModel = SearchViewModel()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 

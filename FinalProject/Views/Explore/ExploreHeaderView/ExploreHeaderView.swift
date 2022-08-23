@@ -75,7 +75,7 @@ extension ExploreHeaderView: UICollectionViewDelegateFlowLayout {
         guard let viewModel = viewModel else {
             return CGSize(width: 0, height: 0)
         }
-        let cellWidth = viewModel.stringForItem(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
+        let cellWidth = viewModel.getNameGenre(at: indexPath).size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width + 50.0
         return CGSize(width: cellWidth, height: 30.0)
     }
 }
