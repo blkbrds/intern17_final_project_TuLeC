@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 final class SearchViewController: UIViewController {
 
@@ -19,6 +20,7 @@ final class SearchViewController: UIViewController {
     var viewModel: SearchViewModel?
     private var searchTimer: Timer?
     private var searchBar: UISearchBar = UISearchBar()
+    private var tableView = UITableView()
     private var searchCell: CellType?
 
     override func viewDidLoad() {
@@ -48,10 +50,19 @@ final class SearchViewController: UIViewController {
     }
 
     private func configCollectionView() {
-        configNib()
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.contentInset = Define.contentInset
+        guard let viewModel = viewModel else {
+            return
+        }
+        viewModel.fetchData { done in
+            if done {
+                configNib()
+                collectionView.contentInset = Define.contentInset
+                collectionView.delegate = self
+                collectionView.dataSource = self
+            } else {
+                print("lỗi")
+            }
+        }
     }
 
     private func configNib() {
@@ -65,17 +76,17 @@ final class SearchViewController: UIViewController {
         if #available(iOS 10.0, *) {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                    guard let this = self else { return }
                     DispatchQueue.main.async {
-                        let tableView = UITableView()
-                        tableView.frame = Define.framreSubView
-                        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+                        this.tableView.frame = Define.framreSubView
+                        this.tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
                         let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
-                        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
-                        tableView.tag = Define.tagSubView
-                        tableView.delegate = self
-                        tableView.dataSource = self
-                        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
-                        self?.view.addSubview(tableView)
+                        this.tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
+                        this.tableView.tag = Define.tagSubView
+                        this.tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
+                        this.tableView.delegate = self
+                        this.tableView.dataSource = self
+                        self?.view.addSubview(this.tableView)
                     }
                 }
             })
@@ -91,7 +102,7 @@ final class SearchViewController: UIViewController {
     }
 
     private func removeSubview() {
-        if let viewWithTag = self.view.viewWithTag(Define.tagSubView) {
+        if let viewWithTag = view.viewWithTag(Define.tagSubView) {
             viewWithTag.removeFromSuperview()
         }
     }
@@ -122,6 +133,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Define.headerNib, for: indexPath) as? SearchHeaderView else {
                 return UICollectionReusableView()
             }
+            header.delegate = self
             header.frame = Define.headerFrame
             return header
         }
@@ -129,9 +141,21 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let viewModel = viewModel else { return }
-        searchBar.text = viewModel.history[indexPath.row]
+        searchBar.text = viewModel.history[indexPath.row].originalTitle
         searchCell = .contentSearchCell
         loadSuggestView()
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return Define.sizeForHeader
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let viewModel = viewModel else { return CGSize(width: 0, height: 0) }
+        let cellWidth = (viewModel.history[indexPath.row].originalTitle.size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
+        return CGSize(width: cellWidth, height: 30.0)
     }
 }
 
@@ -163,7 +187,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
         searchCell = .contentSearchCell
+        viewModel.addHistory(title: viewModel.suggest[indexPath.row])
         tableView.reloadData()
     }
 
@@ -178,20 +204,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-extension SearchViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return Define.sizeForHeader
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let viewModel = viewModel else { return CGSize(width: 0, height: 0) }
-        let cellWidth = (viewModel.history[indexPath.row].size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
-        return CGSize(width: cellWidth, height: 30.0)
-    }
-}
-
 extension SearchViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let viewModel = viewModel else { return }
         self.searchTimer?.invalidate()
         searchCell = .suggestSearchCell
         if !searchText.isEmpty && searchText != "" {
@@ -199,8 +214,43 @@ extension SearchViewController: UISearchBarDelegate {
         } else {
             removeSubview()
         }
+        viewModel.fetchData { done in
+            if done {
+                collectionView.reloadData()
+            } else {
+                print("lỗi")
+            }
+        }
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let viewModel = viewModel,
+              let searchString = searchBar.text else { return }
+        searchCell = .contentSearchCell
+        viewModel.addHistory(title: searchString)
+        tableView.reloadData()
     }
 }
+
+extension SearchViewController: SearchHeaderViewDelegate {
+    func view(view: SearchHeaderView) {
+        guard let viewModel = viewModel else { return }
+        viewModel.deleteAllHistory { done in
+            if done {
+                viewModel.fetchData { done in
+                    if done {
+                        collectionView.reloadData()
+                    } else {
+                        print("lỗi")
+                    }
+                }
+            } else {
+                print("lỗi")
+            }
+        }
+    }
+}
+
 
 extension SearchViewController {
     struct Define {
