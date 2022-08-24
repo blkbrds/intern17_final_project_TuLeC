@@ -14,7 +14,7 @@ protocol GenresCollectionViewCellDelegate: AnyObject {
 final class GenresCollectionViewCell: UICollectionViewCell {
 
     enum Action {
-        case genresButtonIsSelected
+        case genresKeyIsSelected
     }
 
     // MARK: - IBOutlets
@@ -80,7 +80,7 @@ final class GenresCollectionViewCell: UICollectionViewCell {
             }
             genre.isSelect = false
         }
-        delegate.cell(cell: self, needPerformAtion: .genresButtonIsSelected)
+        delegate.cell(cell: self, needPerformAtion: .genresKeyIsSelected)
     }
 }
 

@@ -233,7 +233,7 @@ extension ExploreViewController {
         static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
         static let tintColor: UIColor = .gray
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        static let heightFootter: CGFloat = 20
+        static let heightFootter: CGFloat = 40
         static let itemStartReload: Int = 5
     }
 }
