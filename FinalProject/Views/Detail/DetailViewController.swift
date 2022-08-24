@@ -94,7 +94,7 @@ final class DetailViewController: UIViewController {
     private func configNavigationBar() {
         let backButton = UIButton()
         if #available(iOS 13.0, *) {
-            backButton.setImage(Define.systemImage, for: .normal)
+            backButton.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
         }
         backButton.tintColor = Define.backButtonTintColor
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
@@ -224,8 +224,6 @@ extension DetailViewController {
     struct Define {
         static let headerNib: String = "HeaderCollectionReusableView"
         static let cellNib: String = "DetailCollectionViewCell"
-        @available(iOS 13.0, *)
-        static let systemImage = UIImage(systemName: "chevron.backward")
         static let frameForHeader = CGRect(x: 0, y: 0, width: SizeWithScreen.shared.width, height: 250)
         static let sizeForHeader = CGSize(width: SizeWithScreen.shared.width, height: 250)
         static let sizeForItem = CGSize(width: SizeWithScreen.shared.width, height: 130)
