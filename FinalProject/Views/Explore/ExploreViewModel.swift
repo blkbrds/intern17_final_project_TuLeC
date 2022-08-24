@@ -63,4 +63,14 @@ final class ExploreViewModel {
             }
         }
     }
+
+    func viewModelForDetail(indexPath: IndexPath) -> DetailViewModel {
+        guard let id = contentMovies[indexPath.row].id,
+              let overview = contentMovies[indexPath.row].overview,
+              let originalTitle = contentMovies[indexPath.row].originalTitle,
+              let genres = contentMovies[indexPath.row].genres else {
+            return DetailViewModel(id: 0, originalTitle: "", overview: "", genres: [])
+        }
+        return DetailViewModel(id: id, originalTitle: originalTitle, overview: overview, genres: genres)
+    }
 }

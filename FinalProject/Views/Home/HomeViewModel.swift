@@ -71,4 +71,14 @@ final class HomeViewModel {
 
         return type.ratioHeightForRow
     }
+
+    func viewModelForDetail(detail: Slider) -> DetailViewModel {
+        guard let id = detail.id,
+              let originalTitle = detail.originalTitle,
+              let overview = detail.overview,
+              let genres = detail.genres else {
+            return DetailViewModel(id: 0, originalTitle: "", overview: "", genres: [])
+        }
+        return DetailViewModel(id: id, originalTitle: originalTitle, overview: overview, genres: genres)
+    }
 }

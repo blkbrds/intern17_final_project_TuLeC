@@ -8,10 +8,10 @@
 import Foundation
 
 final class DetailCollectionCellViewModel {
-    var detail: Slider?
+    var sliderDetail: Slider?
 
     // MARK: - Initialize
-    init(detail: Slider?) {
-        self.detail = detail
+    init(sliderDetail: Slider?) {
+        self.sliderDetail = sliderDetail
     }
 }

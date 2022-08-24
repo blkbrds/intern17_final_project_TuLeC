@@ -60,6 +60,7 @@ final class HomeViewController: UIViewController {
         SVProgressHUD.show()
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getSliderURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -73,6 +74,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getNowPlayingURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -86,6 +88,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getTopRated()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -99,6 +102,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest(movieId: movieId)) {[weak self] result in
             guard let this = self else { return }
@@ -113,6 +117,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getUpComing()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -169,17 +174,12 @@ final class HomeViewController: UIViewController {
         tableView.register(upComingCellNib, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
-    private func pushDetailVC(data: Slider) {
-        guard let id = data.id,
-              let originalTitle = data.originalTitle,
-              let overview = data.overview,
-              let genres = data.genres else { return }
+    private func pushDetailVC(detail: Slider) {
+        guard let viewModel = viewModel else {
+            return
+        }
         let detailVC = DetailViewController()
-        detailVC.id = id
-        detailVC.originalTitle = originalTitle
-        detailVC.overview = overview
-        detailVC.genres = genres
-        detailVC.viewModel = DetailViewModel()
+        detailVC.viewModel = viewModel.viewModelForDetail(detail: detail)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 
@@ -252,8 +252,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController: SliderTableViewCellDelegate {
     func cell(_ cell: SliderTableViewCell, needPerform action: SliderTableViewCell.Action) {
         switch action {
-        case .collectionCellDidTapped(let data):
-            pushDetailVC(data: data)
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
         }
     }
 }
@@ -261,8 +261,8 @@ extension HomeViewController: SliderTableViewCellDelegate {
 extension HomeViewController: NowPlayingTableViewCellDelegate {
     func cell(_ cell: NowPlayingTableViewCell, needPerform action: NowPlayingTableViewCell.Action) {
         switch action {
-        case .collectionCellDidTapped(let data):
-            pushDetailVC(data: data)
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
         }
     }
 }
@@ -270,8 +270,8 @@ extension HomeViewController: NowPlayingTableViewCellDelegate {
 extension HomeViewController: TopRatedTableViewCellDelegate {
     func cell(_ cell: TopRatedTableViewCell, needPerform action: TopRatedTableViewCell.Action) {
         switch action {
-        case .collectionCellDidTapped(let data):
-            pushDetailVC(data: data)
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
         }
     }
 }
@@ -279,8 +279,8 @@ extension HomeViewController: TopRatedTableViewCellDelegate {
 extension HomeViewController: LatestTableViewCellDelegate {
     func cell(_ cell: LatestTableViewCell, needPerform action: LatestTableViewCell.Action) {
         switch action {
-        case .collectionCellDidTapped(let data):
-            pushDetailVC(data: data)
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
         }
     }
 }
@@ -288,8 +288,8 @@ extension HomeViewController: LatestTableViewCellDelegate {
 extension HomeViewController: UpComingTableViewCellDelegate {
     func cell(_ cell: UpComingTableViewCell, needPerform action: UpComingTableViewCell.Action) {
         switch action {
-        case .collectionCellDidTapped(let data):
-            pushDetailVC(data: data)
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
         }
     }
 }

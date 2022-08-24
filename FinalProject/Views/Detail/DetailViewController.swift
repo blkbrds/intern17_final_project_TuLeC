@@ -16,10 +16,6 @@ final class DetailViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: DetailViewModel?
-    var id: Int?
-    var originalTitle: String?
-    var overview: String?
-    var genres: [Int]?
     private var pageNumber: Int = 1
 
     // MARK: - Life cycle
@@ -30,19 +26,24 @@ final class DetailViewController: UIViewController {
 
     private func callApi() {
         let dispatchGroup = DispatchGroup()
+
         dispatchGroup.enter()
-        guard let id = id,
-              let viewModel = viewModel else {
+
+        guard let viewModel = viewModel else {
             return
         }
-        getVideosApi(movieId: id) {
+        getVideosApi(movieId: viewModel.id) {
+
             dispatchGroup.leave()
         }
 
         dispatchGroup.enter()
-        viewModel.getDetailApi(movieId: id, pageNumber: pageNumber, completion: { _ in
+
+        viewModel.getDetailApi(movieId: viewModel.id, pageNumber: pageNumber, completion: { _ in
+
             dispatchGroup.leave()
         })
+
         dispatchGroup.notify(queue: .main) {
             self.collectionView.reloadData()
         }
@@ -106,9 +107,8 @@ final class DetailViewController: UIViewController {
     private func loadMoreData() {
         pageNumber += 1
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            guard let id = self.id,
-                  let viewModel = self.viewModel else { return }
-            viewModel.getDetailApi(movieId: id, pageNumber: self.pageNumber, completion: { _ in
+            guard let viewModel = self.viewModel else { return }
+            viewModel.getDetailApi(movieId: viewModel.id, pageNumber: self.pageNumber, completion: { _ in
                 self.collectionView.reloadData()
             })
         }
@@ -165,17 +165,10 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let viewModel = viewModel,
-              let id = viewModel.detail[safe: indexPath.row]?.id,
-              let originalTitle = viewModel.detail[safe: indexPath.row]?.originalTitle,
-              let overview = viewModel.detail[safe: indexPath.row]?.overview,
-              let genres = viewModel.detail[safe: indexPath.row]?.genres  else { return }
-        self.id = id
-        self.originalTitle = originalTitle
-        self.overview = overview
-        self.genres = genres
+        guard let viewModel = viewModel else { return }
+        viewModel.didSelectItemAt(indexPath: indexPath)
         pageNumber = 1
-        viewModel.detail.removeAll()
+        viewModel.details.removeAll()
         viewDidLoad()
     }
 
@@ -191,24 +184,24 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 
 extension DetailViewController: HeaderCollectionReusableViewDataSource {
     func getGenres() -> [Int] {
-        guard let genres = genres else {
+        guard let viewModel = viewModel else {
             return []
         }
-        return genres
+        return viewModel.genres
     }
 
     func getTitle() -> String {
-        guard let title = originalTitle else {
+        guard let viewModel = viewModel else {
             return ""
         }
-        return title
+        return viewModel.originalTitle
     }
 
     func getOverView() -> String {
-        guard let overview = overview else {
+        guard let viewModel = viewModel else {
             return ""
         }
-        return overview
+        return viewModel.overview
     }
 }
 

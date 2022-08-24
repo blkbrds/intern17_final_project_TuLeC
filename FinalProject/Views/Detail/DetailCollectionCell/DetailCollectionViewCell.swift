@@ -42,18 +42,18 @@ final class DetailCollectionViewCell: UICollectionViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel,
-              let voteAverage = viewModel.detail?.voteAverage else {
+              let voteAverage = viewModel.sliderDetail?.voteAverage else {
             return
         }
-        titleLabel.text = viewModel.detail?.originalTitle
+        titleLabel.text = viewModel.sliderDetail?.originalTitle
         ratingLabel.text = "\(voteAverage)"
-        overviewLabel.text = viewModel.detail?.overview
-        if let image = viewModel.detail?.image {
+        overviewLabel.text = viewModel.sliderDetail?.overview
+        if let image = viewModel.sliderDetail?.image {
             imageView.image = image
         } else {
-            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.detail?.backdropPath ?? "")) { image in
+            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.sliderDetail?.backdropPath ?? "")) { image in
                 if let image = image {
-                    viewModel.detail?.image = image
+                    viewModel.sliderDetail?.image = image
                     self.imageView.image = image
                 } else {
                     self.imageView.image = nil

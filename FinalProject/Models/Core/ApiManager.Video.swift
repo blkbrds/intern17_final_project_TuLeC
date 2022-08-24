@@ -21,15 +21,13 @@ extension ApiManager.Video {
         ApiManager.shared.request(method: .get, with: url) { result in
             switch result {
             case .success(let data):
-                if let data = data {
-                    var videos: [Video] = []
-                    if let items = data["results"] as? [JSObject] {
-                        for video in items {
-                            videos.append(Video(json: video))
-                        }
-                    }
-                    completion(.success(videos))
+                var videos: [Video] = []
+                guard let data = data,
+                      let items = data["results"] as? [JSObject] else { return }
+                for video in items {
+                    videos.append(Video(json: video))
                 }
+                completion(.success(videos))
             case .failure(let error):
                 completion(.failure(error))
             }

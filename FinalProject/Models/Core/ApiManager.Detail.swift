@@ -25,15 +25,13 @@ extension ApiManager.Detail {
         ApiManager.shared.request(method: .get, with: url) { result in
             switch result {
             case .success(let data):
-                if let data = data {
-                    var sliders: [Slider] = []
-                    if let items = data["results"] as? [JSObject] {
-                        for slider in items {
-                            sliders.append(Slider(json: slider))
-                        }
-                    }
-                    completion(.success(sliders))
+                var sliders: [Slider] = []
+                guard let data = data,
+                      let items = data["results"] as? [JSObject] else { return }
+                for slider in items {
+                    sliders.append(Slider(json: slider))
                 }
+                completion(.success(sliders))
             case .failure(let error):
                 completion(.failure(error))
             }

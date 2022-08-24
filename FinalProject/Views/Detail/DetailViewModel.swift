@@ -10,7 +10,18 @@ import Foundation
 final class DetailViewModel {
 
     var videoKey: Video?
-    var detail: [Slider] = []
+    var details: [Slider] = []
+    var id: Int
+    var originalTitle: String
+    var overview: String
+    var genres: [Int]
+
+    init(id: Int, originalTitle: String, overview: String, genres: [Int]) {
+        self.id = id
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.genres = genres
+    }
 
     // MARK: - Public functions
     func viewModelForHeader() -> HeaderViewViewModel {
@@ -18,15 +29,15 @@ final class DetailViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> DetailCollectionCellViewModel {
-        guard let item = detail[safe: indexPath.row] else {
-            return DetailCollectionCellViewModel(detail: nil)
+        guard let item = details[safe: indexPath.row] else {
+            return DetailCollectionCellViewModel(sliderDetail: nil)
         }
 
-        return DetailCollectionCellViewModel(detail: item)
+        return DetailCollectionCellViewModel(sliderDetail: item)
     }
 
     func numberOfItems() -> Int {
-        return detail.count
+        return details.count
     }
 
     func getDetailApi(movieId: Int, pageNumber: Int, completion: @escaping Completion<[Slider]>) {
@@ -35,7 +46,7 @@ final class DetailViewModel {
             switch result {
             case .success(let data):
                 for item in data {
-                    this.detail.append(item)
+                    this.details.append(item)
                 }
                 completion(.success(data))
             case .failure(let error):
@@ -50,7 +61,7 @@ final class DetailViewModel {
             switch result {
             case .success(let data):
                 this.videoKey = data.first
-                completion(.success(this.videoKey?.key ?? "766507"))
+                completion(.success(this.videoKey?.key ?? ""))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -64,5 +75,16 @@ final class DetailViewModel {
         }
 
         return key
+    }
+
+    func didSelectItemAt(indexPath: IndexPath) {
+        guard let id = details[safe: indexPath.row]?.id,
+              let originalTitle = details[safe: indexPath.row]?.originalTitle,
+              let overview = details[safe: indexPath.row]?.overview,
+              let genres = details[safe: indexPath.row]?.genres  else { return }
+        self.id = id
+        self.originalTitle = originalTitle
+        self.overview = overview
+        self.genres = genres
     }
 }
