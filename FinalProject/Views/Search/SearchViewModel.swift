@@ -12,19 +12,10 @@ final class SearchViewModel {
 
     #warning("dummy data")
     var history: [HistorySearch] = []
-    let suggest: [String] = ["Tinh hà sán lạng", "Trần tình lệnh", "Tranh thiên hạ", "Chỉ là quan hệ hôn nhân", "Đại thiên bồng"]
     let contentSearch: [String] = ["Tinh hà sán lạng", "Trần tình lệnh", "Tranh thiên hạ", "Chỉ là quan hệ hôn nhân", "Đại thiên bồng"]
 
     func numberOfItemsInSection() -> Int {
-        if history.count < 10 {
-            return history.count
-        } else {
-            return 10
-        }
-    }
-
-    func numberOfRowSuggestInSection() -> Int {
-        return suggest.count
+        10
     }
 
     func numberOfRowContentInSection() -> Int {
@@ -32,11 +23,14 @@ final class SearchViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> SearchCollectionCellViewModel {
-        return SearchCollectionCellViewModel(title: history[indexPath.row].originalTitle )
+        guard let item = history[safe: indexPath.row]?.originalTitle else {
+            return SearchCollectionCellViewModel(title: "")
+        }
+        return SearchCollectionCellViewModel(title: item )
     }
 
-    func viewModelForSuggest(at indexPath: IndexPath) -> String {
-        return suggest[indexPath.row]
+    func viewNameForSuggest(at indexPath: IndexPath) -> String {
+        return contentSearch[indexPath.row]
     }
 
     func viewModelForContentSearch() -> SearchContentViewModel {

@@ -78,27 +78,25 @@ final class SearchViewController: UIViewController {
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     guard let this = self else { return }
                     DispatchQueue.main.async {
-                        this.tableView.frame = Define.framreSubView
-                        this.tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
-                        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
-                        this.tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
-                        this.tableView.tag = Define.tagSubView
-                        this.tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
-                        this.tableView.delegate = self
-                        this.tableView.dataSource = self
-                        self?.view.addSubview(this.tableView)
+                        this.loadContentSearch()
                     }
                 }
             })
         } else {
-            let tableView = UITableView()
-            tableView.frame = Define.framreSubView
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
-            tableView.tag = Define.tagSubView
-            tableView.delegate = self
-            tableView.dataSource = self
-            view.addSubview(tableView)
+            loadContentSearch()
         }
+    }
+
+    private func loadContentSearch() {
+        tableView.frame = Define.framreSubView
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
+        tableView.tag = Define.tagSubView
+        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
     }
 
     private func removeSubview() {
@@ -161,14 +159,8 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let searchCell = searchCell,
-              let viewModel = viewModel else { return 0 }
-        switch searchCell {
-        case .contentSearchCell:
-            return viewModel.numberOfRowContentInSection()
-        case .suggestSearchCell:
-            return viewModel.numberOfRowSuggestInSection()
-        }
+        guard let viewModel = viewModel else { return 0 }
+        return viewModel.numberOfRowContentInSection()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -181,7 +173,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case .suggestSearchCell:
             let cell = tableView.dequeueReusableCell(withIdentifier: Define.suggestCell, for: indexPath)
-            cell.textLabel?.text = viewModel.viewModelForSuggest(at: indexPath)
+            cell.textLabel?.text = viewModel.viewNameForSuggest(at: indexPath)
             return cell
         }
     }
@@ -189,7 +181,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = viewModel else { return }
         searchCell = .contentSearchCell
-        viewModel.addHistory(title: viewModel.suggest[indexPath.row])
+        viewModel.addHistory(title: viewModel.contentSearch[indexPath.row])
         tableView.reloadData()
     }
 
@@ -250,7 +242,6 @@ extension SearchViewController: SearchHeaderViewDelegate {
         }
     }
 }
-
 
 extension SearchViewController {
     struct Define {
