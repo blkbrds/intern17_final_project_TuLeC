@@ -23,7 +23,7 @@ final class SearchViewModel {
 
     func viewModelForItem(at indexPath: IndexPath) -> SearchCollectionCellViewModel {
         guard let item = history[safe: indexPath.row]?.originalTitle else {
-            return SearchCollectionCellViewModel(title: "")
+            return SearchCollectionCellViewModel(title: nil)
         }
         return SearchCollectionCellViewModel(title: item )
     }

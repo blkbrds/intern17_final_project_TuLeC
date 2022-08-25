@@ -49,6 +49,10 @@ final class SearchViewController: UIViewController {
         backButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
         let backNavBar = UIBarButtonItem(customView: backButton)
         navigationItem.rightBarButtonItem = backNavBar
+        if #available(iOS 13.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        }
     }
 
     private func configTableView() {
@@ -169,7 +173,8 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let viewModel = viewModel else { return CGSize(width: 0, height: 0) }
-        let cellWidth = (viewModel.history[indexPath.row].originalTitle.size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
+        guard let originalTitle = viewModel.history[safe: indexPath.row]?.originalTitle else { return CGSize(width: 0, height: 0) }
+        let cellWidth = (originalTitle.size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
         return CGSize(width: cellWidth, height: 30.0)
     }
 }

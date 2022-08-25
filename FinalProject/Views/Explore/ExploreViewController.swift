@@ -77,7 +77,7 @@ final class ExploreViewController: UIViewController {
             searchButton.tintColor = Define.tintColor
         } else {
         }
-
+        searchButton.addTarget(self, action: #selector(pushToSearchView), for: .touchUpInside)
         let rightItem = UIBarButtonItem(customView: searchButton)
         navigationItem.rightBarButtonItem = rightItem
     }
@@ -107,6 +107,12 @@ final class ExploreViewController: UIViewController {
                 self.callApi(genresKey: viewModel.genresKeys, pageNumber: self.pageNumber, isCallKey: false)
             }
         }
+    }
+
+    @objc private func pushToSearchView() {
+        let searchViewController = SearchViewController()
+        searchViewController.viewModel = SearchViewModel()
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 
@@ -227,7 +233,7 @@ extension ExploreViewController {
         static let contentMovieNib = "ContentMovieCollectionViewCell"
         static let titleLabel: String = "Khám phá"
         static let systemName: String = "magnifyingglass"
-        static let genresCellHeight: CGFloat = 210
+        static let genresCellHeight: CGFloat = 235
         static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.height) / 4.2)
         static let systemFont = UIFont.systemFont(ofSize: 25.0, weight: .bold)
         static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))

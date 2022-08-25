@@ -10,7 +10,7 @@ import Foundation
 final class SearchCollectionCellViewModel {
     var title: String?
 
-    init(title: String) {
+    init(title: String?) {
         self.title = title
     }
 }
