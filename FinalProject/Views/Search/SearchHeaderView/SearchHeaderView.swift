@@ -11,11 +11,11 @@ protocol SearchHeaderViewDelegate: AnyObject {
     func view(view: SearchHeaderView)
 }
 
-class SearchHeaderView: UICollectionReusableView {
+final class SearchHeaderView: UICollectionReusableView {
 
     weak var delegate: SearchHeaderViewDelegate?
 
-    @IBAction func deleteButtonTouchUpInside(_ sender: UIButton) {
+    @IBAction private func deleteButtonTouchUpInside(_ sender: UIButton) {
         guard let delegate = delegate else {
             return
         }
