@@ -31,6 +31,8 @@ final class SearchViewController: UIViewController {
     private func configUI() {
         configNavigationBar()
         configCollectionView()
+        configTableView()
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func configNavigationBar() {
@@ -38,7 +40,7 @@ final class SearchViewController: UIViewController {
         searchBar.placeholder = Define.placeHolder
         searchBar.delegate = self
         let searchNavBar = UIBarButtonItem(customView: searchBar)
-        self.navigationItem.leftBarButtonItem = searchNavBar
+        navigationItem.leftBarButtonItem = searchNavBar
 
         let backButton: UIButton = Define.backButton
         backButton.setTitle("Huỷ bỏ", for: .normal)
@@ -46,7 +48,18 @@ final class SearchViewController: UIViewController {
         backButton.titleLabel?.font = Define.font
         backButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
         let backNavBar = UIBarButtonItem(customView: backButton)
-        self.navigationItem.rightBarButtonItem = backNavBar
+        navigationItem.rightBarButtonItem = backNavBar
+    }
+
+    private func configTableView() {
+        tableView.frame = Define.framreSubView
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
+        tableView.tag = Define.tagSubView
+        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     private func configCollectionView() {
@@ -72,40 +85,44 @@ final class SearchViewController: UIViewController {
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellNib)
     }
 
-    private func loadSuggestView() {
+    private func loadSuggestView(query: String) {
         if #available(iOS 10.0, *) {
-            searchTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
+            searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     guard let this = self else { return }
-                    DispatchQueue.main.async {
-                        this.loadContentSearch()
-                    }
+                    this.loadContentSearch(query: query)
                 }
             })
         } else {
-            loadContentSearch()
+            loadContentSearch(query: query)
         }
     }
 
-    private func loadContentSearch() {
-        tableView.frame = Define.framreSubView
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
-        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
-        tableView.tag = Define.tagSubView
-        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
-        tableView.delegate = self
-        tableView.dataSource = self
-        view.addSubview(tableView)
+    private func loadContentSearch(query: String) {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            viewModel.getApiSearch(query: query) { _ in
+                if self.view.viewWithTag(Define.tagSubView) != nil {
+                    self.tableView.reloadData()
+                } else {
+                    self.view.addSubview(self.tableView)
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
 
-    private func removeSubview() {
+    private func removeTableView() {
         if let viewWithTag = view.viewWithTag(Define.tagSubView) {
             viewWithTag.removeFromSuperview()
         }
     }
 
     @objc private func pop() {
+        tabBarController?.tabBar.isHidden = false
         navigationController?.popViewController(animated: true)
         searchBar.text = ""
     }
@@ -141,7 +158,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let viewModel = viewModel else { return }
         searchBar.text = viewModel.history[indexPath.row].originalTitle
         searchCell = .contentSearchCell
-        loadSuggestView()
+        loadContentSearch(query: viewModel.history[indexPath.row].originalTitle)
     }
 }
 
@@ -169,7 +186,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch searchCell {
         case .contentSearchCell:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.contentSearchCell, for: indexPath) as? SearchContentTableViewCell else { return UITableViewCell() }
-            cell.viewModel = viewModel.viewModelForContentSearch()
+            cell.viewModel = viewModel.viewModelForContentSearch(at: indexPath)
             return cell
         case .suggestSearchCell:
             let cell = tableView.dequeueReusableCell(withIdentifier: Define.suggestCell, for: indexPath)
@@ -181,8 +198,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = viewModel else { return }
         searchCell = .contentSearchCell
-        viewModel.addHistory(title: viewModel.contentSearch[indexPath.row])
-        tableView.reloadData()
+        searchBar.text = viewModel.contentSearch[indexPath.row].originalTitle
+        loadContentSearch(query: searchBar.text ?? "")
+        viewModel.addHistory(title: viewModel.contentSearch[indexPath.row].originalTitle ?? "")
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -202,9 +220,9 @@ extension SearchViewController: UISearchBarDelegate {
         self.searchTimer?.invalidate()
         searchCell = .suggestSearchCell
         if !searchText.isEmpty && searchText != "" {
-            loadSuggestView()
+            loadSuggestView(query: searchText)
         } else {
-            removeSubview()
+            removeTableView()
         }
         viewModel.fetchData { done in
             if done {
