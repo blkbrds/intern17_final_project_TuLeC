@@ -35,7 +35,7 @@ final class BaseTabbarViewController: UITabBarController {
         } else {
             // Fallback on earlier versions
         }
-        let exploreViewModel = ExploreViewModel(contentMovies: [])
+        let exploreViewModel = ExploreViewModel(contentMoviesSlider: [])
         exploreVC.viewModel = exploreViewModel
         let exploreNavi = UINavigationController(rootViewController: exploreVC)
 

@@ -16,7 +16,17 @@ final class DetailViewModel {
     var overview: String
     var genres: [Int]
 
-    init(id: Int, originalTitle: String, overview: String, genres: [Int]) {
+    init(detail: Slider) {
+        guard let id = detail.id,
+              let originalTitle = detail.originalTitle,
+              let overview = detail.overview,
+              let genres = detail.genres else {
+            id = 0
+            originalTitle = ""
+            overview = ""
+            genres = []
+            return
+        }
         self.id = id
         self.originalTitle = originalTitle
         self.overview = overview

@@ -27,11 +27,12 @@ final class DetailViewController: UIViewController {
     private func callApi() {
         let dispatchGroup = DispatchGroup()
 
-        dispatchGroup.enter()
-
         guard let viewModel = viewModel else {
             return
-        }
+        }   
+
+        dispatchGroup.enter()
+    
         getVideosApi(movieId: viewModel.id) {
 
             dispatchGroup.leave()

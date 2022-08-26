@@ -214,7 +214,7 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passKeyFromHeader(genresKey: let key):
-            viewModel.contentMovies.removeAll()
+            viewModel.contentMoviesSlider.removeAll()
             pageNumber = 1
             if let index = viewModel.genresKeys.firstIndex(of: key) {
                 viewModel.genresKeys.remove(at: index)

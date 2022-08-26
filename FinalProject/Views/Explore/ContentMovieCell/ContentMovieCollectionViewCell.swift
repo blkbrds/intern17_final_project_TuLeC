@@ -39,18 +39,18 @@ final class ContentMovieCollectionViewCell: UICollectionViewCell {
 
     private func updateCell() {
         guard let viewModel = viewModel,
-              let rating = viewModel.contenMovie?.voteAverage else {
+              let rating = viewModel.contentMovieSlider?.voteAverage else {
             return
         }
 
         ratingLabel.text = "\(String(describing: rating))"
-        titleLabel.text = viewModel.contenMovie?.originalTitle
-        if let image = viewModel.contenMovie?.image {
+        titleLabel.text = viewModel.contentMovieSlider?.originalTitle
+        if let image = viewModel.contentMovieSlider?.image {
             imageView.image = image
         } else {
-            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.contenMovie?.backdropPath ?? "")) { image in
+            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.contentMovieSlider?.backdropPath ?? "")) { image in
                 if let image = image {
-                    viewModel.contenMovie?.image = image
+                    viewModel.contentMovieSlider?.image = image
                     self.imageView.image = image
                 } else {
                     self.imageView.image = nil
