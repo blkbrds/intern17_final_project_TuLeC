@@ -21,11 +21,11 @@ final class Slider {
 
     // MARK: - Initialize
     init(json: JSObject) {
-        self.backdropPath = json["backdrop_path"] as? String
-        self.id = json["id"] as? Int
-        self.originalTitle = json["original_title"] as? String
-        self.overview = json["overview"] as? String
-        self.voteAverage = json["vote_average"] as? Double
-        self.genres = json["genre_ids"] as? [Int]
+        backdropPath = json["backdrop_path"] as? String
+        id = json["id"] as? Int
+        originalTitle = json["original_title"] as? String
+        overview = json["overview"] as? String
+        voteAverage = json["vote_average"] as? Double
+        genres = json["genre_ids"] as? [Int]
     }
 }

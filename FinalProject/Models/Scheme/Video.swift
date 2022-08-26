@@ -11,6 +11,6 @@ final class Video {
     var key: String?
 
     init(json: JSObject) {
-        self.key = json["key"] as? String
+        key = json["key"] as? String
     }
 }

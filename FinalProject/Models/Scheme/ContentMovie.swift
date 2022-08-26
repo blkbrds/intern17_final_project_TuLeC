@@ -18,11 +18,11 @@ final class ContentMovie {
     var image: UIImage?
 
     init(json: JSObject) {
-        self.backdropPath = json["backdrop_path"] as? String
-        self.id = json["id"] as? Int
-        self.originalTitle = json["original_title"] as? String
-        self.voteAverage = json["vote_average"] as? Double
-        self.overview = json["overview"] as? String
-        self.genres = json["genre_ids"] as? [Int]
+        backdropPath = json["backdrop_path"] as? String
+        id = json["id"] as? Int
+        originalTitle = json["original_title"] as? String
+        voteAverage = json["vote_average"] as? Double
+        overview = json["overview"] as? String
+        genres = json["genre_ids"] as? [Int]
     }
 }
