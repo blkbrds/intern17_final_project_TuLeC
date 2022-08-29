@@ -65,7 +65,6 @@
 		10FC09D928B27D82002C68A8 /* ApiManager.Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC09D828B27D82002C68A8 /* ApiManager.Detail.swift */; };
 		10FC611728A4F557004333EC /* LoadingReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10FC611528A4F557004333EC /* LoadingReusableView.xib */; };
 		10FC611828A4F557004333EC /* LoadingReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC611628A4F557004333EC /* LoadingReusableView.swift */; };
-		10FC611A28A4F56B004333EC /* ContentMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC611928A4F56B004333EC /* ContentMovie.swift */; };
 		10FC611E28A4F681004333EC /* ExploreHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC611C28A4F681004333EC /* ExploreHeaderView.swift */; };
 		10FC611F28A4F681004333EC /* ExploreHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10FC611D28A4F681004333EC /* ExploreHeaderView.xib */; };
 		10FC612128A4F7EE004333EC /* ExploreHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10FC612028A4F7EE004333EC /* ExploreHeaderViewModel.swift */; };
@@ -150,7 +149,6 @@
 		10FC09D828B27D82002C68A8 /* ApiManager.Detail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Detail.swift; sourceTree = "<group>"; };
 		10FC611528A4F557004333EC /* LoadingReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingReusableView.xib; sourceTree = "<group>"; };
 		10FC611628A4F557004333EC /* LoadingReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingReusableView.swift; sourceTree = "<group>"; };
-		10FC611928A4F56B004333EC /* ContentMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentMovie.swift; sourceTree = "<group>"; };
 		10FC611C28A4F681004333EC /* ExploreHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreHeaderView.swift; sourceTree = "<group>"; };
 		10FC611D28A4F681004333EC /* ExploreHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExploreHeaderView.xib; sourceTree = "<group>"; };
 		10FC612028A4F7EE004333EC /* ExploreHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 		10246BB428A0CDC000AE3CD3 /* Scheme */ = {
 			isa = PBXGroup;
 			children = (
-				10FC611928A4F56B004333EC /* ContentMovie.swift */,
 				10FDB8BA28A3913400B82419 /* Genres.swift */,
 				10246BC628A1066F00AE3CD3 /* Slider.swift */,
 				106B4C9C28AE3D9D0069F343 /* Video.swift */,
@@ -725,7 +722,6 @@
 				106DC703288A96D20013C2D3 /* ProfileViewController.swift in Sources */,
 				10F9F21A288E845700FD7BD2 /* SliderCollectionViewCell.swift in Sources */,
 				106B4C9528ADD3690069F343 /* TagsCollectionCellViewModel.swift in Sources */,
-				10FC611A28A4F56B004333EC /* ContentMovie.swift in Sources */,
 				38DD5057285086A50048328E /* ApiManager.swift in Sources */,
 				106DC710288AA8440013C2D3 /* BaseTabbarViewController.swift in Sources */,
 				10FC612128A4F7EE004333EC /* ExploreHeaderViewModel.swift in Sources */,
