@@ -10,7 +10,11 @@ import Foundation
 final class HeaderViewViewModel {
 
     // MARK: - Properties
-    var tags: [Int] = []
+    private var tags: [Int] = []
+
+    init(tags: [Int]) {
+        self.tags = tags
+    }
 
     // MARK: - Public functions
     func numberOfItemsInSection() -> Int {
@@ -18,9 +22,7 @@ final class HeaderViewViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> TagsCollectionCellViewModel {
-        guard let item = tags[safe: indexPath.row] else {
-            return TagsCollectionCellViewModel(tag: nil)
-        }
+        let item = tags[indexPath.row]
         let index = Define.tags.firstIndex { $0.id == item }
         guard let index = index else {
             return TagsCollectionCellViewModel(tag: "")
@@ -30,9 +32,7 @@ final class HeaderViewViewModel {
     }
 
     func getTagForItem(at indexPath: IndexPath) -> String {
-        guard let item = tags[safe: indexPath.row] else {
-            return ""
-        }
+        let item = tags[indexPath.row]
         let index = Define.tags.firstIndex { $0.id == item }
         guard let index = index else {
             return ""

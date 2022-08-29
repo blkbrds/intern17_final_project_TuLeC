@@ -35,7 +35,7 @@ final class DetailViewModel {
 
     // MARK: - Public functions
     func viewModelForHeader() -> HeaderViewViewModel {
-        return HeaderViewViewModel()
+        return HeaderViewViewModel(tags: genres)
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> DetailCollectionCellViewModel {

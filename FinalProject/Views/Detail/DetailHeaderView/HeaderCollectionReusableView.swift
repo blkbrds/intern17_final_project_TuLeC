@@ -8,9 +8,7 @@
 import UIKit
 
 protocol HeaderCollectionReusableViewDataSource: AnyObject {
-    func getTitle() -> String
-    func getOverView() -> String
-    func getGenres() -> [Int]
+    func getDetail() -> (originalTitle: String, overview: String)
 }
 
 final class HeaderCollectionReusableView: UICollectionReusableView {
@@ -32,27 +30,16 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         configCollectionView()
-        configUI()
-    }
-
-    private func configUI() {
-        guard let dataSource = dataSource else {
-            return
-        }
-        titleLabel.text = dataSource.getTitle()
-        overviewLabel.text = dataSource.getOverView()
     }
 
     // MARK: - Private functions
     private func updateCell() {
         collectionView.reloadData()
-        guard let dataSource = dataSource,
-              let viewModel = viewModel else {
+        guard let dataSource = dataSource else {
             return
         }
-        titleLabel.text = dataSource.getTitle()
-        overviewLabel.text = dataSource.getOverView()
-        viewModel.tags = dataSource.getGenres()
+        titleLabel.text = dataSource.getDetail().originalTitle
+        overviewLabel.text = dataSource.getDetail().overview
     }
 
     private func configCollectionView() {

@@ -12,7 +12,7 @@ final class TagsCollectionCellViewModel {
     var tag: String?
 
     // MARK: - Initialize
-    init(tag: String?) {
+    init(tag: String) {
         self.tag = tag
     }
 }
