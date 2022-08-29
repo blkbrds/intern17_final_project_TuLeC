@@ -179,6 +179,13 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             loadingView.isShowIndicator = false
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        let detailVC = DetailViewController()
+        detailVC.viewModel = viewModel.viewModelForDetail(indexPath: indexPath)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 // MARK: - DelegateFlowLayout
@@ -207,7 +214,7 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passKeyFromHeader(genresKey: let key):
-            viewModel.contentMovies.removeAll()
+            viewModel.contentMoviesSlider.removeAll()
             pageNumber = 1
             if let index = viewModel.genresKeys.firstIndex(of: key) {
                 viewModel.genresKeys.remove(at: index)

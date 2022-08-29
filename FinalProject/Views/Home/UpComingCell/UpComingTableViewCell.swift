@@ -7,13 +7,22 @@
 
 import UIKit
 
+protocol UpComingTableViewCellDelegate: AnyObject {
+    func cell(_ cell: UpComingTableViewCell, needPerform action: UpComingTableViewCell.Action)
+}
+
 final class UpComingTableViewCell: UITableViewCell {
+
+    enum Action {
+        case collectionCellDidTapped(data: Slider)
+    }
 
     // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
+    var delegate: UpComingTableViewCellDelegate?
     var viewModel: UpComingTableCellViewModel? {
         didSet {
             updateCell()
@@ -53,6 +62,13 @@ extension UpComingTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
         }
         cell.viewModel = viewModel?.viewModelForItem(at: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let item = viewModel.getItemFor(indexPath: indexPath),
+              let delegate = delegate else { return }
+        delegate.cell(self, needPerform: Action.collectionCellDidTapped(data: item))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

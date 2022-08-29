@@ -8,13 +8,22 @@
 import UIKit
 import SVProgressHUD
 
+protocol SliderTableViewCellDelegate: AnyObject {
+    func cell(_ cell: SliderTableViewCell, needPerform action: SliderTableViewCell.Action)
+}
+
 final class SliderTableViewCell: UITableViewCell {
+
+    enum Action {
+        case collectionCellDidTapped(data: Slider)
+    }
 
     // MARK: - IBOutlets
     @IBOutlet private var collectionView: UICollectionView!
     @IBOutlet private var pageControl: UIPageControl!
 
     // MARK: - Properties
+    var delegate: SliderTableViewCellDelegate?
     private var timer: Timer?
     private var currentIndex = 0
     var viewModel: SliderTableCellViewModel? {
@@ -83,6 +92,13 @@ extension SliderTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let item = viewModel.getItemFor(indexPath: indexPath),
+              let delegate = delegate else { return }
+        delegate.cell(self, needPerform: Action.collectionCellDidTapped(data: item))
     }
 }
 

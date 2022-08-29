@@ -60,8 +60,7 @@ extension ApiManager.Movie {
         return getURL(type: .topRated, typePath: ApiManager.Path.topRated, movieId: nil)
     }
 
-    static func getLatest() -> URL {
-        let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
+    static func getLatest(movieId: Int) -> URL {
         return getURL(type: .latest, typePath: ApiManager.Path.latest, movieId: movieId)
     }
 

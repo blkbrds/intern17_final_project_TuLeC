@@ -37,6 +37,7 @@ final class TagsCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Define
 extension TagsCollectionViewCell {
+
     struct Define {
         static let cornerRadius: CGFloat = 10
         static let fontSize: CGFloat = 14

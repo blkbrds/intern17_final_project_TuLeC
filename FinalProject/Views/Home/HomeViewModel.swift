@@ -71,4 +71,13 @@ final class HomeViewModel {
 
         return type.ratioHeightForRow
     }
+
+    func viewModelForDetail(detail: Slider) -> DetailViewModel {
+        return DetailViewModel(detail: detail)
+    }
+
+    func getMovieURL() -> URL {
+        let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
+        return ApiManager.Movie.getLatest(movieId: movieId)
+    }
 }

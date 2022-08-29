@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -32,7 +33,7 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvs-69-Cvo">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvs-69-Cvo">
                     <rect key="frame" x="20" y="54.5" width="433" height="48"/>
                     <string key="text">is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining es</string>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -46,48 +47,81 @@
                             <rect key="frame" x="0.0" y="0.0" width="144.5" height="107"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJq-OE-7EL">
-                                    <rect key="frame" x="61.5" y="44" width="21" height="19"/>
+                                    <rect key="frame" x="64.5" y="44.5" width="15.5" height="18"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" image="plus.app.fill" catalog="system"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="plus.app.fill" catalog="system" symbolScale="medium"/>
+                                    </state>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Danh sách của tôi" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TBQ-fu-2e2">
+                                    <rect key="frame" x="0.0" y="66.5" width="144.5" height="12"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="TBQ-fu-2e2" firstAttribute="top" secondItem="eJq-OE-7EL" secondAttribute="bottom" constant="4" id="2MY-5H-oky"/>
                                 <constraint firstItem="eJq-OE-7EL" firstAttribute="centerX" secondItem="HY3-XO-XgA" secondAttribute="centerX" id="Qu7-Zy-whw"/>
                                 <constraint firstItem="eJq-OE-7EL" firstAttribute="centerY" secondItem="HY3-XO-XgA" secondAttribute="centerY" id="eaF-pn-Z9b"/>
+                                <constraint firstItem="TBQ-fu-2e2" firstAttribute="leading" secondItem="HY3-XO-XgA" secondAttribute="leading" id="igv-pw-L32"/>
+                                <constraint firstAttribute="trailing" secondItem="TBQ-fu-2e2" secondAttribute="trailing" id="vDe-SU-EFy"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XWA-dU-c5z">
                             <rect key="frame" x="144.5" y="0.0" width="144" height="107"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cgv-uV-fhx">
-                                    <rect key="frame" x="62" y="42.5" width="20.5" height="22"/>
+                                    <rect key="frame" x="64.5" y="44.5" width="15.5" height="18"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" image="square.and.arrow.down.fill" catalog="system"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="square.and.arrow.down.fill" catalog="system" symbolScale="medium"/>
+                                    </state>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tải xuống" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RSn-pA-W1C">
+                                    <rect key="frame" x="0.0" y="66.5" width="144" height="12"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="cgv-uV-fhx" firstAttribute="centerX" secondItem="XWA-dU-c5z" secondAttribute="centerX" id="Bxs-Wz-HAQ"/>
+                                <constraint firstItem="RSn-pA-W1C" firstAttribute="leading" secondItem="XWA-dU-c5z" secondAttribute="leading" id="GqJ-2X-ETa"/>
                                 <constraint firstItem="cgv-uV-fhx" firstAttribute="centerY" secondItem="XWA-dU-c5z" secondAttribute="centerY" id="Rv8-Df-2qv"/>
+                                <constraint firstAttribute="trailing" secondItem="RSn-pA-W1C" secondAttribute="trailing" id="aDP-L8-Tcx"/>
+                                <constraint firstItem="RSn-pA-W1C" firstAttribute="top" secondItem="cgv-uV-fhx" secondAttribute="bottom" constant="4" id="f6X-v1-RVX"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AKQ-uc-a7J">
                             <rect key="frame" x="288.5" y="0.0" width="144.5" height="107"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g7x-Rf-Mmg">
-                                    <rect key="frame" x="61" y="44" width="22.5" height="19"/>
+                                    <rect key="frame" x="63.5" y="44.5" width="17.5" height="18"/>
                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                    <state key="normal" image="arrowshape.turn.up.right.fill" catalog="system"/>
+                                    <state key="normal">
+                                        <imageReference key="image" image="arrowshape.turn.up.right.fill" catalog="system" symbolScale="medium"/>
+                                    </state>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chia sẻ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twD-aP-jx4">
+                                    <rect key="frame" x="0.0" y="66.5" width="144.5" height="12"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="g7x-Rf-Mmg" firstAttribute="centerX" secondItem="AKQ-uc-a7J" secondAttribute="centerX" id="16X-Bk-geW"/>
+                                <constraint firstAttribute="trailing" secondItem="twD-aP-jx4" secondAttribute="trailing" id="2V8-ye-Lhv"/>
                                 <constraint firstItem="g7x-Rf-Mmg" firstAttribute="centerY" secondItem="AKQ-uc-a7J" secondAttribute="centerY" id="iqw-iO-Osb"/>
+                                <constraint firstItem="twD-aP-jx4" firstAttribute="leading" secondItem="AKQ-uc-a7J" secondAttribute="leading" id="jxA-Ty-0nw"/>
+                                <constraint firstItem="twD-aP-jx4" firstAttribute="top" secondItem="g7x-Rf-Mmg" secondAttribute="bottom" constant="4" id="kQO-6g-qqH"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -122,6 +156,8 @@
             </constraints>
             <connections>
                 <outlet property="collectionView" destination="Jfl-wA-Cfr" id="hCe-eE-SDZ"/>
+                <outlet property="overviewLabel" destination="nvs-69-Cvo" id="Qfu-BJ-Ded"/>
+                <outlet property="titleLabel" destination="dsm-Nu-Mha" id="rsd-x0-qjL"/>
             </connections>
             <point key="canvasLocation" x="248.55072463768118" y="125.89285714285714"/>
         </collectionReusableView>

@@ -36,13 +36,14 @@ final class GenresCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Private functions
     private func updateCell() {
-        guard let viewModel = viewModel else {
+        guard let viewModel = viewModel,
+              let isSelect = viewModel.genre?.isSelect else {
             return
         }
 
         genresLabel.text = viewModel.genre?.name
 
-        if viewModel.isSelected {
+        if isSelect {
             genresLabel.font = UIFont.systemFont(ofSize: Define.fontSize, weight: .bold)
             backgroundColor = .systemOrange
         } else {
