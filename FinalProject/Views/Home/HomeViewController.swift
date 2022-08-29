@@ -55,6 +55,10 @@ final class HomeViewController: UIViewController {
     }
 
     private func callAllApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
 
         let dispatchGroup = DispatchGroup()
         SVProgressHUD.show()
@@ -103,8 +107,7 @@ final class HomeViewController: UIViewController {
 
         dispatchGroup.enter()
 
-        let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest(movieId: movieId)) {[weak self] result in
+        ApiManager.Movie.getHomeApi(url: viewModel.getMovieURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):

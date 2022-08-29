@@ -22,7 +22,7 @@ final class HeaderViewViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> TagsCollectionCellViewModel {
-        let item = tags[indexPath.row]
+        let item = tags[safe: indexPath.row]
         let index = Define.tags.firstIndex { $0.id == item }
         guard let index = index else {
             return TagsCollectionCellViewModel(tag: "")
@@ -32,7 +32,7 @@ final class HeaderViewViewModel {
     }
 
     func getTagForItem(at indexPath: IndexPath) -> String {
-        let item = tags[indexPath.row]
+        let item = tags[safe: indexPath.row]
         let index = Define.tags.firstIndex { $0.id == item }
         guard let index = index else {
             return ""

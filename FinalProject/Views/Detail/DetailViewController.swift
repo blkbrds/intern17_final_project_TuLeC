@@ -29,10 +29,9 @@ final class DetailViewController: UIViewController {
 
         guard let viewModel = viewModel else {
             return
-        }   
-
+        }
         dispatchGroup.enter()
-    
+
         getVideosApi(movieId: viewModel.id) {
 
             dispatchGroup.leave()
@@ -52,13 +51,11 @@ final class DetailViewController: UIViewController {
 
     private func getVideosApi(movieId: Int, completion: @escaping (() -> Void)) {
         guard let viewModel = viewModel else { return }
-        var keyId: String = ""
         viewModel.getVideosApi(movieId: movieId) {[weak self] result in
             guard let this = self else { return }
             switch result {
-            case .success(let data):
-                keyId = data
-                this.playerView.load(withVideoId: keyId, playerVars: ["playsinline": "1"])
+            case .success:
+                this.playerView.load(withVideoId: (viewModel.videoKey?.key).content, playerVars: ["playsinline": "1"])
                 this.playerView.delegate = this
                 this.playerView.webView?.backgroundColor = Define.ytBackgroundColor
                 this.playerView.webView?.isOpaque = false
@@ -184,25 +181,11 @@ extension DetailViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension DetailViewController: HeaderCollectionReusableViewDataSource {
-    func getGenres() -> [Int] {
+    func getDetail() -> (originalTitle: String, overview: String) {
         guard let viewModel = viewModel else {
-            return []
+            return (originalTitle: "", overview: "")
         }
-        return viewModel.genres
-    }
-
-    func getTitle() -> String {
-        guard let viewModel = viewModel else {
-            return ""
-        }
-        return viewModel.originalTitle
-    }
-
-    func getOverView() -> String {
-        guard let viewModel = viewModel else {
-            return ""
-        }
-        return viewModel.overview
+        return (originalTitle: viewModel.originalTitle, overview: viewModel.overview)
     }
 }
 

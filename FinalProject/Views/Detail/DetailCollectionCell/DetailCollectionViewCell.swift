@@ -51,7 +51,7 @@ final class DetailCollectionViewCell: UICollectionViewCell {
         if let image = viewModel.sliderDetail?.image {
             imageView.image = image
         } else {
-            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.sliderDetail?.backdropPath ?? "")) { image in
+            imageView.downloadImage(url: ApiManager.Path.imageURL + ((viewModel.sliderDetail?.backdropPath).content)) { image in
                 if let image = image {
                     viewModel.sliderDetail?.image = image
                     self.imageView.image = image

@@ -48,7 +48,7 @@ final class ContentMovieCollectionViewCell: UICollectionViewCell {
         if let image = viewModel.contentMovieSlider?.image {
             imageView.image = image
         } else {
-            imageView.downloadImage(url: ApiManager.Path.imageURL + (viewModel.contentMovieSlider?.backdropPath ?? "")) { image in
+            imageView.downloadImage(url: ApiManager.Path.imageURL + ((viewModel.contentMovieSlider?.backdropPath).content)) { image in
                 if let image = image {
                     viewModel.contentMovieSlider?.image = image
                     self.imageView.image = image

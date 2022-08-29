@@ -31,6 +31,6 @@ final class ExploreHeaderViewModel {
     }
 
     func getNameGenre(at indexPath: IndexPath) -> String {
-        return genres[safe: indexPath.row]?.name ?? ""
+        return (genres[safe: indexPath.row]?.name).content
     }
 }

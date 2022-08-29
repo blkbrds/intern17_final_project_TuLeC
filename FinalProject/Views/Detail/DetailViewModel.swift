@@ -15,6 +15,7 @@ final class DetailViewModel {
     var originalTitle: String
     var overview: String
     var genres: [Int]
+    var keyId: String = ""
 
     init(detail: Slider) {
         guard let id = detail.id,
@@ -65,13 +66,13 @@ final class DetailViewModel {
         }
     }
 
-    func getVideosApi(movieId: Int, completion: @escaping Completion<String>) {
+    func getVideosApi(movieId: Int, completion: @escaping Completion<[Video]>) {
         ApiManager.Video.getVideoApi(url: ApiManager.Video.getURL(movieID: movieId)) {[weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):
                 this.videoKey = data.first
-                completion(.success(this.videoKey?.key ?? ""))
+                completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
             }
