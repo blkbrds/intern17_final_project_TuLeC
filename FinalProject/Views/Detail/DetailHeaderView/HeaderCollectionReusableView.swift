@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol HeaderCollectionReusableViewDataSource: AnyObject {
+    func getDetail() -> (originalTitle: String, overview: String)
+}
+
 final class HeaderCollectionReusableView: UICollectionReusableView {
 
     // MARK: - IBOutlets
     @IBOutlet private var collectionView: UICollectionView!
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var overviewLabel: UILabel!
 
     // MARK: - Properties
+    var dataSource: HeaderCollectionReusableViewDataSource?
     var viewModel: HeaderViewViewModel? {
         didSet {
             updateCell()
@@ -28,6 +35,11 @@ final class HeaderCollectionReusableView: UICollectionReusableView {
     // MARK: - Private functions
     private func updateCell() {
         collectionView.reloadData()
+        guard let dataSource = dataSource else {
+            return
+        }
+        titleLabel.text = dataSource.getDetail().originalTitle
+        overviewLabel.text = dataSource.getDetail().overview
     }
 
     private func configCollectionView() {

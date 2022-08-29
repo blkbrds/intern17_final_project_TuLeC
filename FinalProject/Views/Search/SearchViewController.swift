@@ -151,8 +151,9 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        guard let viewModel = viewModel else { return CGSize(width: 0, height: 0) }
-        let cellWidth = (viewModel.history[indexPath.row].originalTitle.size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
+        guard let viewModel = viewModel,
+              let title = viewModel.history[safe: indexPath.row] else { return CGSize(width: 0, height: 0) }
+        let cellWidth = (title.originalTitle.size(withAttributes: [.font: UIFont.systemFont(ofSize: 10.0)]).width ) + 50
         return CGSize(width: cellWidth, height: 30.0)
     }
 }

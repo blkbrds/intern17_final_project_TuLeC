@@ -33,15 +33,15 @@ extension ApiManager.Discover {
         ])
     }
 
-    static func getExploreApi(url: URL, completion: @escaping Completion<[ContentMovie]>) {
+    static func getExploreApi(url: URL, completion: @escaping Completion<[Slider]>) {
         ApiManager.shared.request(method: .get, with: url) { result in
             switch result {
             case .success(let data):
                 if let data = data {
-                    var contentMovies: [ContentMovie] = []
+                    var contentMovies: [Slider] = []
                     if let items = data["results"] as? [JSObject] {
                         for contentMovie in items {
-                            contentMovies.append(ContentMovie(json: contentMovie))
+                            contentMovies.append(Slider(json: contentMovie))
                         }
                     }
                     completion(.success(contentMovies))

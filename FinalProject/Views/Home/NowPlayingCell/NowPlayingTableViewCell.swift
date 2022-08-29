@@ -7,13 +7,22 @@
 
 import UIKit
 
+protocol NowPlayingTableViewCellDelegate: AnyObject {
+    func cell(_ cell: NowPlayingTableViewCell, needPerform action: NowPlayingTableViewCell.Action)
+}
+
 final class NowPlayingTableViewCell: UITableViewCell {
+
+    enum Action {
+        case collectionCellDidTapped(data: Slider)
+    }
 
     // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
+    var delegate: NowPlayingTableViewCellDelegate?
     var viewModel: NowPlayingTableCellViewModel? {
         didSet {
             updateCell()
@@ -52,6 +61,13 @@ extension NowPlayingTableViewCell: UICollectionViewDelegate, UICollectionViewDat
               let viewModel = viewModel else { return UICollectionViewCell() }
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let item = viewModel.getItemFor(indexPath: indexPath),
+              let delegate = delegate else { return }
+        delegate.cell(self, needPerform: Action.collectionCellDidTapped(data: item))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

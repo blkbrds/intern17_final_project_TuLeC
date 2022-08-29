@@ -55,11 +55,16 @@ final class HomeViewController: UIViewController {
     }
 
     private func callAllApi() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
 
         let dispatchGroup = DispatchGroup()
         SVProgressHUD.show()
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getSliderURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -73,6 +78,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getNowPlayingURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -86,6 +92,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getTopRated()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -99,7 +106,8 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getLatest()) {[weak self] result in
+
+        ApiManager.Movie.getHomeApi(url: viewModel.getMovieURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):
@@ -112,6 +120,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
+
         ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getUpComing()) {[weak self] result in
             guard let this = self else { return }
             switch result {
@@ -168,6 +177,15 @@ final class HomeViewController: UIViewController {
         tableView.register(upComingCellNib, forCellReuseIdentifier: Define.upComingTableViewCell)
     }
 
+    private func pushDetailVC(detail: Slider) {
+        guard let viewModel = viewModel else {
+            return
+        }
+        let detailVC = DetailViewController()
+        detailVC.viewModel = viewModel.viewModelForDetail(detail: detail)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+
     // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
         let searchVC = SearchViewController()
@@ -196,26 +214,31 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = cell as? SliderTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .slider, data: data[.slider] ?? []) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying, data: data[.nowPlaying] ?? []) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .topRated, data: data[.topRated] ?? []) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .latest, data: data[.latest] ?? []) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
+            cell.delegate = self
             cell.viewModel = viewModel.viewModelForItem(type: .upComing, data: data[.upComing] ?? []) as? UpComingTableCellViewModel
         }
 
@@ -228,6 +251,51 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return SizeWithScreen.shared.height / CGFloat(viewModel.heightForRowAt(at: indexPath))
+    }
+}
+
+extension HomeViewController: SliderTableViewCellDelegate {
+    func cell(_ cell: SliderTableViewCell, needPerform action: SliderTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
+        }
+    }
+}
+
+extension HomeViewController: NowPlayingTableViewCellDelegate {
+    func cell(_ cell: NowPlayingTableViewCell, needPerform action: NowPlayingTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
+        }
+    }
+}
+
+extension HomeViewController: TopRatedTableViewCellDelegate {
+    func cell(_ cell: TopRatedTableViewCell, needPerform action: TopRatedTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
+        }
+    }
+}
+
+extension HomeViewController: LatestTableViewCellDelegate {
+    func cell(_ cell: LatestTableViewCell, needPerform action: LatestTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
+        }
+    }
+}
+
+extension HomeViewController: UpComingTableViewCellDelegate {
+    func cell(_ cell: UpComingTableViewCell, needPerform action: UpComingTableViewCell.Action) {
+        switch action {
+        case .collectionCellDidTapped(let detail):
+            pushDetailVC(detail: detail)
+        }
     }
 }
 

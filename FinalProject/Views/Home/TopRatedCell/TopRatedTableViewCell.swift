@@ -7,13 +7,22 @@
 
 import UIKit
 
+protocol TopRatedTableViewCellDelegate: AnyObject {
+    func cell(_ cell: TopRatedTableViewCell, needPerform action: TopRatedTableViewCell.Action)
+}
+
 final class TopRatedTableViewCell: UITableViewCell {
+
+    enum Action {
+        case collectionCellDidTapped(data: Slider)
+    }
 
     // MARK: - IBOutlets
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var collectionView: UICollectionView!
 
     // MARK: - Properties
+    var delegate: TopRatedTableViewCellDelegate?
     var viewModel: TopRatedTableCellViewModel? {
         didSet {
             updateCell()
@@ -52,6 +61,13 @@ extension TopRatedTableViewCell: UICollectionViewDelegate, UICollectionViewDataS
               let viewModel = viewModel  else { return UICollectionViewCell() }
         cell.viewModel = viewModel.viewModelForItem(at: indexPath)
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel,
+              let item = viewModel.getItemFor(indexPath: indexPath),
+              let delegate = delegate else { return }
+        delegate.cell(self, needPerform: Action.collectionCellDidTapped(data: item))
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -8,3 +8,14 @@
 import Foundation
 
 extension String { }
+
+extension Optional {
+    var content: String {
+        switch self {
+        case .some(let value):
+            return String(describing: value)
+        case .none:
+            return ""
+        }
+    }
+}

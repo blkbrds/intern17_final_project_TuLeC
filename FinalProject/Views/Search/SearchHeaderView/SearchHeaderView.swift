@@ -16,10 +16,7 @@ final class SearchHeaderView: UICollectionReusableView {
     weak var delegate: SearchHeaderViewDelegate?
 
     @IBAction private func deleteButtonTouchUpInside(_ sender: UIButton) {
-        guard let delegate = delegate else {
-            return
-        }
-        delegate.view(view: self)
+        delegate?.view(view: self)
     }
 
 }

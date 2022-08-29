@@ -37,6 +37,14 @@ final class UpComingTableCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
+
+    func getItemFor(indexPath: IndexPath) -> Slider? {
+        guard let upComings = upComings else {
+            return nil
+        }
+
+        return upComings[indexPath.row]
+    }
 }
 
 // MARK: - Define

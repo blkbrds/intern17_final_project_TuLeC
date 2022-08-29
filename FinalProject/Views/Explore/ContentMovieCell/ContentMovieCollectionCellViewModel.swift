@@ -10,10 +10,10 @@ import Foundation
 final class ContentMovieCollectionCellViewModel {
 
     // MARK: - Properties
-    var contenMovie: ContentMovie?
+    var contentMovieSlider: Slider?
 
     // MARK: - Initialize
-    init(contentMovie: ContentMovie?) {
-        self.contenMovie = contentMovie
+    init(contentMovieSlider: Slider?) {
+        self.contentMovieSlider = contentMovieSlider
     }
 }

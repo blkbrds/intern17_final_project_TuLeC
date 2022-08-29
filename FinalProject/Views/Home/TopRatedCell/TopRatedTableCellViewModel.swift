@@ -37,6 +37,14 @@ final class TopRatedTableCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
+
+    func getItemFor(indexPath: IndexPath) -> Slider? {
+        guard let topRated = topRated else {
+            return nil
+        }
+
+        return topRated[indexPath.row]
+    }
 }
 
 // MARK: - Define
