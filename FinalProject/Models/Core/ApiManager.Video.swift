@@ -23,7 +23,10 @@ extension ApiManager.Video {
             case .success(let data):
                 var videos: [Video] = []
                 guard let data = data,
-                      let items = data["results"] as? [JSObject] else { return }
+                      let items = data["results"] as? [JSObject] else {
+                    completion(.failure(APIError.error("No data result")))
+                    return
+                }
                 for video in items {
                     videos.append(Video(json: video))
                 }

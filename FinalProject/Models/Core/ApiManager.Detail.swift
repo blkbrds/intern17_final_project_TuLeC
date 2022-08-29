@@ -27,7 +27,10 @@ extension ApiManager.Detail {
             case .success(let data):
                 var sliders: [Slider] = []
                 guard let data = data,
-                      let items = data["results"] as? [JSObject] else { return }
+                      let items = data["results"] as? [JSObject] else {
+                    completion(.failure(APIError.error("No data result")))
+                    return
+                }
                 for slider in items {
                     sliders.append(Slider(json: slider))
                 }
