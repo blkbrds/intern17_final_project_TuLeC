@@ -85,4 +85,11 @@ final class SearchViewModel {
             }
         }
     }
+
+    func viewModelForDetail(at indexPath: IndexPath) -> DetailViewModel? {
+        if let item = contentSearch[safe: indexPath.row] {
+            return DetailViewModel(detail: item)
+        }
+        return nil
+    }
 }

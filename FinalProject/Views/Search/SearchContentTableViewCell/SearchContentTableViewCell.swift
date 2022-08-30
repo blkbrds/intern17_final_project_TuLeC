@@ -25,12 +25,22 @@ final class SearchContentTableViewCell: UITableViewCell {
     }
 
     private func updateUI() {
-        guard let viewModel = viewModel,
-              let title = viewModel.searchContents?.originalTitle else {
-            return
+        guard let viewModel = viewModel else { return }
+        if let image = viewModel.searchContents?.image {
+            contentImageView.image = image
+        } else {
+            let imagePath = (viewModel.searchContents?.posterPath).content.isEmpty ? (viewModel.searchContents?.backdropPath).content : (viewModel.searchContents?.posterPath).content
+            contentImageView.downloadImage(url: ApiManager.Path.imageURL + imagePath) { image in
+                if let image = image {
+                    viewModel.searchContents?.image = image
+                    self.contentImageView.image = image
+                } else {
+                    self.contentImageView.image = nil
+                }
+            }
         }
-        
-        titleLabel.text = title
+        titleLabel.text = (viewModel.searchContents?.originalTitle).content
+        contentLabel.text = (viewModel.searchContents?.overview).content
     }
 }
 
