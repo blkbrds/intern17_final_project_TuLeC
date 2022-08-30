@@ -10,7 +10,7 @@ import Foundation
 final class ContentMovieCollectionCellViewModel {
 
     // MARK: - Properties
-    var contentMovieSlider: Slider?
+    private(set) var contentMovieSlider: Slider?
 
     // MARK: - Initialize
     init(contentMovieSlider: Slider?) {

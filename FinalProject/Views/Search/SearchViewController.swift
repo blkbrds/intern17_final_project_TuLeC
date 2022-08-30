@@ -30,13 +30,18 @@ final class SearchViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        searchBar.text = ""
         searchBar.becomeFirstResponder()
     }
 
     private func configUI() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
+        tap.cancelsTouchesInView = false
+        collectionView.addGestureRecognizer(tap)
         configNavigationBar()
         configCollectionView()
         configTableView()
+        tabBarController?.tabBar.isHidden = true
     }
 
     private func configNavigationBar() {
@@ -53,6 +58,10 @@ final class SearchViewController: UIViewController {
         backButton.addTarget(self, action: #selector(pop), for: .touchUpInside)
         let backNavBar = UIBarButtonItem(customView: backButton)
         navigationItem.rightBarButtonItem = backNavBar
+        if #available(iOS 13.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        }
     }
 
     private func configCollectionView() {
@@ -93,20 +102,25 @@ final class SearchViewController: UIViewController {
         collectionView.register(cellNib, forCellWithReuseIdentifier: Define.cellNib)
     }
 
-    private func loadSuggestView() {
+    private func loadSuggestView(query: String) {
         if #available(iOS 10.0, *) {
-            searchTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
-                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                    guard let this = self else { return }
-                    DispatchQueue.main.async {
-                        this.showTableView(isHidden: false)
-                        this.tableView.reloadData()
-                    }
-                }
+            searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
+                guard let this = self else { return }
+                this.loadContentSearch(query: query)
             })
         } else {
-            showTableView(isHidden: false)
-            tableView.reloadData()
+            loadContentSearch(query: query)
+        }
+    }
+
+    private func loadContentSearch(query: String) {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        viewModel.getApiSearch(query: query) { _ in
+            self.tableView.reloadData()
+            self.showTableView(isHidden: false)
         }
     }
 
@@ -115,8 +129,13 @@ final class SearchViewController: UIViewController {
     }
 
     @objc private func pop() {
+        tabBarController?.tabBar.isHidden = false
         navigationController?.popViewController(animated: true)
         searchBar.text = ""
+    }
+
+    @objc private func screenTapped() {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -150,8 +169,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let viewModel = viewModel else { return }
         searchBar.text = viewModel.history[indexPath.row].originalTitle
         searchCell = .content
+        loadContentSearch(query: viewModel.history[indexPath.row].originalTitle)
         searchBar.resignFirstResponder()
-        loadSuggestView()
     }
 }
 
@@ -179,7 +198,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         switch searchCell {
         case .content:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: Define.contentSearchCell, for: indexPath) as? SearchContentTableViewCell else { return UITableViewCell() }
-            cell.viewModel = viewModel.viewModelForContentSearch()
+            cell.viewModel = viewModel.viewModelForContentSearch(at: indexPath)
             return cell
         case .suggest:
             let cell = tableView.dequeueReusableCell(withIdentifier: Define.suggestCell, for: indexPath)
@@ -189,12 +208,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let viewModel = viewModel else { return }
-        searchCell = .content
-        viewModel.addHistory(title: viewModel.contentSearch[indexPath.row])
-        showTableView(isHidden: false)
-        searchBar.resignFirstResponder()
-        tableView.reloadData()
+        switch searchCell {
+        case .content:
+            guard let viewModel = viewModel else {
+                return
+            }
+            let detailVC = DetailViewController()
+            detailVC.viewModel = viewModel.viewModelForDetail(at: indexPath)
+            navigationController?.pushViewController(detailVC, animated: true)
+        case .suggest:
+            guard let viewModel = viewModel else { return }
+            searchCell = .content
+            searchBar.text = viewModel.contentSearch[indexPath.row].originalTitle
+            loadContentSearch(query: searchBar.text ?? "")
+            viewModel.addHistory(title: viewModel.contentSearch[indexPath.row].originalTitle ?? "")
+            showTableView(isHidden: false)
+            searchBar.resignFirstResponder()
+            tableView.reloadData()
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -212,7 +243,7 @@ extension SearchViewController: UISearchBarDelegate {
         guard let viewModel = viewModel else { return }
         searchTimer?.invalidate()
         searchCell = .suggest
-        searchText.isEmpty ? showTableView(isHidden: true) : loadSuggestView()
+        searchText.isEmpty ? showTableView(isHidden: true) : loadSuggestView(query: searchText)
         viewModel.fetchData { isSearch in
             if isSearch {
                 collectionView.reloadData()

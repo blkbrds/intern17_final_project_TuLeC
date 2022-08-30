@@ -8,4 +8,9 @@
 import Foundation
 
 final class SearchContentViewModel {
+    private(set) var searchContents: Slider?
+
+    init (searchContents: Slider?) {
+        self.searchContents = searchContents
+    }
 }

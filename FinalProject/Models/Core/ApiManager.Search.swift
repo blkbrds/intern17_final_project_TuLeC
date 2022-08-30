@@ -21,4 +21,23 @@ extension ApiManager.Search {
             URLQueryItem(name: "query", value: query)
         ])
     }
+
+    static func getSearchURL(url: URL, completion: @escaping Completion<[Slider]>) {
+        ApiManager.shared.request(method: .get, with: url) { result in
+            switch result {
+            case .success(let data):
+                if let data = data {
+                    var searchs: [Slider] = []
+                    if let items = data["results"] as? [JSObject] {
+                        for search in items {
+                            searchs.append(Slider(json: search))
+                        }
+                    }
+                    completion(.success(searchs))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }

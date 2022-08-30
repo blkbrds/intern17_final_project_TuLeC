@@ -10,7 +10,7 @@ import Foundation
 final class NowPlayingTableCellViewModel {
 
     // MARK: - Properties
-    private var nowPlayings: [Slider]?
+    private(set) var nowPlayings: [Slider]?
 
     init (nowPlayings: [Slider]) {
         self.nowPlayings = nowPlayings

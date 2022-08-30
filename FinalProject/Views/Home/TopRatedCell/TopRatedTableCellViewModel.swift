@@ -10,7 +10,7 @@ import Foundation
 final class TopRatedTableCellViewModel {
 
     // MARK: - Properties
-    private var topRated: [Slider]?
+    private(set) var topRated: [Slider]?
 
     init (topRated: [Slider]) {
         self.topRated = topRated

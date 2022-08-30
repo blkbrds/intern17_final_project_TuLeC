@@ -10,7 +10,7 @@ import Foundation
 final class LatestTableCellViewModel {
 
     // MARK: - Properties
-    private var latest: [Slider]?
+    private(set) var latest: [Slider]?
 
     init(latest: [Slider]) {
         self.latest = latest

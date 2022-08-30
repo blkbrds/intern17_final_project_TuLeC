@@ -103,16 +103,10 @@ final class ExploreViewController: UIViewController {
         let leftItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.leftBarButtonItem = leftItem
 
-        let searchButton = Define.searchButton
         if #available(iOS 13.0, *) {
-            let image = UIImage(systemName: Define.systemName)
-            searchButton.setImage(image, for: .normal)
-            searchButton.tintColor = Define.tintColor
-        } else {
+            let rightItem = UIBarButtonItem(image: UIImage(systemName: Define.systemName), style: .done, target: self, action: #selector(pushToSearchView))
+            navigationItem.rightBarButtonItem = rightItem
         }
-
-        let rightItem = UIBarButtonItem(customView: searchButton)
-        navigationItem.rightBarButtonItem = rightItem
     }
 
     private func configTableView() {
@@ -140,6 +134,12 @@ final class ExploreViewController: UIViewController {
                 self.callApi(genresKey: viewModel.genresKeys, pageNumber: self.pageNumber, isCallKey: false)
             }
         }
+    }
+
+    @objc private func pushToSearchView() {
+        let searchViewController = SearchViewController()
+        searchViewController.viewModel = SearchViewModel()
+        navigationController?.pushViewController(searchViewController, animated: true)
     }
 }
 
@@ -247,12 +247,12 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passKeyFromHeader(genresKey: let key):
-            viewModel.contentMoviesSlider.removeAll()
+            viewModel.removeAllValue()
             pageNumber = 1
             if let index = viewModel.genresKeys.firstIndex(of: key) {
-                viewModel.genresKeys.remove(at: index)
+                viewModel.changeValueGenresKeys(action: .remove, index: index)
             } else {
-                viewModel.genresKeys.append(key)
+                viewModel.changeValueGenresKeys(action: .append, key: key)
             }
             callApi(genresKey: viewModel.genresKeys, pageNumber: pageNumber, isCallKey: false)
         }
@@ -270,7 +270,6 @@ extension ExploreViewController {
         static let genresCellHeight: CGFloat = 240
         static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.height) / 4.2)
         static let systemFont = UIFont.systemFont(ofSize: 25.0, weight: .bold)
-        static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
         static let tintColor: UIColor = .gray
         static let contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         static let heightFootter: CGFloat = 40

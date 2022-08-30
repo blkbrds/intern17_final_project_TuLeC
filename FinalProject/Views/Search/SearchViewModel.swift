@@ -10,9 +10,8 @@ import RealmSwift
 
 final class SearchViewModel {
 
-    #warning("dummy data")
-    var history: [HistorySearch] = []
-    let contentSearch: [String] = ["Tinh hà sán lạng", "Trần tình lệnh", "Tranh thiên hạ", "Chỉ là quan hệ hôn nhân", "Đại thiên bồng"]
+    private(set) var history: [HistorySearch] = []
+    private(set) var contentSearch: [Slider] = []
 
     func numberOfItemsInSection() -> Int {
         10
@@ -28,11 +27,12 @@ final class SearchViewModel {
     }
 
     func getNameForSuggest(at indexPath: IndexPath) -> String {
-        return contentSearch[indexPath.row]
+        return contentSearch[indexPath.row].originalTitle.content
     }
 
-    func viewModelForContentSearch() -> SearchContentViewModel {
-        return SearchContentViewModel()
+    func viewModelForContentSearch(at indexPath: IndexPath) -> SearchContentViewModel {
+        guard let item = contentSearch[safe: indexPath.row] else { return SearchContentViewModel(searchContents: nil) }
+        return SearchContentViewModel(searchContents: item)
     }
 
     func fetchData(completion: (Bool) -> Void ) {
@@ -73,4 +73,23 @@ final class SearchViewModel {
         }
     }
 
+    func getApiSearch(query: String, completion: @escaping (Bool) -> Void) {
+        ApiManager.Search.getSearchURL(url: ApiManager.Search.getURL(query: query)) {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success(let data):
+                this.contentSearch = data
+                completion(true)
+            case .failure:
+                completion(false)
+            }
+        }
+    }
+
+    func viewModelForDetail(at indexPath: IndexPath) -> DetailViewModel? {
+        if let item = contentSearch[safe: indexPath.row] {
+            return DetailViewModel(detail: item)
+        }
+        return nil
+    }
 }

@@ -10,7 +10,7 @@ import Foundation
 final class SliderTableCellViewModel {
 
     // MARK: - Properties
-    private var sliders: [Slider]?
+    private(set) var sliders: [Slider]?
 
     init (sliders: [Slider]) {
         self.sliders = sliders

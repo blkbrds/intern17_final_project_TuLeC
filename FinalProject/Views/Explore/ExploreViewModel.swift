@@ -9,10 +9,15 @@ import Foundation
 
 final class ExploreViewModel {
 
+    enum Action {
+        case remove
+        case append
+    }
+
     // MARK: - Properties
-    var contentMoviesSlider: [Slider]
-    var genres: [Genres] = []
-    var genresKeys: [Int] = []
+    private(set) var contentMoviesSlider: [Slider]
+    private(set) var genres: [Genres] = []
+    private(set) var genresKeys: [Int] = []
 
     init(contentMoviesSlider: [Slider]) {
         self.contentMoviesSlider = contentMoviesSlider
@@ -66,5 +71,18 @@ final class ExploreViewModel {
 
     func viewModelForDetail(indexPath: IndexPath) -> DetailViewModel {
         return DetailViewModel(detail: contentMoviesSlider[indexPath.row])
+    }
+
+    func removeAllValue() {
+        contentMoviesSlider.removeAll()
+    }
+
+    func changeValueGenresKeys(action: Action, index: Array<Int>.Index = 0, key: Int = 0) {
+        switch action {
+        case .remove:
+            genresKeys.remove(at: index)
+        case .append:
+            genresKeys.append(key)
+        }
     }
 }

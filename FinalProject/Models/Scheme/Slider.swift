@@ -12,6 +12,7 @@ final class Slider {
 
     // MARK: - Properties
     var backdropPath: String?
+    var posterPath: String?
     var id: Int?
     var originalTitle: String?
     var overview: String?
@@ -27,5 +28,6 @@ final class Slider {
         overview = json["overview"] as? String
         voteAverage = json["vote_average"] as? Double
         genres = json["genre_ids"] as? [Int]
+        posterPath = json["poster_path"] as? String
     }
 }
