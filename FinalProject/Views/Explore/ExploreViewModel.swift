@@ -46,7 +46,7 @@ final class ExploreViewModel {
                 }
                 completion(.success(this.contentMoviesSlider))
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }
@@ -59,7 +59,7 @@ final class ExploreViewModel {
                 this.genres = data
                 completion(.success(this.genres))
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }

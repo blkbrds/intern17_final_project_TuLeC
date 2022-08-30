@@ -13,6 +13,10 @@ protocol SearchHeaderViewDelegate: AnyObject {
 
 final class SearchHeaderView: UICollectionReusableView {
 
+    enum ActionType {
+        case delete
+    }
+
     weak var delegate: SearchHeaderViewDelegate?
 
     @IBAction private func deleteButtonTouchUpInside(_ sender: UIButton) {

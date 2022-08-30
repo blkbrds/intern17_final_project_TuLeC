@@ -7,7 +7,12 @@
 
 import Foundation
 
-extension String { }
+extension String {
+    struct Define {
+        static let getValueFailFromRealm = "Can not get value from Realm"
+        static let deleteValueFailFromRealm = "Can not delete value from Realm"
+    }
+}
 
 extension Optional {
     var content: String {

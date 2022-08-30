@@ -28,9 +28,15 @@ final class SearchViewController: UIViewController {
         configUI()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        searchBar.becomeFirstResponder()
+    }
+
     private func configUI() {
         configNavigationBar()
         configCollectionView()
+        configTableView()
     }
 
     private func configNavigationBar() {
@@ -53,16 +59,31 @@ final class SearchViewController: UIViewController {
         guard let viewModel = viewModel else {
             return
         }
-        viewModel.fetchData { done in
-            if done {
+        viewModel.fetchData {[weak self] isFetchData in
+            guard let this = self else { return }
+            if isFetchData {
                 configNib()
                 collectionView.contentInset = Define.contentInset
                 collectionView.delegate = self
                 collectionView.dataSource = self
             } else {
-                print("lỗi")
+                showErrorDialog(message: String.Define.getValueFailFromRealm) {
+                    this.navigationController?.popViewController(animated: false)
+                }
             }
         }
+    }
+
+    private func configTableView() {
+        tableView.frame = Define.framreSubView
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
+        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
+        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
+        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isHidden = true
+        view.addSubview(tableView)
     }
 
     private func configNib() {
@@ -78,31 +99,19 @@ final class SearchViewController: UIViewController {
                 DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                     guard let this = self else { return }
                     DispatchQueue.main.async {
-                        this.loadContentSearch()
+                        this.showTableView(isHidden: false)
+                        this.tableView.reloadData()
                     }
                 }
             })
         } else {
-            loadContentSearch()
+            showTableView(isHidden: false)
+            tableView.reloadData()
         }
     }
 
-    private func loadContentSearch() {
-        tableView.frame = Define.framreSubView
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: Define.suggestCell)
-        let nib = UINib(nibName: Define.contentSearchCell, bundle: .main)
-        tableView.register(nib, forCellReuseIdentifier: Define.contentSearchCell)
-        tableView.tag = Define.tagSubView
-        tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
-        tableView.delegate = self
-        tableView.dataSource = self
-        view.addSubview(tableView)
-    }
-
-    private func removeSubview() {
-        if let viewWithTag = view.viewWithTag(Define.tagSubView) {
-            viewWithTag.removeFromSuperview()
-        }
+    private func showTableView(isHidden: Bool) {
+        tableView.isHidden = isHidden
     }
 
     @objc private func pop() {
@@ -141,6 +150,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         guard let viewModel = viewModel else { return }
         searchBar.text = viewModel.history[indexPath.row].originalTitle
         searchCell = .contentSearchCell
+        searchBar.resignFirstResponder()
         loadSuggestView()
     }
 }
@@ -174,7 +184,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         case .suggestSearchCell:
             let cell = tableView.dequeueReusableCell(withIdentifier: Define.suggestCell, for: indexPath)
-            cell.textLabel?.text = viewModel.viewNameForSuggest(at: indexPath)
+            cell.textLabel?.text = viewModel.getNameForSuggest(at: indexPath)
             return cell
         }
     }
@@ -183,6 +193,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         guard let viewModel = viewModel else { return }
         searchCell = .contentSearchCell
         viewModel.addHistory(title: viewModel.contentSearch[indexPath.row])
+        showTableView(isHidden: false)
+        searchBar.resignFirstResponder()
         tableView.reloadData()
     }
 
@@ -202,16 +214,14 @@ extension SearchViewController: UISearchBarDelegate {
         guard let viewModel = viewModel else { return }
         self.searchTimer?.invalidate()
         searchCell = .suggestSearchCell
-        if !searchText.isEmpty && searchText != "" {
-            loadSuggestView()
-        } else {
-            removeSubview()
-        }
-        viewModel.fetchData { done in
-            if done {
+        searchText.isEmpty ? showTableView(isHidden: true) : loadSuggestView()
+        viewModel.fetchData { isSearch in
+            if isSearch {
                 collectionView.reloadData()
             } else {
-                print("lỗi")
+                showErrorDialog(message: String.Define.getValueFailFromRealm) {
+                    self.navigationController?.popViewController(animated: false)
+                }
             }
         }
     }
@@ -221,6 +231,8 @@ extension SearchViewController: UISearchBarDelegate {
               let searchString = searchBar.text else { return }
         searchCell = .contentSearchCell
         viewModel.addHistory(title: searchString)
+        searchBar.resignFirstResponder()
+        showTableView(isHidden: false)
         tableView.reloadData()
     }
 }
@@ -228,17 +240,21 @@ extension SearchViewController: UISearchBarDelegate {
 extension SearchViewController: SearchHeaderViewDelegate {
     func view(view: SearchHeaderView) {
         guard let viewModel = viewModel else { return }
-        viewModel.deleteAllHistory { done in
-            if done {
-                viewModel.fetchData { done in
-                    if done {
+        viewModel.deleteAllHistory { isDelete in
+            if isDelete {
+                viewModel.fetchData { isFetchData in
+                    if isFetchData {
                         collectionView.reloadData()
                     } else {
-                        print("lỗi")
+                        showErrorDialog(message: String.Define.getValueFailFromRealm) {
+                            self.dismiss(animated: true)
+                        }
                     }
                 }
             } else {
-                print("lỗi")
+                showErrorDialog(message: String.Define.deleteValueFailFromRealm) {
+                    self.dismiss(animated: true)
+                }
             }
         }
     }
