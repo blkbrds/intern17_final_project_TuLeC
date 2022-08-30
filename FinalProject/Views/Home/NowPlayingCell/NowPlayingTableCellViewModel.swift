@@ -36,6 +36,14 @@ final class NowPlayingTableCellViewModel {
         let viewModel = NowPlayingCollectionCellViewModel(slider: item)
         return viewModel
     }
+
+    func getItemFor(indexPath: IndexPath) -> Slider? {
+        guard let nowPlayings = nowPlayings else {
+            return nil
+        }
+
+        return nowPlayings[indexPath.row]
+    }
 }
 
 // MARK: - Define

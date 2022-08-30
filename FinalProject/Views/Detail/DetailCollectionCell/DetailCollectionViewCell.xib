@@ -43,7 +43,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kgd-0I-usA">
                         <rect key="frame" x="106" y="63" width="296" height="43"/>
-                        <mutableString key="text">is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</mutableString>
+                        <string key="text">is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -67,7 +67,9 @@
             <size key="customSize" width="412" height="111"/>
             <connections>
                 <outlet property="imageView" destination="Yhr-g4-5EP" id="OCT-VU-jEK"/>
+                <outlet property="overviewLabel" destination="kgd-0I-usA" id="0sd-fw-SqZ"/>
                 <outlet property="ratingLabel" destination="fji-Iq-HgS" id="QbD-y6-8HC"/>
+                <outlet property="titleLabel" destination="1Rb-JL-jG8" id="Hum-GJ-5Zf"/>
             </connections>
             <point key="canvasLocation" x="191.30434782608697" y="65.959821428571431"/>
         </collectionViewCell>

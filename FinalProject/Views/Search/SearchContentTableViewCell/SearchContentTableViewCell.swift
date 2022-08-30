@@ -29,7 +29,7 @@ final class SearchContentTableViewCell: UITableViewCell {
               let title = viewModel.searchContents?.originalTitle else {
             return
         }
-
+        
         titleLabel.text = title
     }
 }

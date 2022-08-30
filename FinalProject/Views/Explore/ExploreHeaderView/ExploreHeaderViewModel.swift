@@ -11,7 +11,6 @@ final class ExploreHeaderViewModel {
 
     // MARK: - Properties
     var genres: [Genres] = []
-    var genresKey: Int = 0
 
     init (genres: [Genres]) {
         self.genres = genres
@@ -27,10 +26,10 @@ final class ExploreHeaderViewModel {
             return GenresCollectionCellViewModel(genre: nil)
         }
 
-        return GenresCollectionCellViewModel(genre: item, isSelected: item.isSelect)
+        return GenresCollectionCellViewModel(genre: item)
     }
 
     func getNameGenre(at indexPath: IndexPath) -> String {
-        return genres[safe: indexPath.row]?.name ?? ""
+        return (genres[safe: indexPath.row]?.name).content
     }
 }

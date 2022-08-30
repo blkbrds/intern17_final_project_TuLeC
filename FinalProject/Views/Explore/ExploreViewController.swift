@@ -18,6 +18,8 @@ final class ExploreViewController: UIViewController {
     private var loadingView: LoadingReusableView?
     private var pageNumber: Int = 1
     private var isLoading: Bool = false
+    private var isError: Bool = false
+    private var message: String?
 
     // MARK: - Override functions
     override func viewDidLoad() {
@@ -47,6 +49,12 @@ final class ExploreViewController: UIViewController {
         }
 
         dispatchGroup.notify(queue: .main) {
+            if self.isError {
+                self.loadingView?.isHidden = true
+                self.showErrorDialog(message: self.message ?? "") {
+                    self.dismiss(animated: true)
+                }
+            }
             self.collectionView.reloadData()
         }
     }
@@ -54,12 +62,37 @@ final class ExploreViewController: UIViewController {
     private func getAPIContenMovie(genresKey: [Int], pageNumber: Int, completion: @escaping (() -> Void)) {
         guard let viewModel = viewModel else { return }
 
-        viewModel.getExploreApi(genresKey: genresKey, pageNumber: pageNumber, completion: { _ in completion() })
+        viewModel.getExploreApi(genresKey: genresKey, pageNumber: pageNumber, completion: { [weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                guard !this.isError, this.message.content.isEmpty else { break }
+                this.isError = true
+                this.message = error.localizedDescription.description
+                completion()
+            }
+        })
     }
 
     private func getAPIGenres(completion: @escaping(() -> Void)) {
         guard let viewModel = viewModel else { return }
-        viewModel.getGenresApi(completion: { _ in completion() })
+        viewModel.getGenresApi(completion: {[weak self] result in
+            guard let this = self else { return }
+            switch result {
+            case .success:
+                completion()
+            case .failure(let error):
+                guard !this.isError, this.message.content.isEmpty else {
+                    completion()
+                    break
+                }
+                this.isError = true
+                this.message = error.localizedDescription.description
+                completion()
+            }
+        })
     }
 
     private func configNavigationBar() {
@@ -185,6 +218,13 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             loadingView.isShowIndicator = false
         }
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewModel = viewModel else { return }
+        let detailVC = DetailViewController()
+        detailVC.viewModel = viewModel.viewModelForDetail(indexPath: indexPath)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 // MARK: - DelegateFlowLayout
@@ -213,7 +253,7 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passKeyFromHeader(genresKey: let key):
-            viewModel.contentMovies.removeAll()
+            viewModel.contentMoviesSlider.removeAll()
             pageNumber = 1
             if let index = viewModel.genresKeys.firstIndex(of: key) {
                 viewModel.genresKeys.remove(at: index)
@@ -233,7 +273,7 @@ extension ExploreViewController {
         static let contentMovieNib = "ContentMovieCollectionViewCell"
         static let titleLabel: String = "Khám phá"
         static let systemName: String = "magnifyingglass"
-        static let genresCellHeight: CGFloat = 235
+        static let genresCellHeight: CGFloat = 240
         static let sizeForItemAt = CGSize(width: ((SizeWithScreen.shared.width - 30) / 2) * 0.65, height: (SizeWithScreen.shared.height) / 4.2)
         static let systemFont = UIFont.systemFont(ofSize: 25.0, weight: .bold)
         static let searchButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))

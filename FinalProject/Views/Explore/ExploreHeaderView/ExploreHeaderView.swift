@@ -89,8 +89,7 @@ extension ExploreHeaderView: GenresCollectionViewCellDelegate {
         }
         switch action {
         case .genresKeyIsSelected:
-            viewModel.genresKey = viewModel.genres[indexPath.row].id ?? 0
-            delegate.view(view: self, needPerformAtion: .passKeyFromHeader(genresKey: viewModel.genresKey))
+            delegate.view(view: self, needPerformAtion: .passKeyFromHeader(genresKey: viewModel.genres[safe: indexPath.row]?.id ?? 0))
         }
     }
 }

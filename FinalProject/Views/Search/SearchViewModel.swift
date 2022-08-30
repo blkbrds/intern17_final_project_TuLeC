@@ -22,14 +22,12 @@ final class SearchViewModel {
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> SearchCollectionCellViewModel {
-        guard let item = history[safe: indexPath.row]?.originalTitle else {
-            return SearchCollectionCellViewModel(title: nil)
-        }
-        return SearchCollectionCellViewModel(title: item )
+        let title = (history[safe: indexPath.row]?.originalTitle).content
+        return SearchCollectionCellViewModel(title: title)
     }
 
-    func viewNameForSuggest(at indexPath: IndexPath) -> String {
-        return contentSearch[indexPath.row].originalTitle ?? ""
+    func getNameForSuggest(at indexPath: IndexPath) -> String {
+        return contentSearch[indexPath.row].originalTitle.content
     }
 
     func viewModelForContentSearch(at indexPath: IndexPath) -> SearchContentViewModel {

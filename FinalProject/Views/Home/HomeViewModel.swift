@@ -30,33 +30,52 @@ final class HomeViewModel {
                 return 4.4
             }
         }
+
+        func getURL() -> URL {
+            switch self {
+            case .slider:
+                return ApiManager.Movie.getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
+            case .nowPlaying:
+                return ApiManager.Movie.getURL(type: .nowPlaying, typePath: ApiManager.Path.nowPlaying, movieId: nil)
+            case .topRated:
+                return ApiManager.Movie.getURL(type: .topRated, typePath: ApiManager.Path.topRated, movieId: nil)
+            case .latest:
+                let movieId = UserDefaults.standard.integer(forKey: Session.shared.movieId)
+                return ApiManager.Movie.getURL(type: .latest, typePath: ApiManager.Path.latest, movieId: movieId)
+            case .upComing:
+                return ApiManager.Movie.getURL(type: .upComing, typePath: ApiManager.Path.upComing, movieId: nil)
+            }
+        }
     }
+
+    var data: [TypeCell: [Slider]] = [:]
 
     // MARK: - Public functions
     func numberOfRowInSection() -> Int {
         return TypeCell.allCases.count
     }
 
-    func viewModelForItem(type: TypeCell, data: [Slider]) -> (Any) {
+    func viewModelForItem(type: TypeCell) -> (Any) {
         switch type {
         case .slider:
-            return (SliderTableCellViewModel(sliders: data))
+            return (SliderTableCellViewModel(sliders: data[type] ?? []))
         case .nowPlaying:
-            return (NowPlayingTableCellViewModel(nowPlayings: data))
+            return (NowPlayingTableCellViewModel(nowPlayings: data[type] ?? []))
         case .topRated:
-            return (TopRatedTableCellViewModel(topRated: data))
+            return (TopRatedTableCellViewModel(topRated: data[type] ?? []))
         case .latest:
-            return (LatestTableCellViewModel(latest: data))
+            return (LatestTableCellViewModel(latest: data[type] ?? []))
         case .upComing:
-            return (UpComingTableCellViewModel(upComings: data))
+            return (UpComingTableCellViewModel(upComings: data[type] ?? []))
         }
     }
 
-    func getHomeApi(completion: @escaping Completion<[Slider]>) {
-        let url = ApiManager.Movie.getURL(type: .popular, typePath: ApiManager.Path.popular, movieId: nil)
-        ApiManager.Movie.getHomeApi(url: url) { result in
+    func getHomeApi(typeCell: TypeCell, completion: @escaping Completion<[Slider]>) {
+        ApiManager.Movie.getHomeApi(url: typeCell.getURL()) {[weak self] result in
+            guard let this = self else { return }
             switch result {
             case .success(let data):
+                this.data[typeCell] = data
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
@@ -70,5 +89,9 @@ final class HomeViewModel {
         }
 
         return type.ratioHeightForRow
+    }
+
+    func viewModelForDetail(detail: Slider) -> DetailViewModel {
+        return DetailViewModel(detail: detail)
     }
 }

@@ -8,18 +8,19 @@
 import UIKit
 
 protocol SearchHeaderViewDelegate: AnyObject {
-    func view(view: SearchHeaderView)
+    func view(view: SearchHeaderView, needPerForm action: SearchHeaderView.Action)
 }
 
 final class SearchHeaderView: UICollectionReusableView {
 
+    enum Action {
+        case delete
+    }
+
     weak var delegate: SearchHeaderViewDelegate?
 
     @IBAction private func deleteButtonTouchUpInside(_ sender: UIButton) {
-        guard let delegate = delegate else {
-            return
-        }
-        delegate.view(view: self)
+        delegate?.view(view: self, needPerForm: .delete)
     }
 
 }

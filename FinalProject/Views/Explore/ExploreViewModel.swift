@@ -10,25 +10,25 @@ import Foundation
 final class ExploreViewModel {
 
     // MARK: - Properties
-    var contentMovies: [ContentMovie]
+    var contentMoviesSlider: [Slider]
     var genres: [Genres] = []
     var genresKeys: [Int] = []
 
-    init(contentMovies: [ContentMovie]) {
-        self.contentMovies = contentMovies
+    init(contentMoviesSlider: [Slider]) {
+        self.contentMoviesSlider = contentMoviesSlider
     }
 
     // MARK: - Public functions\
     func numberOfItemsInSection(pageNumber: Int) -> Int {
-        return contentMovies.count
+        return contentMoviesSlider.count
     }
 
     func viewModelForItem(at indexPath: IndexPath) -> ContentMovieCollectionCellViewModel {
-        guard let item = contentMovies[safe: indexPath.row] else {
-            return ContentMovieCollectionCellViewModel(contentMovie: nil)
+        guard let item = contentMoviesSlider[safe: indexPath.row] else {
+            return ContentMovieCollectionCellViewModel(contentMovieSlider: nil)
         }
 
-        return ContentMovieCollectionCellViewModel(contentMovie: item)
+        return ContentMovieCollectionCellViewModel(contentMovieSlider: item)
     }
 
     func viewModelForHeader(data: [Genres]) -> ExploreHeaderViewModel {
@@ -36,17 +36,17 @@ final class ExploreViewModel {
     }
 
     // MARK: - APIs
-    func getExploreApi(genresKey: [Int], isCallKey: Bool = true, pageNumber: Int, completion: @escaping Completion<[ContentMovie]>) {
+    func getExploreApi(genresKey: [Int], isCallKey: Bool = true, pageNumber: Int, completion: @escaping Completion<[Slider]>) {
         ApiManager.Discover.getExploreApi(url: ApiManager.Discover.getURL(keys: genresKey, page: pageNumber) ) { [weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):
                 for item in data {
-                    this.contentMovies.append(item)
+                    this.contentMoviesSlider.append(item)
                 }
-                completion(.success(this.contentMovies))
+                completion(.success(this.contentMoviesSlider))
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
     }
@@ -59,8 +59,12 @@ final class ExploreViewModel {
                 this.genres = data
                 completion(.success(this.genres))
             case .failure(let error):
-                print(error)
+                completion(.failure(error))
             }
         }
+    }
+
+    func viewModelForDetail(indexPath: IndexPath) -> DetailViewModel {
+        return DetailViewModel(detail: contentMoviesSlider[indexPath.row])
     }
 }
