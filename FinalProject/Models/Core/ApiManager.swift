@@ -113,6 +113,4 @@ extension ApiManager {
     struct Video { }
 
     struct Detail { }
-
-    struct ErrorMessage { }
 }

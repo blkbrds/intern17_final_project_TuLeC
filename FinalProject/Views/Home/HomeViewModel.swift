@@ -70,12 +70,12 @@ final class HomeViewModel {
         }
     }
 
-    func getHomeApi(typeCellURL: TypeCell, completion: @escaping Completion<[Slider]>) {
-        ApiManager.Movie.getHomeApi(url: typeCellURL.getURL()) {[weak self] result in
+    func getHomeApi(typeCell: TypeCell, completion: @escaping Completion<[Slider]>) {
+        ApiManager.Movie.getHomeApi(url: typeCell.getURL()) {[weak self] result in
             guard let this = self else { return }
             switch result {
             case .success(let data):
-                this.data[typeCellURL] = data
+                this.data[typeCell] = data
                 completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))

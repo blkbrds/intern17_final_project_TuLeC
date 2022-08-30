@@ -64,7 +64,7 @@ final class HomeViewController: UIViewController {
         SVProgressHUD.show()
 
         dispatchGroup.enter()
-        viewModel.getHomeApi(typeCellURL: .slider) { result in
+        viewModel.getHomeApi(typeCell: .slider) { result in
             switch result {
             case .success:
                 break
@@ -77,7 +77,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        viewModel.getHomeApi(typeCellURL: .nowPlaying) { result in
+        viewModel.getHomeApi(typeCell: .nowPlaying) { result in
             switch result {
             case .success:
                 break
@@ -90,7 +90,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        viewModel.getHomeApi(typeCellURL: .topRated) { result in
+        viewModel.getHomeApi(typeCell: .topRated) { result in
             switch result {
             case .success:
                 break
@@ -103,7 +103,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        viewModel.getHomeApi(typeCellURL: .latest) { result in
+        viewModel.getHomeApi(typeCell: .latest) { result in
             switch result {
             case .success:
                 break
@@ -117,7 +117,7 @@ final class HomeViewController: UIViewController {
         }
 
         dispatchGroup.enter()
-        viewModel.getHomeApi(typeCellURL: .upComing) { result in
+        viewModel.getHomeApi(typeCell: .upComing) { result in
             switch result {
             case .success:
                 break
