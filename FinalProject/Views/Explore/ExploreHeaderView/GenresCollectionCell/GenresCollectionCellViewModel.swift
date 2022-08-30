@@ -10,7 +10,7 @@ import Foundation
 final class GenresCollectionCellViewModel {
 
     // MARK: - Properties
-    var genre: Genres?
+    private(set) var genre: Genres?
 
     // MARK: - Initialize
     init(genre: Genres?) {

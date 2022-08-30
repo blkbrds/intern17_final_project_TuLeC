@@ -10,7 +10,7 @@ import Foundation
 final class UpComingTableCellViewModel {
 
     // MARK: - Properties
-    private var upComings: [Slider]?
+    private(set) var upComings: [Slider]?
 
     init (upComings: [Slider]) {
         self.upComings = upComings

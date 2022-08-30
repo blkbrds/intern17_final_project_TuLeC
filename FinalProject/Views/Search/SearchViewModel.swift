@@ -10,8 +10,8 @@ import RealmSwift
 
 final class SearchViewModel {
 
-    var history: [HistorySearch] = []
-    var contentSearch: [Slider] = []
+    private(set) var history: [HistorySearch] = []
+    private(set) var contentSearch: [Slider] = []
 
     func numberOfItemsInSection() -> Int {
         10

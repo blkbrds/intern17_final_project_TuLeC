@@ -105,10 +105,8 @@ final class SearchViewController: UIViewController {
     private func loadSuggestView(query: String) {
         if #available(iOS 10.0, *) {
             searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
-                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                    guard let this = self else { return }
-                    this.loadContentSearch(query: query)
-                }
+                guard let this = self else { return }
+                this.loadContentSearch(query: query)
             })
         } else {
             loadContentSearch(query: query)
@@ -120,11 +118,9 @@ final class SearchViewController: UIViewController {
             return
         }
 
-        DispatchQueue.main.async {
-            viewModel.getApiSearch(query: query) { _ in
-                self.tableView.reloadData()
-                self.showTableView(isHidden: false)
-            }
+        viewModel.getApiSearch(query: query) { _ in
+            self.tableView.reloadData()
+            self.showTableView(isHidden: false)
         }
     }
 

@@ -247,12 +247,12 @@ extension ExploreViewController: ExploreHeaderViewDelegate {
         }
         switch action {
         case .passKeyFromHeader(genresKey: let key):
-            viewModel.contentMoviesSlider.removeAll()
+            viewModel.removeAllValue()
             pageNumber = 1
             if let index = viewModel.genresKeys.firstIndex(of: key) {
-                viewModel.genresKeys.remove(at: index)
+                viewModel.changeValueGenresKeys(action: .remove, index: index)
             } else {
-                viewModel.genresKeys.append(key)
+                viewModel.changeValueGenresKeys(action: .append, key: key)
             }
             callApi(genresKey: viewModel.genresKeys, pageNumber: pageNumber, isCallKey: false)
         }

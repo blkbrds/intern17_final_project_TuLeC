@@ -48,7 +48,7 @@ final class HomeViewModel {
         }
     }
 
-    var data: [TypeCell: [Slider]] = [:]
+    private(set) var data: [TypeCell: [Slider]] = [:]
 
     // MARK: - Public functions
     func numberOfRowInSection() -> Int {

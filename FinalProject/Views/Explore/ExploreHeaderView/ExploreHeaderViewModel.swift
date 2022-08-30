@@ -10,7 +10,7 @@ import Foundation
 final class ExploreHeaderViewModel {
 
     // MARK: - Properties
-    var genres: [Genres] = []
+    private(set) var genres: [Genres] = []
 
     init (genres: [Genres]) {
         self.genres = genres
