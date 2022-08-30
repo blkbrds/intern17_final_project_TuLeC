@@ -9,5 +9,6 @@ target 'FinalProject' do
   pod 'SwiftLint'
   pod 'SVProgressHUD', '2.2.5'
   pod 'youtube-ios-player-helper'
+  pod 'RealmSwift'
 
 end

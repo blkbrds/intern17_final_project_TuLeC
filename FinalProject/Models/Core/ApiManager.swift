@@ -24,6 +24,7 @@ enum APIError: Error {
 
     case error(String)
     case errorURL
+    case noInternet
 
     var localizedDescription: String {
         switch self {
@@ -31,6 +32,8 @@ enum APIError: Error {
             return string
         case .errorURL:
             return "URL String is error."
+        case .noInternet:
+            return "No Internet"
         }
     }
 }
@@ -57,7 +60,7 @@ final class ApiManager {
                  completion: @escaping APICompletion) {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
-            return
+            completion(.failure(.noInternet))
         }
 
         // Check url is existed

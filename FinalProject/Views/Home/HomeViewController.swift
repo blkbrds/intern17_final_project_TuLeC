@@ -39,7 +39,6 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     var viewModel: HomeViewModel?
-    private var data: [TypeCell: [Slider]] = [:]
 
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -58,84 +57,88 @@ final class HomeViewController: UIViewController {
         guard let viewModel = viewModel else {
             return
         }
-
+        var isError: Bool = false
+        var message: String?
 
         let dispatchGroup = DispatchGroup()
         SVProgressHUD.show()
 
         dispatchGroup.enter()
-
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getSliderURL()) {[weak self] result in
-            guard let this = self else { return }
+        viewModel.getHomeApi(typeCell: .slider) { result in
             switch result {
-            case .success(let data):
-                this.data[.slider] = data
+            case .success:
+                break
             case .failure(let error):
-                print(error.localizedDescription)
+                guard !isError, message.content.isEmpty else { break }
+                isError = true
+                message = error.localizedDescription.description
             }
-
             dispatchGroup.leave()
         }
 
         dispatchGroup.enter()
-
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getNowPlayingURL()) {[weak self] result in
-            guard let this = self else { return }
+        viewModel.getHomeApi(typeCell: .nowPlaying) { result in
             switch result {
-            case .success(let data):
-                this.data[.nowPlaying] = data
+            case .success:
+                break
             case .failure(let error):
-                print(error.localizedDescription)
+                guard !isError, message.content.isEmpty else { break }
+                isError = true
+                message = error.localizedDescription.description
             }
-
             dispatchGroup.leave()
         }
 
         dispatchGroup.enter()
-
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getTopRated()) {[weak self] result in
-            guard let this = self else { return }
+        viewModel.getHomeApi(typeCell: .topRated) { result in
             switch result {
-            case .success(let data):
-                this.data[.topRated] = data
+            case .success:
+                break
             case .failure(let error):
-                print(error.localizedDescription)
+                guard !isError, message.content.isEmpty else { break }
+                isError = true
+                message = error.localizedDescription.description
             }
-
             dispatchGroup.leave()
         }
 
         dispatchGroup.enter()
-
-        ApiManager.Movie.getHomeApi(url: viewModel.getMovieURL()) {[weak self] result in
-            guard let this = self else { return }
+        viewModel.getHomeApi(typeCell: .latest) { result in
             switch result {
-            case .success(let data):
-                this.data[.latest] = data
+            case .success:
+                break
             case .failure(let error):
-                print(error.localizedDescription)
+                guard !isError else { break }
+                guard !isError, message.content.isEmpty else { break }
+                isError = true
+                message = error.localizedDescription.description
             }
-
             dispatchGroup.leave()
         }
 
         dispatchGroup.enter()
-
-        ApiManager.Movie.getHomeApi(url: ApiManager.Movie.getUpComing()) {[weak self] result in
-            guard let this = self else { return }
+        viewModel.getHomeApi(typeCell: .upComing) { result in
             switch result {
-            case .success(let data):
-                this.data[.upComing] = data
+            case .success:
+                break
             case .failure(let error):
-                print(error.localizedDescription)
+                guard !isError, message.content.isEmpty else { break }
+                isError = true
+                message = error.localizedDescription.description
             }
-
             dispatchGroup.leave()
         }
 
         dispatchGroup.notify(queue: .main) {
-            SVProgressHUD.dismiss()
-            self.tableView.reloadData()
+            SVProgressHUD.dismiss {
+                if isError {
+                    self.showErrorDialog(message: message.content) {
+                        self.dismiss(animated: true)
+                    }
+                } else {
+                    self.tableView.reloadData()
+                }
+            }
         }
     }
 
@@ -162,6 +165,7 @@ final class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.allowsSelection = false
+        tableView.bounces = false
     }
 
     private func configNib() {
@@ -188,7 +192,9 @@ final class HomeViewController: UIViewController {
 
     // MARK: - objc functions
     @objc private func searchButtonTouchUpInside() {
-        #warning("Handle later")
+        let searchVC = SearchViewController()
+        searchVC.viewModel = SearchViewModel()
+        navigationController?.pushViewController(searchVC, animated: true)
     }
 }
 
@@ -213,31 +219,31 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.viewModel = viewModel.viewModelForItem(type: .slider, data: data[.slider] ?? []) as? SliderTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .slider) as? SliderTableCellViewModel
         case .nowPlaying:
             guard let cell = cell as? NowPlayingTableViewCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying, data: data[.nowPlaying] ?? []) as? NowPlayingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .nowPlaying) as? NowPlayingTableCellViewModel
         case .topRated:
             guard let cell = cell as? TopRatedTableViewCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.viewModel = viewModel.viewModelForItem(type: .topRated, data: data[.topRated] ?? []) as? TopRatedTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .topRated) as? TopRatedTableCellViewModel
         case .latest:
             guard let cell = cell as? LatestTableViewCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.viewModel = viewModel.viewModelForItem(type: .latest, data: data[.latest] ?? []) as? LatestTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .latest) as? LatestTableCellViewModel
         case .upComing:
             guard let cell = cell as? UpComingTableViewCell else {
                 return UITableViewCell()
             }
             cell.delegate = self
-            cell.viewModel = viewModel.viewModelForItem(type: .upComing, data: data[.upComing] ?? []) as? UpComingTableCellViewModel
+            cell.viewModel = viewModel.viewModelForItem(type: .upComing) as? UpComingTableCellViewModel
         }
 
         return cell
