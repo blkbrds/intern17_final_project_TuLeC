@@ -41,14 +41,27 @@ final class LocationManager: NSObject {
 
     func request() {
         let status = CLLocationManager.authorizationStatus()
-        if(status == .denied || status == .restricted || !CLLocationManager.locationServicesEnabled()) {
+        if !CLLocationManager.locationServicesEnabled() {
             return
+        } else {
+            switch status {
+            case .notDetermined:
+                locationManager.requestWhenInUseAuthorization()
+            case .restricted:
+                break
+            case .denied:
+                break
+            case .authorizedAlways:
+                break
+            case .authorizedWhenInUse:
+                break
+            case .authorized:
+                break
+            @unknown default:
+                break
+            }
+            locationManager.requestLocation()
         }
-        if(status == .notDetermined) {
-            locationManager.requestWhenInUseAuthorization()
-            return
-        }
-        locationManager.requestLocation()
     }
 
     func getCurrentLocation() -> CLLocation? {

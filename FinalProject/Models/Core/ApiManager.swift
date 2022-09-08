@@ -43,12 +43,18 @@ enum Method: String {
     case post
 }
 
+enum Author {
+    case exist
+    case doesExist
+}
+
 final class ApiManager {
 
     static let shared: ApiManager = ApiManager()
 
     func request(method: Method,
                  with url: URL?,
+                 author: Author = .doesExist,
                  completion: @escaping APICompletion) {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
@@ -68,7 +74,12 @@ final class ApiManager {
         ]
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        request.allHTTPHeaderFields = header
+        switch author {
+        case .exist:
+            request.allHTTPHeaderFields = header
+        case .doesExist:
+            break
+        }
 
         // Config
         let config = URLSessionConfiguration.ephemeral

@@ -59,6 +59,6 @@ final class BaseTabbarViewController: UITabBarController {
         profileVC.viewModel = profileViewModel
         let profileNavi = UINavigationController(rootViewController: profileVC)
 
-        self.viewControllers = [storyNavi, exploreNavi, storyNavi, profileNavi]
+        self.viewControllers = [homeNavi, exploreNavi, storyNavi, profileNavi]
     }
 }

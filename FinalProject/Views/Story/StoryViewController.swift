@@ -30,7 +30,7 @@ final class StoryViewController: UIViewController {
             return
         }
         SVProgressHUD.show()
-        getApi { _ in
+        getApi {
             SVProgressHUD.dismiss {
                 if self.isError {
                     self.showErrorDialog(message: self.errorString) {
@@ -44,20 +44,20 @@ final class StoryViewController: UIViewController {
         }
     }
 
-    private func getApi(completion: @escaping ((Bool) -> Void)) {
+    private func getApi(completion: @escaping (() -> Void)) {
         guard let viewModel = viewModel else {
-            completion(false)
+            completion()
             return
         }
         viewModel.getApi { [weak self] result in
             guard let this = self else { return }
             switch result {
             case .success:
-                completion(true)
+                completion()
             case .failure(let error):
                 this.isError = true
                 this.errorString = error.localizedDescription
-                completion(false)
+                completion()
             }
         }
     }

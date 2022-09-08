@@ -22,7 +22,7 @@ extension ApiManager.Map {
     }
 
     static func getMapApi(url: URL, completion: @escaping Completion<[Map]>) {
-        ApiManager.shared.request(method: .get, with: url) { result in
+        ApiManager.shared.request(method: .get, with: url, author: .exist) { result in
             switch result {
             case .success(let data):
                 var map: [Map] = []

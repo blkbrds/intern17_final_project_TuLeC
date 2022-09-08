@@ -1031,6 +1031,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We'll use this to personalize your app experience";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1061,6 +1062,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We'll use this to personalize your app experience";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

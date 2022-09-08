@@ -13,9 +13,9 @@ final class Map {
     var name: String?
 
     init(json: JSObject) {
-        self.geocodes = Geocodes(json: json["geocodes"] as? JSObject ?? ["": ""])
-        self.location = Location(json: json["location"] as? JSObject ?? ["": ""])
-        self.name = json["name"] as? String
+        geocodes = Geocodes(json: json["geocodes"] as? JSObject ?? ["": ""])
+        location = Location(json: json["location"] as? JSObject ?? ["": ""])
+        name = json["name"] as? String
     }
 }
 

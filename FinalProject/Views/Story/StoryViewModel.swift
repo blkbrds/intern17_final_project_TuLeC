@@ -43,7 +43,7 @@ final class StoryViewModel {
     func getPins() -> [MyPin] {
         var pins: [MyPin] = []
         for item in map {
-            pins.append(MyPin(title: item.name ?? "", coordinate: CLLocationCoordinate2D(latitude: item.geocodes?.latitude ?? 0.0, longitude: item.geocodes?.longitude ?? 0.0)))
+            pins.append(MyPin(title: item.name.content, coordinate: CLLocationCoordinate2D(latitude: item.geocodes?.latitude ?? 0.0, longitude: item.geocodes?.longitude ?? 0.0)))
         }
         return pins
     }
