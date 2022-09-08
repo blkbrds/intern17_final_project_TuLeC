@@ -15,6 +15,11 @@
 		10246BB628A0D16700AE3CD3 /* ApiManager.Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BB528A0D16700AE3CD3 /* ApiManager.Search.swift */; };
 		10246BBB28A0E92200AE3CD3 /* URLExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BBA28A0E92200AE3CD3 /* URLExt.swift */; };
 		10246BC728A1066F00AE3CD3 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10246BC628A1066F00AE3CD3 /* Slider.swift */; };
+		102A929028C0678C00834E70 /* MapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A928E28C0678C00834E70 /* MapCollectionViewCell.swift */; };
+		102A929128C0678C00834E70 /* MapCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102A928F28C0678C00834E70 /* MapCollectionViewCell.xib */; };
+		102A929428C0689100834E70 /* MapCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A929328C0689100834E70 /* MapCollectionCellViewModel.swift */; };
+		102A929628C1134400834E70 /* ApiManager.Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A929528C1134400834E70 /* ApiManager.Map.swift */; };
+		102A929828C1143C00834E70 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102A929728C1143C00834E70 /* Map.swift */; };
 		1043114D28A5EDE800593FE1 /* ApiManager.Discover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1043114C28A5EDE800593FE1 /* ApiManager.Discover.swift */; };
 		10677B6428A1F6680076AE2D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10677B6328A1F6680076AE2D /* Session.swift */; };
 		106B4C8A28AD26440069F343 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B4C8828AD26440069F343 /* HeaderCollectionReusableView.swift */; };
@@ -40,6 +45,7 @@
 		106DC70C288A99CA0013C2D3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC70B288A99CA0013C2D3 /* ProfileViewModel.swift */; };
 		106DC710288AA8440013C2D3 /* BaseTabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106DC70F288AA8440013C2D3 /* BaseTabbarViewController.swift */; };
 		1075846B28BDA0F0005132AC /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1075846A28BDA0F0005132AC /* AlertView.swift */; };
+		1085823528C3CBF700907CFC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1085823428C3CBF700907CFC /* LocationManager.swift */; };
 		10899534288F93D300DDE56C /* LatestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899532288F93D300DDE56C /* LatestTableViewCell.swift */; };
 		10899535288F93D300DDE56C /* LatestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10899533288F93D300DDE56C /* LatestTableViewCell.xib */; };
 		10899537288F93E700DDE56C /* LatestTableCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10899536288F93E700DDE56C /* LatestTableCellViewModel.swift */; };
@@ -59,6 +65,7 @@
 		10C51C8D28B489EF00AD653D /* SearchContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C51C8B28B489EF00AD653D /* SearchContentTableViewCell.swift */; };
 		10C51C8E28B489EF00AD653D /* SearchContentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C51C8C28B489EF00AD653D /* SearchContentTableViewCell.xib */; };
 		10C51C9028B489FC00AD653D /* SearchContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C51C8F28B489FC00AD653D /* SearchContentViewModel.swift */; };
+		10CD54D628C83749003F904C /* MyPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CD54D528C83749003F904C /* MyPin.swift */; };
 		10E0584A28A1090B004A7982 /* UIImageViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E0584928A1090B004A7982 /* UIImageViewExt.swift */; };
 		10F9F20B288E3A4A00FD7BD2 /* ApiManager.Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F20A288E3A4A00FD7BD2 /* ApiManager.Movie.swift */; };
 		10F9F21A288E845700FD7BD2 /* SliderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9F218288E845700FD7BD2 /* SliderCollectionViewCell.swift */; };
@@ -113,6 +120,11 @@
 		10246BB528A0D16700AE3CD3 /* ApiManager.Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Search.swift; sourceTree = "<group>"; };
 		10246BBA28A0E92200AE3CD3 /* URLExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExt.swift; sourceTree = "<group>"; };
 		10246BC628A1066F00AE3CD3 /* Slider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
+		102A928E28C0678C00834E70 /* MapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionViewCell.swift; sourceTree = "<group>"; };
+		102A928F28C0678C00834E70 /* MapCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapCollectionViewCell.xib; sourceTree = "<group>"; };
+		102A929328C0689100834E70 /* MapCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCollectionCellViewModel.swift; sourceTree = "<group>"; };
+		102A929528C1134400834E70 /* ApiManager.Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Map.swift; sourceTree = "<group>"; };
+		102A929728C1143C00834E70 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 		1043114C28A5EDE800593FE1 /* ApiManager.Discover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Discover.swift; sourceTree = "<group>"; };
 		10677B6328A1F6680076AE2D /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		106B4C8828AD26440069F343 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -138,6 +150,7 @@
 		106DC70B288A99CA0013C2D3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		106DC70F288AA8440013C2D3 /* BaseTabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabbarViewController.swift; sourceTree = "<group>"; };
 		1075846A28BDA0F0005132AC /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		1085823428C3CBF700907CFC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		10899532288F93D300DDE56C /* LatestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestTableViewCell.swift; sourceTree = "<group>"; };
 		10899533288F93D300DDE56C /* LatestTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LatestTableViewCell.xib; sourceTree = "<group>"; };
 		10899536288F93E700DDE56C /* LatestTableCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestTableCellViewModel.swift; sourceTree = "<group>"; };
@@ -157,6 +170,7 @@
 		10C51C8B28B489EF00AD653D /* SearchContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentTableViewCell.swift; sourceTree = "<group>"; };
 		10C51C8C28B489EF00AD653D /* SearchContentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchContentTableViewCell.xib; sourceTree = "<group>"; };
 		10C51C8F28B489FC00AD653D /* SearchContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContentViewModel.swift; sourceTree = "<group>"; };
+		10CD54D528C83749003F904C /* MyPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPin.swift; sourceTree = "<group>"; };
 		10E0584928A1090B004A7982 /* UIImageViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExt.swift; sourceTree = "<group>"; };
 		10F9F20A288E3A4A00FD7BD2 /* ApiManager.Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.Movie.swift; sourceTree = "<group>"; };
 		10F9F218288E845700FD7BD2 /* SliderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -245,8 +259,19 @@
 				10246BC628A1066F00AE3CD3 /* Slider.swift */,
 				109F99E028B60C110024E701 /* HistorySearch.swift */,
 				106B4C9C28AE3D9D0069F343 /* Video.swift */,
+				102A929728C1143C00834E70 /* Map.swift */,
 			);
 			path = Scheme;
+			sourceTree = "<group>";
+		};
+		102A929228C0679F00834E70 /* MapCollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				102A928E28C0678C00834E70 /* MapCollectionViewCell.swift */,
+				102A928F28C0678C00834E70 /* MapCollectionViewCell.xib */,
+				102A929328C0689100834E70 /* MapCollectionCellViewModel.swift */,
+			);
+			path = MapCollectionCell;
 			sourceTree = "<group>";
 		};
 		106B4C8528AD24080069F343 /* DetailHeaderView */ = {
@@ -296,9 +321,11 @@
 		106DC6F6288A96650013C2D3 /* Story */ = {
 			isa = PBXGroup;
 			children = (
+				102A929228C0679F00834E70 /* MapCollectionCell */,
 				106DC6FD288A96B80013C2D3 /* StoryViewController.swift */,
 				106DC6FE288A96B80013C2D3 /* StoryViewController.xib */,
 				106DC709288A99C00013C2D3 /* StoryViewModel.swift */,
+				10CD54D528C83749003F904C /* MyPin.swift */,
 			);
 			path = Story;
 			sourceTree = "<group>";
@@ -355,6 +382,7 @@
 				10129797289232A200EE6428 /* SizeWithScreen.swift */,
 				10677B6328A1F6680076AE2D /* Session.swift */,
 				10FDB8C328A39BBE00B82419 /* CollectionViewFlowLayout.swift */,
+				1085823428C3CBF700907CFC /* LocationManager.swift */,
 			);
 			path = Define;
 			sourceTree = "<group>";
@@ -615,6 +643,7 @@
 				1017BC5B28A93FC600DB0F3B /* ApiManager.Genre.swift */,
 				106B4C9E28AE3E6F0069F343 /* ApiManager.Video.swift */,
 				10FC09D828B27D82002C68A8 /* ApiManager.Detail.swift */,
+				102A929528C1134400834E70 /* ApiManager.Map.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -706,6 +735,7 @@
 				38DD504B285083170048328E /* HomeViewController.xib in Resources */,
 				10F9F22F288E92F200FD7BD2 /* NowPlayingCollectionViewCell.xib in Resources */,
 				10FDB8B428A3912200B82419 /* GenresCollectionViewCell.xib in Resources */,
+				102A929128C0678C00834E70 /* MapCollectionViewCell.xib in Resources */,
 				106B4C9928ADDAEC0069F343 /* DetailCollectionViewCell.xib in Resources */,
 				100908DD28ACD41C0005FB75 /* DetailViewController.xib in Resources */,
 				10C51C7228B37B5100AD653D /* SearchCollectionViewCell.xib in Resources */,
@@ -801,6 +831,7 @@
 				106B4C9228ADD3570069F343 /* TagsCollectionViewCell.swift in Sources */,
 				10677B6428A1F6680076AE2D /* Session.swift in Sources */,
 				10C51C8D28B489EF00AD653D /* SearchContentTableViewCell.swift in Sources */,
+				10CD54D628C83749003F904C /* MyPin.swift in Sources */,
 				10899534288F93D300DDE56C /* LatestTableViewCell.swift in Sources */,
 				10FDB8B328A3912200B82419 /* GenresCollectionCellViewModel.swift in Sources */,
 				106B4C8D28AD270D0069F343 /* HeaderViewViewModel.swift in Sources */,
@@ -819,10 +850,13 @@
 				10FC612128A4F7EE004333EC /* ExploreHeaderViewModel.swift in Sources */,
 				1043114D28A5EDE800593FE1 /* ApiManager.Discover.swift in Sources */,
 				106DC70C288A99CA0013C2D3 /* ProfileViewModel.swift in Sources */,
+				102A929028C0678C00834E70 /* MapCollectionViewCell.swift in Sources */,
+				1085823528C3CBF700907CFC /* LocationManager.swift in Sources */,
 				10F9F239288F7A6C00FD7BD2 /* TopRatedTableCellViewModel.swift in Sources */,
 				10C51C7428B37B6C00AD653D /* SearchCollectionCellViewModel.swift in Sources */,
 				10C51C6D28B3720100AD653D /* SearchHeaderViewModel.swift in Sources */,
 				106DC6FF288A96B80013C2D3 /* StoryViewController.swift in Sources */,
+				102A929428C0689100834E70 /* MapCollectionCellViewModel.swift in Sources */,
 				38DD505B2850908F0048328E /* DataExt.swift in Sources */,
 				10C51C6A28B371EE00AD653D /* SearchHeaderView.swift in Sources */,
 				1075846B28BDA0F0005132AC /* AlertView.swift in Sources */,
@@ -846,6 +880,8 @@
 				100908DC28ACD41C0005FB75 /* DetailViewController.swift in Sources */,
 				10FDB87228A35B6B00B82419 /* CollectionExt.swift in Sources */,
 				10A4410B288FCA3100D5C6EE /* UpComingTableViewCell.swift in Sources */,
+				102A929628C1134400834E70 /* ApiManager.Map.swift in Sources */,
+				102A929828C1143C00834E70 /* Map.swift in Sources */,
 				10246BC728A1066F00AE3CD3 /* Slider.swift in Sources */,
 				10899537288F93E700DDE56C /* LatestTableCellViewModel.swift in Sources */,
 				10246BBB28A0E92200AE3CD3 /* URLExt.swift in Sources */,
@@ -994,6 +1030,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We'll use this to personalize your app experience";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1022,6 +1061,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinalProject/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "We'll use this to personalize your app experience";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Cần lấy vị trí người dùng để sử dụng cho các tính năng của ứng dụng";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

@@ -12,6 +12,7 @@ extension ApiManager.Path {
     // MARK: - Properties
     static let baseURL: String = "https://api.themoviedb.org"
     static let imageURL: String = "https://image.tmdb.org/t/p/w500"
+    static let mapURL: String = "https://api.foursquare.com/v3/places/search"
 
     static let version: String = "/3"
 

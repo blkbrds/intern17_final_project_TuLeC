@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -10,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoryViewController" customModule="FinalProject" customModuleProvider="target">
             <connections>
+                <outlet property="collectionView" destination="hG4-dq-Ynu" id="GVt-tK-3gx"/>
+                <outlet property="mapView" destination="ptO-NY-kue" id="wbH-iK-hfl"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,9 +20,34 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ptO-NY-kue">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                </mapView>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hG4-dq-Ynu">
+                    <rect key="frame" x="0.0" y="603.5" width="414" height="258.5"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AYu-6A-Kpk">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <point key="canvasLocation" x="139" y="77"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ptO-NY-kue" secondAttribute="bottom" id="1U6-RF-8Lq"/>
+                <constraint firstItem="hG4-dq-Ynu" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="BH9-2Q-lY3"/>
+                <constraint firstItem="ptO-NY-kue" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="VpO-C6-lU5"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ptO-NY-kue" secondAttribute="trailing" id="WFK-kS-2RW"/>
+                <constraint firstItem="hG4-dq-Ynu" firstAttribute="height" secondItem="ptO-NY-kue" secondAttribute="height" multiplier="0.3" id="WN0-LA-2Kg"/>
+                <constraint firstItem="hG4-dq-Ynu" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="Wd4-pa-T2g"/>
+                <constraint firstItem="hG4-dq-Ynu" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="daU-XE-nAk"/>
+                <constraint firstItem="ptO-NY-kue" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wlE-zZ-Qgy"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="76.339285714285708"/>
         </view>
     </objects>
     <resources>

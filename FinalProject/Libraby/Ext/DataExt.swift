@@ -14,7 +14,7 @@ extension Data {
     func toJSON() -> JSObject {
         var json: [String: Any] = [:]
         do {
-            if let jsonObj = try JSONSerialization.jsonObject(with: self, options: .mutableContainers) as? JSObject {
+            if let jsonObj = try JSONSerialization.jsonObject(with: self) as? JSObject {
                 json = jsonObj
             }
         } catch {

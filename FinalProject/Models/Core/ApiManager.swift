@@ -41,22 +41,20 @@ enum APIError: Error {
 enum Method: String {
     case get
     case post
-    case put
-    case delete
+}
+
+enum Author {
+    case exist
+    case doesExist
 }
 
 final class ApiManager {
 
     static let shared: ApiManager = ApiManager()
 
-    var defaultHTTPHeaders: [String: String] = {
-        var headers: [String: String] = [:]
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-        return headers
-    }()
-
     func request(method: Method,
                  with url: URL?,
+                 author: Author = .doesExist,
                  completion: @escaping APICompletion) {
         // Check Interneet is available
         if !Reachability.isInternetAvailable() {
@@ -70,8 +68,18 @@ final class ApiManager {
         }
 
         // Create request
+        let header: [String: String]? = [
+            "Content-Type": "application/json;charset=UTF-8",
+            "Authorization": "fsq3X+b7szAs1DHGqUhhfzY3Fa0SEgRx2eUVbDlzNads+jY="
+        ]
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        switch author {
+        case .exist:
+            request.allHTTPHeaderFields = header
+        case .doesExist:
+            break
+        }
 
         // Config
         let config = URLSessionConfiguration.ephemeral
@@ -113,4 +121,6 @@ extension ApiManager {
     struct Video { }
 
     struct Detail { }
+
+    struct Map { }
 }
